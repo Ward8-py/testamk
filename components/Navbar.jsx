@@ -1,5 +1,4 @@
 'use client'
-
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -24,12 +23,27 @@ export default function Navbar() {
   const pathname = usePathname()
   const dropRef  = useRef(null)
   const isHome   = pathname === '/'
+  // The home hero is a dark, full-bleed video. Start true on home so the first
+  // paint is already light-on-dark rather than flashing dark text over it.
+  const [overHero, setOverHero] = useState(isHome)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50)
+    const NAV_H = 70
+    const onScroll = () => {
+      setScrolled(window.scrollY > 50)
+      // The hero is a tall pinned section, so scrollY alone can't say whether the
+      // bar is still over it — measure the section's own bottom edge instead.
+      const hero = isHome ? document.querySelector('#hero') : null
+      setOverHero(!!hero && hero.getBoundingClientRect().bottom > NAV_H)
+    }
+    onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+    window.addEventListener('resize', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
+  }, [isHome])
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -63,21 +77,35 @@ export default function Navbar() {
     document.body.style.overflow = next ? 'hidden' : ''
   }
 
-  const navBg = scrolled || !isHome
-    ? 'bg-black/96 backdrop-blur-xl border-b border-cream/[0.06]'
-    : 'bg-black/88 backdrop-blur-xl border-b border-cream/[0.04]'
+  // NB: the previous `bg-black/88` / `bg-black/96` emitted no CSS at all —
+  // Tailwind's opacity scale has no 88 or 96 step — so the bar was always fully
+  // transparent. Set the surface explicitly instead.
+  const navStyle = overHero
+    ? { background: 'transparent', borderColor: 'rgba(255,255,255,0.12)' }
+    : { background: 'rgba(255,255,255,0.94)', borderColor: 'var(--color-line)' }
+
+  // Over the dark hero the light-theme ink tokens are unreadable, so flip them.
+  const inkStrong = overHero ? '#ffffff'                  : 'var(--color-ink)'
+  const inkSoft   = overHero ? 'rgba(255,255,255,0.72)'   : 'var(--color-muted)'
+  const linkIdle  = overHero ? 'rgba(255,255,255,0.86)'   : 'var(--color-text)'
+  const linkHover = overHero ? '#ffffff'                  : 'var(--color-ink)'
+  const barColor  = overHero ? '#ffffff'                  : 'var(--color-ink-soft)'
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 right-0 z-[1000] transition-all duration-500 ${navBg}`}>
+      <nav
+        style={navStyle}
+        className="fixed top-0 left-0 right-0 z-[1000] transition-all duration-500 backdrop-blur-xl border-b"
+      >
         <div className="flex items-center justify-between h-[70px] px-5 sm:px-8 lg:px-14 max-w-site mx-auto">
 
           {/* Brand */}
-          <Link href="/" className="flex items-center gap-3 focus:outline-none" aria-label="AMK London - Home">
+          <Link href="/" className="flex items-center gap-3 focus:outline-none" aria-label="AMK London - Home"
+                style={{ color: inkStrong }}>
             <AMKLogo size={40} />
             <div className="leading-tight hidden sm:block">
-              <div className="font-body text-[13px] font-semibold tracking-[0.12em] uppercase" style={{ color: 'var(--color-ink)' }}>AMK London</div>
-              <div className="font-body text-[9px] tracking-[0.22em] uppercase" style={{ color: 'var(--color-muted)' }}>Building Construction Ltd</div>
+              <div className="font-body text-[13px] font-semibold tracking-[0.12em] uppercase" style={{ color: inkStrong }}>AMK London</div>
+              <div className="font-body text-[9px] tracking-[0.22em] uppercase" style={{ color: inkSoft }}>Building Construction Ltd</div>
             </div>
           </Link>
 
@@ -85,9 +113,9 @@ export default function Navbar() {
           <ul className="hidden lg:flex items-center gap-8 list-none">
             {/* Home */}
             <li>
-              <Link href="/" className="font-body text-[10.5px] font-medium tracking-[0.18em] uppercase gold-link transition-colors" style={{ color: 'var(--color-text)' }}
-                onMouseEnter={e => e.currentTarget.style.color = 'var(--color-ink)'}
-                onMouseLeave={e => e.currentTarget.style.color = 'var(--color-text)'}
+              <Link href="/" className="font-body text-[10.5px] font-medium tracking-[0.18em] uppercase gold-link transition-colors" style={{ color: linkIdle }}
+                onMouseEnter={e => e.currentTarget.style.color = linkHover}
+                onMouseLeave={e => e.currentTarget.style.color = linkIdle}
               >
                 Home
               </Link>
@@ -96,10 +124,11 @@ export default function Navbar() {
             {/* Services dropdown */}
             <li className="relative" ref={dropRef}>
               <button
+                type="button"
                 onClick={() => setSvcOpen(v => !v)}
                 onMouseEnter={() => setSvcOpen(true)}
                 className="flex items-center gap-1.5 font-body text-[10.5px] font-medium tracking-[0.18em] uppercase focus:outline-none gold-link transition-colors"
-                style={{ color: 'var(--color-text)' }}
+                style={{ color: linkIdle }}
               >
                 Services
                 <Icon name="chevron-down" size={9} className={`transition-transform duration-200 ${svcOpen ? 'rotate-180' : ''}`} />
@@ -147,7 +176,7 @@ export default function Navbar() {
                     href="/#contact"
                     onClick={() => setSvcOpen(false)}
                     className="text-[9px] font-semibold tracking-[0.2em] uppercase px-4 py-2 transition-all duration-200 hover:brightness-110"
-                    style={{ background: 'linear-gradient(135deg, var(--color-accent), var(--color-accent-light))', color: 'var(--color-ink)' }}
+                    style={{ background: 'var(--color-accent)', color: 'var(--color-on-accent)' }}
                   >
                     Get a Quote
                   </Link>
@@ -159,7 +188,7 @@ export default function Navbar() {
               <Link
                 href="/portfolio"
                 className="font-body text-[10.5px] font-medium tracking-[0.18em] uppercase gold-link transition-colors focus:outline-none"
-                style={{ color: 'var(--color-text)' }}
+                style={{ color: linkIdle }}
               >
                 Portfolio
               </Link>
@@ -168,9 +197,10 @@ export default function Navbar() {
             {['#process', '#contact'].map((href) => (
               <li key={href}>
                 <button
+                  type="button"
                   onClick={() => scrollTo(href)}
                   className="font-body text-[10.5px] font-medium tracking-[0.18em] uppercase gold-link transition-colors focus:outline-none"
-                  style={{ color: 'var(--color-text)' }}
+                  style={{ color: linkIdle }}
                 >
                   {href.replace('#', '').replace('-', ' ').replace(/\b\w/g, c => c.toUpperCase())}
                 </button>
@@ -180,17 +210,24 @@ export default function Navbar() {
 
           {/* Desktop CTA */}
           <div className="hidden lg:flex items-center gap-4">
-            <a href="tel:+447587842444" className="flex items-center gap-2 text-[11px] transition-colors hover:text-[var(--color-ink)]" style={{ color: 'var(--color-text)' }}>
+            <a href="tel:+447587842444" className="flex items-center gap-2 text-[11px] transition-colors" style={{ color: linkIdle }}>
               <Icon name="phone" size={12} />+44 7587 842444
             </a>
-            <BtnGold href="/#contact" className="!py-2.5 !px-5 !text-[10px]">Get a Quote</BtnGold>
+            {/* The accent is graphite, which sinks into the dark hero footage —
+                the CTA inverts to a light fill while it sits over the video. */}
+            <BtnGold
+              href="/#contact"
+              className={`!py-2.5 !px-5 !text-[10px] ${overHero ? '!bg-white !text-[#0b0b0c] hover:!bg-white/85' : ''}`}
+            >
+              Get a Quote
+            </BtnGold>
           </div>
 
           {/* Hamburger */}
-          <button onClick={toggleMenu} className="lg:hidden flex flex-col gap-[5px] p-1 focus:outline-none" aria-label="Toggle menu" aria-expanded={menuOpen}>
-            <span className={`block w-[22px] h-[1.5px] transition-all duration-300 ${menuOpen ? 'translate-y-[6.5px] rotate-45' : ''}`} style={{ background: 'var(--color-ink-soft)' }} />
-            <span className={`block w-[22px] h-[1.5px] transition-all duration-300 ${menuOpen ? 'opacity-0' : ''}`} style={{ background: 'var(--color-ink-soft)' }} />
-            <span className={`block w-[22px] h-[1.5px] transition-all duration-300 ${menuOpen ? '-translate-y-[6.5px] -rotate-45' : ''}`} style={{ background: 'var(--color-ink-soft)' }} />
+          <button type="button" onClick={toggleMenu} className="lg:hidden flex flex-col gap-[5px] p-1 focus:outline-none" aria-label="Toggle menu" aria-expanded={menuOpen}>
+            <span className={`block w-[22px] h-[1.5px] transition-all duration-300 ${menuOpen ? 'translate-y-[6.5px] rotate-45' : ''}`} style={{ background: barColor }} />
+            <span className={`block w-[22px] h-[1.5px] transition-all duration-300 ${menuOpen ? 'opacity-0' : ''}`} style={{ background: barColor }} />
+            <span className={`block w-[22px] h-[1.5px] transition-all duration-300 ${menuOpen ? '-translate-y-[6.5px] -rotate-45' : ''}`} style={{ background: barColor }} />
           </button>
         </div>
       </nav>
@@ -208,6 +245,7 @@ export default function Navbar() {
           {/* Services accordion */}
           <li className="border-b" style={{ borderColor: 'var(--color-line)' }}>
             <button
+              type="button"
               onClick={() => setMobSvcOpen(v => !v)}
               className="w-full flex items-center justify-between px-6 py-4 text-[11px] font-medium tracking-[0.22em] uppercase text-left focus:outline-none"
               style={{ color: 'var(--color-text)' }}
@@ -240,7 +278,7 @@ export default function Navbar() {
 
           {[{ label: 'Process', href: '#process' }, { label: 'Contact', href: '#contact' }].map(({ label, href }) => (
             <li key={href} className="border-b" style={{ borderColor: 'var(--color-line)' }}>
-              <button onClick={() => scrollTo(href)} className="block w-full text-left px-6 py-4 text-[11px] font-medium tracking-[0.22em] uppercase focus:outline-none" style={{ color: 'var(--color-text)' }}>
+              <button type="button" onClick={() => scrollTo(href)} className="block w-full text-left px-6 py-4 text-[11px] font-medium tracking-[0.22em] uppercase focus:outline-none" style={{ color: 'var(--color-text)' }}>
                 {label}
               </button>
             </li>
@@ -251,7 +289,7 @@ export default function Navbar() {
           <a href="tel:+447587842444" className="inline-flex items-center gap-2 text-[10px] font-medium tracking-[0.18em] uppercase border px-5 py-3 transition-colors hover:border-cream/30" style={{ color: 'var(--color-ink-soft)', borderColor: 'var(--color-line-emphasis)' }}>
             <Icon name="phone" size={13} /> Call Now
           </a>
-          <a href="https://wa.me/447587842444" className="inline-flex items-center gap-2 text-[10px] font-semibold tracking-[0.18em] uppercase text-[var(--color-ink)] px-5 py-3" style={{ background: 'linear-gradient(135deg, var(--color-accent), var(--color-accent-light))' }}>
+          <a href="https://wa.me/447587842444" className="inline-flex items-center gap-2 text-[10px] font-semibold tracking-[0.18em] uppercase text-[var(--color-on-accent)] px-5 py-3" style={{ background: 'var(--color-accent)' }}>
             WhatsApp
           </a>
         </div>

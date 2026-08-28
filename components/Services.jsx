@@ -1,8 +1,7 @@
 'use client'
-
 import Link from 'next/link'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
-import { Container, Eyebrow, Divider } from './ui'
+import { Container, Divider } from './ui'
 
 const SERVICE_PAGES = [
   {
@@ -69,7 +68,6 @@ export default function Services() {
       <Container>
         {/* Header */}
         <div className="text-center mb-20">
-          <Eyebrow className="reveal mb-5">Our Services</Eyebrow>
           <h2
             className="font-display font-light leading-[1.02] reveal"
             style={{ fontSize: 'clamp(36px,5vw,70px)', color: 'var(--color-ink)', transitionDelay: '80ms' }}
@@ -106,9 +104,6 @@ export default function Services() {
               {/* Content */}
               <div className="relative z-10 p-10 sm:p-14 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-8 h-full" style={{ minHeight: 320 }}>
                 <div className="flex-1">
-                  <div className="text-[10px] font-semibold tracking-[0.3em] uppercase mb-4" style={{ color: 'var(--color-accent)' }}>
-                    Featured Service
-                  </div>
                   <h3
                     className="font-display font-light leading-[1.0] mb-4"
                     style={{ fontSize: 'clamp(36px,4vw,60px)', color: 'var(--color-ink)', whiteSpace: 'pre-line' }}

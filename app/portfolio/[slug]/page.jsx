@@ -5,7 +5,7 @@ import Footer from '@/components/Footer'
 import FloatButtons from '@/components/FloatButtons'
 import ProjectGallery from '@/components/portfolio/ProjectGallery'
 import PortfolioCard from '@/components/portfolio/PortfolioCard'
-import { Container, Divider, Eyebrow, GoldTag, BtnGold } from '@/components/ui'
+import { Container, Divider, GoldTag, BtnGold } from '@/components/ui'
 import { Icon } from '@/components/icons'
 import { PROJECTS, getProjectBySlug } from '@/lib/projects'
 
@@ -51,7 +51,6 @@ export default function PortfolioProjectPage({ params }) {
             }}
           />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, var(--color-page) 0%, rgba(248, 244, 236, 0.76) 62%, rgba(255,252,245,0.34) 100%)' }} />
-          <div className="arch-grid absolute inset-0 pointer-events-none" />
 
           <Container className="relative z-10 pb-12 pt-28 sm:pb-14 sm:pt-36">
             <nav className="mb-8 flex flex-wrap items-center gap-2" aria-label="Breadcrumb">
@@ -101,7 +100,6 @@ export default function PortfolioProjectPage({ params }) {
           <Container>
             <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
               <div>
-                <Eyebrow className="mb-4">Project Gallery</Eyebrow>
                 <h2 className="font-display font-light leading-[1.08]" style={{ color: 'var(--color-ink)', fontSize: 'clamp(30px,4vw,56px)' }}>
                   Browse the Details
                 </h2>
@@ -119,7 +117,6 @@ export default function PortfolioProjectPage({ params }) {
             <Container>
               <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                  <Eyebrow className="mb-4">More {project.category}</Eyebrow>
                   <h2 className="font-display font-light leading-[1.08]" style={{ color: 'var(--color-ink)', fontSize: 'clamp(30px,4vw,52px)' }}>
                     Related Projects
                   </h2>

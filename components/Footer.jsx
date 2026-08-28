@@ -1,5 +1,4 @@
 'use client'
-
 import Link from 'next/link'
 import AMKLogo from './AMKLogo'
 import { Icon } from './icons'
@@ -133,10 +132,6 @@ export default function Footer() {
           <p className="text-[11px] tracking-[0.04em]" style={{ color: 'var(--color-subtle)' }}>
             © {new Date().getFullYear()} AMK London Building Construction Ltd. All rights reserved. Registered in England &amp; Wales.
           </p>
-          <div className="flex gap-6">
-            <a href="#" className="text-[11px] transition-colors duration-300 hover:text-silver-mid" style={{ color: 'var(--color-subtle)' }}>Privacy Policy</a>
-            <a href="#" className="text-[11px] transition-colors duration-300 hover:text-silver-mid" style={{ color: 'var(--color-subtle)' }}>Terms &amp; Conditions</a>
-          </div>
         </div>
       </div>
     </footer>

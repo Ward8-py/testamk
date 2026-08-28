@@ -13,8 +13,8 @@ export default function PortfolioFilters({ filters, activeFilter, onChange, coun
             onClick={() => onChange(filter)}
             className="border px-5 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/40"
             style={{
-              color: isActive ? 'var(--color-ink)' : 'var(--color-muted)',
-              background: isActive ? 'linear-gradient(135deg, var(--color-accent), var(--color-accent-light))' : 'transparent',
+              color: isActive ? 'var(--color-on-accent)' : 'var(--color-muted)',
+              background: isActive ? 'var(--color-accent)' : 'transparent',
               borderColor: isActive ? 'var(--color-accent)' : 'var(--color-line-strong)',
             }}
             aria-pressed={isActive}

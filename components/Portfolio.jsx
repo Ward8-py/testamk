@@ -1,9 +1,8 @@
 'use client'
-
 import Link from 'next/link'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 import { PROJECTS } from '@/lib/projects'
-import { Section, Container, Eyebrow, Divider } from './ui'
+import { Section, Container, Divider } from './ui'
 import { Icon } from './icons'
 import PortfolioCard from './portfolio/PortfolioCard'
 
@@ -17,7 +16,6 @@ export default function Portfolio() {
         <Container>
           <div className="mb-12 flex flex-col gap-7 md:flex-row md:items-end md:justify-between">
             <div className="max-w-2xl">
-              <Eyebrow className="reveal mb-4">Portfolio</Eyebrow>
               <h2
                 className="reveal font-display font-light leading-[1.05] text-cream"
                 style={{ fontSize: 'clamp(34px,4.5vw,64px)', transitionDelay: '80ms' }}

@@ -1,8 +1,7 @@
 'use client'
-
 import Image from 'next/image'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
-import { Container, Eyebrow, Divider } from './ui'
+import { Container, Divider } from './ui'
 import { Icon } from './icons'
 
 const PILLARS = [
@@ -54,7 +53,6 @@ export default function About() {
 
           {/* ── Right: Content ── */}
           <div className="reveal-right">
-            <Eyebrow className="mb-4">About AMK London</Eyebrow>
             <h2
               className="font-display font-light leading-[1.08] mb-1"
               style={{ fontSize: 'clamp(28px, 3.5vw, 52px)', color: 'var(--color-ink)' }}

@@ -1,5 +1,4 @@
 'use client'
-
 import { useState, useEffect } from 'react'
 import { Icon } from './icons'
 
@@ -26,6 +25,7 @@ export default function FloatButtons() {
       </a>
 
       <button
+        type="button"
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         aria-label="Scroll to top"
         className={`

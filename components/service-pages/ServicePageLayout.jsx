@@ -1,10 +1,9 @@
 'use client'
-
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import FloatButtons from '@/components/FloatButtons'
-import { Container, Eyebrow, Divider, BtnGold, BtnGhost, GoldTag } from '@/components/ui'
+import { Container, Divider, BtnGold, BtnGhost, GoldTag } from '@/components/ui'
 import { Icon } from '@/components/icons'
 
 /**
@@ -47,7 +46,6 @@ export default function ServicePageLayout({
           {/* Gradient */}
           <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, var(--color-page) 0%, rgba(248, 244, 236, 0.64) 60%, transparent 100%)' }} />
           {/* Arch grid */}
-          <div className="arch-grid absolute inset-0 pointer-events-none" />
           {/* Vertical line */}
           <div
             className="absolute left-[clamp(20px,5vw,60px)] top-[15%] bottom-[15%] w-px"
@@ -65,7 +63,6 @@ export default function ServicePageLayout({
             </nav>
 
             {tag && <GoldTag className="mb-5 inline-block">{tag}</GoldTag>}
-            <Eyebrow className="mb-5 mt-3">{eyebrow}</Eyebrow>
             <h1
               className="font-display font-light leading-[0.96] mb-6"
               style={{ fontSize: 'clamp(44px, 6vw, 90px)', color: 'var(--color-ink)', whiteSpace: 'pre-line' }}
@@ -96,7 +93,6 @@ export default function ServicePageLayout({
         {relatedLinks.length > 0 && (
           <section className="py-24" style={{ background: 'var(--color-panel)' }}>
             <Container>
-              <Eyebrow className="mb-4 text-center">Explore More</Eyebrow>
               <h2 className="font-display font-light text-center mb-12" style={{ fontSize: 'clamp(28px,3vw,44px)', color: 'var(--color-ink)' }}>
                 Related Services
               </h2>
@@ -122,10 +118,8 @@ export default function ServicePageLayout({
 
         {/* ── Bottom CTA ── */}
         <section className="relative py-28 overflow-hidden" style={{ background: 'var(--color-page)' }}>
-          <div className="absolute inset-0 arch-grid pointer-events-none" />
           <div className="absolute left-0 right-0 top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, var(--color-accent-line), transparent)' }} />
           <Container className="relative z-10 text-center">
-            <Eyebrow className="mb-5">Ready to Start?</Eyebrow>
             <h2 className="font-display font-light mb-5" style={{ fontSize: 'clamp(32px,4vw,60px)', color: 'var(--color-ink)' }}>
               Let's Build Something<br /><em className="italic">Exceptional Together</em>
             </h2>
@@ -163,7 +157,6 @@ export function PageSection({ children, dark = false, className = '' }) {
 export function ContentBlock({ eyebrow, title, children, className = '' }) {
   return (
     <div className={className}>
-      {eyebrow && <Eyebrow className="mb-4">{eyebrow}</Eyebrow>}
       {title && (
         <h2 className="font-display font-light leading-[1.08] mb-6" style={{ fontSize: 'clamp(26px,3vw,44px)', color: 'var(--color-ink)' }}>
           {title}
@@ -247,7 +240,6 @@ export function ImageGallery({ images = [] }) {
 
   return (
     <div className="mt-16 pt-10 border-t" style={{ borderColor: 'var(--color-line)' }}>
-      <Eyebrow className="mb-8">Project Gallery</Eyebrow>
       <div className="columns-1 sm:columns-2 lg:columns-3 gap-3 space-y-3">
         {images.map((src, i) => (
           <div

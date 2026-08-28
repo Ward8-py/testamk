@@ -1,5 +1,4 @@
 'use client'
-
 import { useMemo, useState } from 'react'
 import { PROJECT_FILTERS } from '@/lib/projects'
 import PortfolioCard from './PortfolioCard'

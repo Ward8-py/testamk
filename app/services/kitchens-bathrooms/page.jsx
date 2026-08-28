@@ -2,7 +2,7 @@ import ServicePageLayout, { PageSection, ContentBlock, FeatureList, StepCard, In
 import { Container } from '@/components/ui'
 
 export const metadata = {
-  title: 'Kitchens & Bathrooms — AMK London Building Construction',
+  title: 'Kitchens & Bathrooms',
   description: 'Complete kitchen and bathroom supply, design and installation service across London. 12-month workmanship guarantee.',
 }
 
@@ -46,7 +46,6 @@ export default function KitchensBathroomsPage() {
                 We can even create a customised design to suit your individual requirements.
               </p>
               <InfoBox gold>
-                <p className="text-[10px] font-semibold tracking-[0.22em] uppercase mb-2" style={{ color: 'var(--color-accent)' }}>Important Note</p>
                 <p className="text-[13px] leading-[1.7]" style={{ color: 'var(--color-ink-soft)' }}>
                   A <strong>£30 fee</strong> is payable in advance for the site survey, which will be deducted
                   from your invoice should you proceed. A deposit of <strong>30%</strong> of the final fee will
@@ -112,7 +111,6 @@ export default function KitchensBathroomsPage() {
       <PageSection dark>
         <Container>
           <div className="text-center mb-14">
-            <p className="text-[10px] font-semibold tracking-[0.3em] uppercase mb-4" style={{ color: 'var(--color-accent)' }}>How It Works</p>
             <h2 className="font-display font-light" style={{ fontSize: 'clamp(28px,3.5vw,50px)', color: 'var(--color-ink)' }}>
               6 Simple Steps to<br /><em className="italic">Your Perfect Kitchen</em>
             </h2>

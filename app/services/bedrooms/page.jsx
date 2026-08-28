@@ -2,7 +2,7 @@ import ServicePageLayout, { PageSection, ContentBlock, StepCard, InfoBox, Featur
 import { Container } from '@/components/ui'
 
 export const metadata = {
-  title: 'Bedroom Installation — AMK London Building Construction',
+  title: 'Bedroom Installation',
   description: 'Complete bedroom installation service in London. Whether you buy elsewhere or we supply — expert fitting with a 12-month guarantee.',
 }
 
@@ -50,7 +50,6 @@ export default function BedroomsPage() {
               </p>
 
               <InfoBox gold>
-                <p className="text-[10px] font-semibold tracking-[0.22em] uppercase mb-2" style={{ color: 'var(--color-accent)' }}>Booking Note</p>
                 <p className="text-[13px] leading-[1.7]" style={{ color: 'var(--color-ink-soft)' }}>
                   A <strong>£30 fee</strong> is payable in advance for the site survey, deducted from your invoice
                   on proceeding. A <strong>30% deposit</strong> of the final fee is required when booking the installation date.
@@ -98,7 +97,6 @@ export default function BedroomsPage() {
       <PageSection dark>
         <Container>
           <div className="text-center mb-14">
-            <p className="text-[10px] font-semibold tracking-[0.3em] uppercase mb-4" style={{ color: 'var(--color-accent)' }}>How It Works</p>
             <h2 className="font-display font-light" style={{ fontSize: 'clamp(28px,3.5vw,50px)', color: 'var(--color-ink)' }}>
               5 Steps to Your<br /><em className="italic">Perfect Bedroom</em>
             </h2>

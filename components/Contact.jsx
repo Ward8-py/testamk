@@ -1,8 +1,7 @@
 'use client'
-
 import { useState } from 'react'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
-import { Section, Container, Eyebrow, Divider, BtnGold, ArrowRight } from './ui'
+import { Section, Container, Divider, BtnGold, ArrowRight } from './ui'
 import { Icon } from './icons'
 
 const CONTACT_DETAILS = [
@@ -52,10 +51,30 @@ const SERVICES_LIST = [
   'Marble & Granite', 'Flooring', 'Custom Furnishing', 'Other',
 ]
 
+const CONTACT_EMAIL = 'info@amkbuildingconstruction.co.uk'
+const FORMSPREE_ENDPOINT = process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT
+
+function enquiryMailto(form) {
+  const subject = form.service
+    ? `Website enquiry — ${form.service}`
+    : 'Website enquiry'
+  const body = [
+    `Name: ${form.name}`,
+    `Email: ${form.email}`,
+    `Phone: ${form.phone || 'Not provided'}`,
+    `Service: ${form.service || 'Not specified'}`,
+    '',
+    form.message || 'Please contact me about my project.',
+  ].join('\n')
+
+  return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+}
+
 export default function Contact() {
   const ref = useScrollReveal()
-  const [submitted, setSubmitted] = useState(false)
+  const [submitted, setSubmitted] = useState(null)
   const [sending,   setSending]   = useState(false)
+  const [error, setError] = useState('')
   const [form, setForm] = useState({
     name: '', email: '', phone: '', service: '', message: '',
   })
@@ -63,10 +82,36 @@ export default function Contact() {
   const handleChange = (e) =>
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }))
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    if (!e.currentTarget.reportValidity()) return
+
+    setError('')
+
+    if (!FORMSPREE_ENDPOINT) {
+      window.location.href = enquiryMailto(form)
+      setSubmitted('email')
+      return
+    }
+
     setSending(true)
-    setTimeout(() => { setSending(false); setSubmitted(true) }, 1500)
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ...form, _subject: 'New AMK website enquiry' }),
+      })
+
+      if (!response.ok) throw new Error('Form submission failed')
+      setSubmitted('sent')
+    } catch {
+      setError(`We couldn't send your enquiry. Please email ${CONTACT_EMAIL} or call +44 7587 842444.`)
+    } finally {
+      setSending(false)
+    }
   }
 
   return (
@@ -81,7 +126,6 @@ export default function Contact() {
 
             {/* Left — info */}
             <div>
-              <Eyebrow className="reveal mb-4">Contact Us</Eyebrow>
               <h2
                 className="font-display font-light text-cream leading-[1.05] reveal"
                 style={{ fontSize: 'clamp(28px,3.5vw,50px)', transitionDelay: '80ms' }}
@@ -141,7 +185,7 @@ export default function Contact() {
                 style={{ transitionDelay: '280ms' }}
               >
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2479.5!2d-0.3358!3d51.5783!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487610b94c66d5b1%3A0xabcdef!2sStation+Rd%2C+Harrow+HA1+2UF!5e0!3m2!1sen!2suk!4v1"
+                  src="https://www.google.com/maps?q=15A%20Station%20Road%2C%20Harrow%2C%20HA1%202UF&output=embed"
                   width="100%"
                   height="100%"
                   allowFullScreen=""
@@ -164,7 +208,7 @@ export default function Contact() {
                     Send Us a Message
                   </div>
 
-                  <form onSubmit={handleSubmit} noValidate>
+                  <form onSubmit={handleSubmit}>
                     <div className="grid sm:grid-cols-2 gap-4 mb-4">
                       <div>
                         <label className="block text-[9.5px] font-semibold tracking-[0.2em] uppercase text-silver-mid mb-2" htmlFor="name">
@@ -235,11 +279,18 @@ export default function Contact() {
 
                     <BtnGold
                       type="submit"
+                      disabled={sending}
                       className={`w-full justify-center ${sending ? 'opacity-70 cursor-not-allowed' : ''}`}
                     >
-                      {sending ? 'Sending…' : 'Send Enquiry'}
+                      {sending ? 'Sending…' : FORMSPREE_ENDPOINT ? 'Send Enquiry' : 'Open Email Enquiry'}
                       {!sending && <ArrowRight />}
                     </BtnGold>
+
+                    {error && (
+                      <p role="alert" className="text-[11px] text-red-300 text-center mt-4 leading-relaxed">
+                        {error}
+                      </p>
+                    )}
 
                     <p className="text-[11px] text-silver-dark text-center mt-4">
                       We typically respond within 24 hours.
@@ -249,12 +300,25 @@ export default function Contact() {
               ) : (
                 <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center gap-4">
                   <div className="text-gold"><Icon name="check" size={52} /></div>
-                  <h3 className="font-display text-[28px] font-light text-cream">Message Sent</h3>
+                  <h3 className="font-display text-[28px] font-light text-cream">
+                    {submitted === 'sent' ? 'Message Sent' : 'Email Draft Ready'}
+                  </h3>
                   <p className="text-silver-mid text-[13px] max-w-[280px] leading-[1.7]">
-                    Thank you for reaching out. One of our team will be in touch within 24 hours.
+                    {submitted === 'sent'
+                      ? 'Thank you for reaching out. One of our team will be in touch within 24 hours.'
+                      : 'Your email app has opened with the enquiry filled in. Review it there, then press send.'}
                   </p>
+                  {submitted === 'email' && (
+                    <a
+                      href={enquiryMailto(form)}
+                      className="text-[10px] tracking-[0.18em] uppercase text-gold hover:text-gold-light transition-colors mt-2"
+                    >
+                      Open email draft again
+                    </a>
+                  )}
                   <button
-                    onClick={() => { setSubmitted(false); setForm({ name: '', email: '', phone: '', service: '', message: '' }) }}
+                    type="button"
+                    onClick={() => { setSubmitted(null); setError(''); setForm({ name: '', email: '', phone: '', service: '', message: '' }) }}
                     className="text-[10px] tracking-[0.18em] uppercase text-gold hover:text-gold-light transition-colors mt-2"
                   >
                     Send another message

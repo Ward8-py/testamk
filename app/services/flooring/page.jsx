@@ -3,7 +3,7 @@ import { Container } from '@/components/ui'
 import { Icon } from '@/components/icons'
 
 export const metadata = {
-  title: 'Flooring Installation — AMK London Building Construction',
+  title: 'Flooring Installation',
   description: 'All types of flooring supply and installation in London. Laminate, hardwood, and more. Professional fitting with quality guarantee.',
 }
 
@@ -48,7 +48,6 @@ export default function FlooringPage() {
       <PageSection>
         <Container>
           <div className="text-center mb-16 max-w-2xl mx-auto">
-            <p className="text-[10px] font-semibold tracking-[0.3em] uppercase mb-4" style={{ color: 'var(--color-accent)' }}>Our Flooring Services</p>
             <h2 className="font-display font-light mb-5" style={{ fontSize: 'clamp(28px,3.5vw,50px)', color: 'var(--color-ink)' }}>
               The Right Floor for<br /><em className="italic">Every Room</em>
             </h2>
@@ -117,7 +116,6 @@ export default function FlooringPage() {
               </p>
 
               <InfoBox gold>
-                <p className="text-[10px] font-semibold tracking-[0.22em] uppercase mb-2" style={{ color: 'var(--color-accent)' }}>Did You Know?</p>
                 <p className="text-[13px] leading-[1.7]" style={{ color: 'var(--color-ink-soft)' }}>
                   Even if you decide to move home, laminate flooring is easy to dismantle and can be
                   re-installed up to <strong>three times</strong> — making it a truly smart investment.

@@ -2,7 +2,7 @@ import ServicePageLayout, { PageSection, ContentBlock, InfoBox, FeatureIconCard,
 import { Container } from '@/components/ui'
 
 export const metadata = {
-  title: 'Marble & Granite Worktops — AMK London Building Construction',
+  title: 'Marble & Granite Worktops',
   description: 'Expert marble and granite worktop installation in London. 8+ years specialist experience. 12-month workmanship guarantee.',
 }
 
@@ -62,7 +62,6 @@ export default function MarbleGranitePage() {
               </div>
 
               <InfoBox gold>
-                <p className="text-[10px] font-semibold tracking-[0.22em] uppercase mb-2" style={{ color: 'var(--color-accent)' }}>Our Promise</p>
                 <p className="text-[13px] leading-[1.7]" style={{ color: 'var(--color-ink-soft)' }}>
                   Quick, clean, and professional — we deliver a flawless finish on every stone installation,
                   backed by our full 12-month workmanship guarantee.
@@ -71,7 +70,6 @@ export default function MarbleGranitePage() {
             </ContentBlock>
 
             <div>
-              <p className="text-[10px] font-semibold tracking-[0.28em] uppercase mb-6" style={{ color: 'var(--color-accent)' }}>What We Install</p>
               <div className="grid gap-3">
                 {WORKTOP_TYPES.map(({ icon, t, d }) => (
                   <FeatureIconCard key={t} icon={icon} title={t} text={d} compact />
@@ -114,7 +112,6 @@ export default function MarbleGranitePage() {
         <Container>
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <p className="text-[10px] font-semibold tracking-[0.3em] uppercase mb-4" style={{ color: 'var(--color-accent)' }}>Why Choose Stone?</p>
               <h2 className="font-display font-light mb-6" style={{ fontSize: 'clamp(28px,3.5vw,48px)', color: 'var(--color-ink)' }}>
                 An Investment That<br /><em className="italic">Lasts a Lifetime</em>
               </h2>

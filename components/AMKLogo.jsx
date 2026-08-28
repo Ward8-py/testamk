@@ -1,7 +1,9 @@
 'use client'
 
+/** Solid monochrome lettermark. Inherits `color` from its container, so the
+ *  navbar can flip it to white over the dark hero and back to ink on light
+ *  pages without a second asset. */
 export default function AMKLogo({ size = 44 }) {
-  const id = `metal-${size}`
   const width = Math.round(size * 1.55)
 
   return (
@@ -12,23 +14,13 @@ export default function AMKLogo({ size = 44 }) {
       aria-label="AMK London Building Construction"
       className="overflow-visible flex-shrink-0"
     >
-      <defs>
-        <linearGradient id={id} x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%"   stopColor="#8f7a4a" />
-          <stop offset="40%"  stopColor="var(--color-accent-light)" />
-          <stop offset="70%"  stopColor="#9a7c35" />
-          <stop offset="100%" stopColor="var(--color-accent)" />
-        </linearGradient>
-      </defs>
-
-      {/* Pure AMK lettermark - no house */}
       <text
         x="2"
         y="54"
         fontFamily="Georgia, serif"
         fontSize="58"
         fontWeight="bold"
-        fill={`url(#${id})`}
+        fill="currentColor"
         letterSpacing="-4"
       >
         AMK

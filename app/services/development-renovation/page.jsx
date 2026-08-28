@@ -2,7 +2,7 @@ import ServicePageLayout, { PageSection, ContentBlock, FeatureList, StepCard, In
 import { Container } from '@/components/ui'
 
 export const metadata = {
-  title: 'Development & Renovation — AMK London Building Construction',
+  title: 'Development & Renovation',
   description: 'Extensions, loft conversions, garages, kitchens, bathrooms, driveways, brickwork, and all major refurbishments across London.',
 }
 
@@ -50,11 +50,9 @@ export default function DevelopmentRenovationPage() {
             </ContentBlock>
 
             <div>
-              <p className="text-[10px] font-semibold tracking-[0.28em] uppercase mb-2" style={{ color: 'var(--color-accent)' }}>We Undertake</p>
               <FeatureList items={SERVICES_LIST} gold />
 
               <InfoBox gold>
-                <p className="text-[10px] font-semibold tracking-[0.22em] uppercase mb-2" style={{ color: 'var(--color-accent)' }}>Call Us Now</p>
                 <p className="text-[14px] leading-[1.7]" style={{ color: 'var(--color-ink-soft)' }}>
                   Speak to us directly and discuss a new project or arrange a meeting instantly.
                 </p>
@@ -92,7 +90,6 @@ export default function DevelopmentRenovationPage() {
       <PageSection dark>
         <Container>
           <div className="text-center mb-14">
-            <p className="text-[10px] font-semibold tracking-[0.3em] uppercase mb-4" style={{ color: 'var(--color-accent)' }}>Our Approach</p>
             <h2 className="font-display font-light" style={{ fontSize: 'clamp(28px,3.5vw,50px)', color: 'var(--color-ink)' }}>
               Handled from Start to Finish
             </h2>

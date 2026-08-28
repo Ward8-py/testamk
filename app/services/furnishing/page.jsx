@@ -2,7 +2,7 @@ import ServicePageLayout, { PageSection, ContentBlock, FeatureList, InfoBox, Fea
 import { Container } from '@/components/ui'
 
 export const metadata = {
-  title: 'Bespoke Furnishing & Joinery — AMK London Building Construction',
+  title: 'Bespoke Furnishing & Joinery',
   description: 'Handmade, made-to-measure furniture from our own workshop. Kitchens, bedrooms, fitted furniture and custom joinery. 12-month guarantee.',
 }
 
@@ -47,7 +47,6 @@ export default function FurnishingPage() {
               </p>
 
               <InfoBox gold>
-                <p className="text-[10px] font-semibold tracking-[0.22em] uppercase mb-2" style={{ color: 'var(--color-accent)' }}>Our Promise</p>
                 <p className="text-[13px] leading-[1.7]" style={{ color: 'var(--color-ink-soft)' }}>
                   Every piece of furniture is crafted specifically for you — your size, your style,
                   your colour. No compromises, no off-the-shelf shortcuts.
@@ -56,7 +55,6 @@ export default function FurnishingPage() {
             </ContentBlock>
 
             <div>
-              <p className="text-[10px] font-semibold tracking-[0.28em] uppercase mb-2" style={{ color: 'var(--color-accent)' }}>What We Build</p>
               <FeatureList items={ITEMS_WE_BUILD} gold />
 
               {/* Quality badges */}
@@ -96,7 +94,6 @@ export default function FurnishingPage() {
         <Container>
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <p className="text-[10px] font-semibold tracking-[0.3em] uppercase mb-4" style={{ color: 'var(--color-accent)' }}>Our Process</p>
               <h2 className="font-display font-light mb-6" style={{ fontSize: 'clamp(28px,3.5vw,48px)', color: 'var(--color-ink)' }}>
                 Crafted with Care,<br /><em className="italic">Built to Last</em>
               </h2>
@@ -121,7 +118,6 @@ export default function FurnishingPage() {
 
             {/* Why bespoke */}
             <div className="space-y-3">
-              <p className="text-[10px] font-semibold tracking-[0.28em] uppercase mb-4" style={{ color: 'var(--color-accent)' }}>Why Choose Bespoke?</p>
               {[
                 { icon: 'ruler', t: 'Perfect Fit', d: 'Made to the exact dimensions of your space -- no awkward gaps or ill-fitting units.' },
                 { icon: 'palette', t: 'Your Style', d: 'Your choice of wood, finish, colour, and style -- entirely personalised to you.' },

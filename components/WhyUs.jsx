@@ -1,8 +1,7 @@
 'use client'
-
 import Image from 'next/image'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
-import { Section, Container, Eyebrow, Divider } from './ui'
+import { Section, Container, Divider } from './ui'
 import { Icon } from './icons'
 
 const FEATURES = [
@@ -47,7 +46,6 @@ export default function WhyUs() {
 
             {/* Left — content */}
             <div>
-              <Eyebrow className="reveal mb-4">Why Choose AMK</Eyebrow>
               <h2
                 className="font-display font-light text-cream leading-[1.05] reveal"
                 style={{ fontSize: 'clamp(34px,4.5vw,64px)', transitionDelay: '80ms' }}

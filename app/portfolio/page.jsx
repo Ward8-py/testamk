@@ -4,7 +4,7 @@ import Footer from '@/components/Footer'
 import FloatButtons from '@/components/FloatButtons'
 import PortfolioGrid from '@/components/portfolio/PortfolioGrid'
 import { PROJECTS } from '@/lib/projects'
-import { Container, Divider, Eyebrow, BtnGold } from '@/components/ui'
+import { Container, Divider, BtnGold } from '@/components/ui'
 import { Icon } from '@/components/icons'
 
 export const metadata = {
@@ -28,7 +28,6 @@ export default function PortfolioPage() {
             }}
           />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, var(--color-page) 0%, rgba(248, 244, 236, 0.76) 62%, rgba(248, 244, 236, 0.38) 100%)' }} />
-          <div className="arch-grid absolute inset-0 pointer-events-none" />
 
           <Container className="relative z-10 pb-12 pt-28 sm:pb-14 sm:pt-36">
             <nav className="mb-8 flex items-center gap-2" aria-label="Breadcrumb">
@@ -40,8 +39,6 @@ export default function PortfolioPage() {
                 Portfolio
               </span>
             </nav>
-
-            <Eyebrow className="mb-5">Our Work</Eyebrow>
             <h1
               className="font-display font-light leading-[0.98]"
               style={{ color: 'var(--color-ink)', fontSize: 'clamp(44px,7vw,96px)' }}
@@ -64,9 +61,7 @@ export default function PortfolioPage() {
         </section>
 
         <section className="relative overflow-hidden py-24" style={{ background: 'var(--color-panel)' }}>
-          <div className="arch-grid absolute inset-0 pointer-events-none" />
           <Container className="relative z-10 text-center">
-            <Eyebrow className="mb-5">Planning Something Similar?</Eyebrow>
             <h2 className="font-display font-light leading-[1.08]" style={{ color: 'var(--color-ink)', fontSize: 'clamp(32px,4vw,58px)' }}>
               Let us look at your property<br />
               <em className="italic">and advise the next step.</em>

@@ -1,14 +1,5 @@
 'use client'
-
 import { forwardRef } from 'react'
-
-export function Eyebrow({ children, className = '' }) {
-  return (
-    <p className={`font-body text-[10px] font-semibold tracking-[0.3em] uppercase text-gold ${className}`}>
-      {children}
-    </p>
-  )
-}
 
 export function Divider({ centered = false, className = '' }) {
   return (
@@ -41,27 +32,31 @@ export function Container({ children, className = '' }) {
   )
 }
 
-export function BtnPrimary({ children, onClick, href, className = '' }) {
-  const cls = `inline-flex items-center gap-2.5 text-[10.5px] font-semibold tracking-[0.2em] uppercase text-[var(--color-ink)] bg-gradient-to-br from-gold-light to-gold border-none px-9 py-4 cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_var(--color-accent-line)] relative overflow-hidden group ${className}`
-  if (href) return <a href={href} className={cls}>{children}<BtnShine /></a>
-  return <button onClick={onClick} className={cls}>{children}<BtnShine /></button>
+/* Text on the accent uses --color-on-accent. The accent is now graphite, so
+   --color-ink here would be black-on-black. */
+export function BtnPrimary({ children, onClick, href, type = 'button', className = '' }) {
+  const cls = `inline-flex items-center gap-2.5 text-[10.5px] font-semibold tracking-[0.2em] uppercase text-[var(--color-on-accent)] px-9 py-4 cursor-pointer border-none transition-colors duration-300 relative overflow-hidden group ${className}`
+  const sty = { background: 'var(--color-accent)' }
+  if (href) return <a href={href} className={cls} style={sty}>{children}<BtnShine /></a>
+  return <button type={type} onClick={onClick} className={cls} style={sty}>{children}<BtnShine /></button>
 }
 
 function BtnShine() {
-  return <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" style={{ background: 'linear-gradient(135deg, var(--color-accent), var(--color-accent-light))' }} />
+  return <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0" style={{ background: 'var(--color-accent-light)' }} />
 }
 
-export function BtnGhost({ children, onClick, href, className = '' }) {
+export function BtnGhost({ children, onClick, href, type = 'button', className = '' }) {
   const cls = `inline-flex items-center gap-2.5 text-[10.5px] font-medium tracking-[0.2em] uppercase text-silver-light bg-transparent border border-cream/20 px-9 py-[15px] cursor-pointer transition-all duration-300 hover:text-[var(--color-ink)] hover:border-cream/40 hover:bg-cream/[0.04] hover:-translate-y-0.5 ${className}`
   if (href) return <a href={href} className={cls}>{children}</a>
-  return <button onClick={onClick} className={cls}>{children}</button>
+  return <button type={type} onClick={onClick} className={cls}>{children}</button>
 }
 
-export function BtnGold({ children, onClick, href, type = 'button', className = '' }) {
-  const cls = `inline-flex items-center justify-center gap-2.5 text-[10.5px] font-semibold tracking-[0.2em] uppercase text-[var(--color-ink)] px-11 py-[18px] cursor-pointer border-none transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_48px_var(--color-accent-line-strong)] hover:brightness-110 ${className}`
-  const sty = { background: 'linear-gradient(135deg, var(--color-accent), var(--color-accent-light))' }
-  if (href) return <a href={href} className={cls} style={sty}>{children}</a>
-  return <button type={type} onClick={onClick} className={cls} style={sty}>{children}</button>
+export function BtnGold({ children, onClick, href, type = 'button', disabled = false, className = '' }) {
+  // Background lives in the class list, not inline style — an inline style
+  // would outrank the hover: variant and the hover would silently do nothing.
+  const cls = `inline-flex items-center justify-center gap-2.5 text-[10.5px] font-semibold tracking-[0.2em] uppercase text-[var(--color-on-accent)] px-11 py-[18px] cursor-pointer border-none transition-colors duration-300 bg-[var(--color-accent)] hover:bg-[var(--color-accent-light)] ${className}`
+  if (href) return <a href={href} className={cls}>{children}</a>
+  return <button type={type} disabled={disabled} onClick={onClick} className={cls}>{children}</button>
 }
 
 export function ArrowRight({ size = 13 }) {

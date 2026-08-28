@@ -1,8 +1,7 @@
 'use client'
-
 import { useState } from 'react'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
-import { Section, Container, Eyebrow, Divider } from './ui'
+import { Section, Container, Divider } from './ui'
 import { Icon } from './icons'
 
 const BEDROOM_STEPS = [
@@ -44,7 +43,6 @@ export default function Specialisms() {
       <div ref={ref}>
         <Container>
           <div className="text-center mb-14">
-            <Eyebrow className="reveal mb-5">Specialist Services</Eyebrow>
             <h2
               className="font-display font-light text-cream leading-[1.05] reveal"
               style={{ fontSize: 'clamp(32px,4.5vw,64px)', transitionDelay: '80ms' }}
@@ -59,6 +57,7 @@ export default function Specialisms() {
           <div className="flex flex-wrap gap-1 justify-center mb-12 reveal" style={{ transitionDelay: '200ms' }}>
             {TABS.map(({ id, label }) => (
               <button
+                type="button"
                 key={id}
                 onClick={() => setActive(id)}
                 className={`

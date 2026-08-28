@@ -1,8 +1,7 @@
 'use client'
-
 import { useState, useEffect, useCallback } from 'react'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
-import { Section, Container, Eyebrow } from './ui'
+import { Section, Container } from './ui'
 import { Icon } from './icons'
 
 const TESTIMONIALS = [
@@ -62,7 +61,6 @@ export default function Testimonials() {
       <div ref={ref}>
         <Container>
           <div className="text-center mb-14">
-            <Eyebrow className="reveal mb-4">Testimonials</Eyebrow>
             <h2
               className="font-display font-light text-cream leading-[1.05] reveal"
               style={{ fontSize: 'clamp(34px,4.5vw,64px)', transitionDelay: '80ms' }}
@@ -108,8 +106,8 @@ export default function Testimonials() {
                       {/* Author */}
                       <div className="flex items-center gap-4">
                         <div
-                          className="w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0 font-display text-[17px] font-medium text-[var(--color-ink)]"
-                          style={{ background: 'linear-gradient(135deg, var(--color-subtle), var(--color-text))' }}
+                          className="w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0 font-display text-[17px] font-medium text-[var(--color-on-accent)]"
+                          style={{ background: 'var(--color-ink-muted)' }}
                         >
                           {t.initials}
                         </div>
@@ -129,6 +127,7 @@ export default function Testimonials() {
             {/* Controls */}
             <div className="flex items-center justify-center gap-4 mt-10">
               <button
+                type="button"
                 onClick={prev}
                 className="w-10 h-10 border border-cream/12 flex items-center justify-center text-silver hover:text-gold hover:border-gold/40 transition-all duration-300 focus:outline-none"
                 aria-label="Previous testimonial"
@@ -139,6 +138,7 @@ export default function Testimonials() {
               <div className="flex gap-2">
                 {TESTIMONIALS.map((_, i) => (
                   <button
+                    type="button"
                     key={i}
                     onClick={() => setCurrent(i)}
                     className="h-[2px] transition-all duration-300 focus:outline-none"
@@ -152,6 +152,7 @@ export default function Testimonials() {
               </div>
 
               <button
+                type="button"
                 onClick={next}
                 className="w-10 h-10 border border-cream/12 flex items-center justify-center text-silver hover:text-gold hover:border-gold/40 transition-all duration-300 focus:outline-none"
                 aria-label="Next testimonial"

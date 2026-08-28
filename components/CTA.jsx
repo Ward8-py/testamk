@@ -1,7 +1,6 @@
 'use client'
-
 import { useScrollReveal } from '@/hooks/useScrollReveal'
-import { Section, Container, Eyebrow, Divider, BtnGold, BtnGhost, ArrowRight } from './ui'
+import { Section, Container, Divider, BtnGold, BtnGhost, ArrowRight } from './ui'
 import { Icon } from './icons'
 
 export default function CTA() {
@@ -23,13 +22,10 @@ export default function CTA() {
       />
 
       {/* Grid overlay */}
-      <div className="arch-grid absolute inset-0 pointer-events-none" />
 
       <div ref={ref}>
         <Container>
           <div className="relative z-10 text-center max-w-[660px] mx-auto">
-            <Eyebrow className="reveal mb-6">Ready to Begin?</Eyebrow>
-
             <h2
               className="font-display font-light text-cream leading-[1.05] reveal"
               style={{ fontSize: 'clamp(34px,4.5vw,64px)', transitionDelay: '80ms' }}

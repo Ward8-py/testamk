@@ -7,45 +7,54 @@
 :root {
   --font-cormorant: 'Cormorant Garamond';
   --font-outfit:    'Outfit';
-  --color-page:          #f8f4ec;
-  --color-surface:       #fffdf8;
-  --color-panel:         #f1eadf;
-  --color-panel-strong:  #e8dfd2;
-  --color-ink:           #17130f;
-  --color-ink-soft:      #2e2922;
-  --color-ink-muted:     #403930;
-  --color-text:          #51483d;
-  --color-muted:         #71675a;
-  --color-subtle:        #978b7a;
-  --color-line-soft:     rgba(37, 31, 24, 0.055);
-  --color-line:          rgba(37, 31, 24, 0.095);
-  --color-line-strong:   rgba(37, 31, 24, 0.15);
-  --color-line-emphasis: rgba(37, 31, 24, 0.24);
-  --color-tint:          rgba(37, 31, 24, 0.025);
-  --color-tint-strong:   rgba(37, 31, 24, 0.045);
-  --color-accent:        #9f7628;
-  --color-accent-light:  #caa557;
-  --color-accent-dark:   #76541c;
-  --color-accent-tint:   rgba(159, 118, 40, 0.085);
-  --color-accent-tint-strong: rgba(159, 118, 40, 0.14);
-  --color-accent-line:   rgba(159, 118, 40, 0.22);
-  --color-accent-line-strong: rgba(159, 118, 40, 0.36);
-  --color-accent-ghost:  rgba(159, 118, 40, 0.28);
-  --shadow-card:         0 18px 54px rgba(37, 31, 24, 0.08);
-  --shadow-card-hover:   0 24px 70px rgba(37, 31, 24, 0.13);
-  --radius-card:         8px;
-  --rgb-page:            248 244 236;
-  --rgb-surface:         255 253 248;
-  --rgb-panel:           241 234 223;
-  --rgb-panel-strong:    232 223 210;
-  --rgb-ink:             23 19 15;
-  --rgb-ink-soft:        46 41 34;
-  --rgb-ink-muted:       64 57 48;
-  --rgb-text:            81 72 61;
-  --rgb-muted:           113 103 90;
-  --rgb-subtle:          151 139 122;
-  --rgb-accent:          159 118 40;
-  --rgb-accent-light:    202 165 87;
+  /* Monochrome system: white dominant, neutral greys, near-black ink.
+     Emphasis comes from contrast, weight and space — not from hue. */
+  --color-page:          #ffffff;
+  --color-surface:       #ffffff;
+  --color-panel:         #f6f6f7;
+  --color-panel-strong:  #ededef;
+  --color-ink:           #0b0b0c;
+  --color-ink-soft:      #17171a;
+  --color-ink-muted:     #2e2e33;
+  /* Ramp is tuned so every tier clears 4.5:1 against the DARKEST light surface
+     (--color-panel-strong), not just against white. */
+  --color-text:          #43434b;
+  --color-muted:         #5c5c65;
+  --color-subtle:        #6b6b75;
+  --color-line-soft:     rgba(11, 11, 12, 0.05);
+  --color-line:          rgba(11, 11, 12, 0.09);
+  --color-line-strong:   rgba(11, 11, 12, 0.14);
+  --color-line-emphasis: rgba(11, 11, 12, 0.22);
+  --color-tint:          rgba(11, 11, 12, 0.02);
+  --color-tint-strong:   rgba(11, 11, 12, 0.04);
+  /* The accent is graphite, so anything sitting ON it must use
+     --color-on-accent. Reusing --color-ink there renders black-on-black. */
+  --color-accent:        #0b0b0c;
+  --color-accent-light:  #34343a;
+  --color-accent-dark:   #000000;
+  --color-on-accent:     #ffffff;
+  --color-accent-tint:   rgba(11, 11, 12, 0.05);
+  --color-accent-tint-strong: rgba(11, 11, 12, 0.09);
+  --color-accent-line:   rgba(11, 11, 12, 0.18);
+  --color-accent-line-strong: rgba(11, 11, 12, 0.32);
+  --color-accent-ghost:  rgba(11, 11, 12, 0.24);
+  /* Elevation is declared once. In-flow cards use a hairline border; only true
+     overlays (dropdown, lightbox) get a shadow. */
+  --shadow-card:         none;
+  --shadow-card-hover:   none;
+  --radius-card:         0px;
+  --rgb-page:            255 255 255;
+  --rgb-surface:         255 255 255;
+  --rgb-panel:           246 246 247;
+  --rgb-panel-strong:    237 237 239;
+  --rgb-ink:             11 11 12;
+  --rgb-ink-soft:        23 23 26;
+  --rgb-ink-muted:       46 46 51;
+  --rgb-text:            67 67 75;
+  --rgb-muted:           92 92 101;
+  --rgb-subtle:          107 107 117;
+  --rgb-accent:          11 11 12;
+  --rgb-accent-light:    52 52 58;
   --gold:           var(--color-accent);
   --gold-light:     var(--color-accent-light);
   --black:          var(--color-page);
@@ -69,9 +78,7 @@
   }
 
   body {
-    background:
-      radial-gradient(circle at top left, rgba(159, 118, 40, 0.045), transparent 32rem),
-      var(--color-page);
+    background: var(--color-page);
     color: var(--color-ink-muted);
     font-family: var(--font-outfit), sans-serif;
     font-weight: 350;
@@ -91,40 +98,11 @@
   p { text-wrap: pretty; }
 }
 
-/* ── NOISE TEXTURE ──────────────────────────────── */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9998;
-  opacity: 0.014;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 200px;
-}
+/* Removed: fractal-noise grain overlay, metallic gradient text, and the
+   two-axis decorative grid. A grid overlay needs an actual blueprint or
+   measuring surface under it; as page dressing it is a generated-UI tell. */
 
-/* ── METALLIC TEXT ──────────────────────────────── */
-.metal-text {
-  background: linear-gradient(
-    130deg,
-    var(--color-text) 0%, #846834 18%, var(--color-ink) 34%,
-    var(--color-accent) 48%, var(--color-ink-soft) 62%, #6f6251 78%,
-    var(--color-ink) 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* ── ARCHITECTURAL GRID ─────────────────────────── */
-.arch-grid {
-  background-image:
-    linear-gradient(rgba(159, 118, 40, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(159, 118, 40, 0.045) 1px, transparent 1px);
-  background-size: 60px 60px;
-}
-
-/* ── GOLD UNDERLINE ─────────────────────────────── */
+/* ── UNDERLINE ──────────────────────────────────── */
 .gold-link {
   position: relative;
 }
@@ -133,24 +111,30 @@ body::after {
   position: absolute;
   bottom: -3px;
   left: 0;
-  width: 0;
+  width: 100%;
   height: 1px;
-  background: var(--color-accent);
-  transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  background: currentColor;
+  /* scaleX, not width — animating width thrashes layout every frame. */
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.gold-link:hover::after { width: 100%; }
+.gold-link:hover::after { transform: scaleX(1); }
 
-/* ── SCROLL REVEAL ──────────────────────────────── */
-.reveal       { opacity: 0; transform: translateY(28px);  }
-.reveal-left  { opacity: 0; transform: translateX(-36px); }
-.reveal-right { opacity: 0; transform: translateX(36px);  }
+/* ── SCROLL REVEAL ──────────────────────────────────
+   The scrubbed hero is this page's one authored motion moment. These section
+   entrances are deliberately small so they read as a settle, not as the same
+   dramatic fade-up performed ten times down the page. */
+.reveal       { opacity: 0; transform: translateY(12px);  }
+.reveal-left  { opacity: 0; transform: translateX(-14px); }
+.reveal-right { opacity: 0; transform: translateX(14px);  }
 
 .revealed {
   opacity: 1 !important;
   transform: none !important;
   transition:
-    opacity  0.9s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity  0.55s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Stagger delays for child elements */
@@ -178,14 +162,6 @@ body::after {
   height: 100%;
   background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
   animation: loaderSlide 1.2s ease-in-out infinite;
-}
-
-/* ── HERO BG ANIMATION ──────────────────────────── */
-.hero-bg { animation: heroZoom 22s ease-in-out infinite alternate; }
-
-@keyframes heroZoom {
-  0%   { transform: scale(1.04); }
-  100% { transform: scale(1.11); }
 }
 
 @keyframes loaderSlide {
@@ -311,31 +287,29 @@ body::after {
 /* ── PREVENT LAYOUT SHIFT from next/image fill ──── */
 .pf-item { position: relative; }
 
+/* Cards declare elevation ONCE, with a hairline border. A 1px border sitting
+   under a wide soft shadow is the "ghost card" — two elevation systems at
+   once. Hover deepens the border instead of adding a second one. */
 .pf-card {
   border-radius: var(--radius-card);
   transition:
-    transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    border-color 0.35s ease,
-    box-shadow 0.35s ease;
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.35s ease;
 }
 
 .pf-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
   border-color: var(--color-accent-line-strong) !important;
-  box-shadow: var(--shadow-card-hover);
 }
 
 .design-card {
   background: var(--color-surface);
   border: 1px solid var(--color-line);
   border-radius: var(--radius-card);
-  box-shadow: var(--shadow-card);
 }
 
 .section-wash {
-  background:
-    linear-gradient(180deg, rgba(255, 253, 248, 0.34), transparent 26rem),
-    var(--color-panel);
+  background: var(--color-panel);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -351,7 +325,7 @@ body::after {
 
 /* ── DROPDOWN SHADOW ────────────────────────────── */
 .dropdown-shadow {
-  box-shadow: 0 24px 70px rgba(37, 31, 24, 0.16), 0 4px 18px rgba(37, 31, 24, 0.08);
+  box-shadow: 0 24px 60px rgba(11, 11, 12, 0.12), 0 2px 10px rgba(11, 11, 12, 0.06);
 }
 
 /* ── FOCUS VISIBLE ──────────────────────────────── */
