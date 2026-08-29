@@ -35,6 +35,14 @@ export default function PortfolioProjectPage({ params }) {
   const relatedProjects = PROJECTS.filter(
     (item) => item.slug !== project.slug && item.category === project.category
   ).slice(0, 2)
+  const heroImage = project.cover || project.img
+  const beforeImages = project.beforeImages || []
+  const progressImages = project.progressImages || []
+  const afterImages = project.afterImages || project.images || []
+  const photos = project.photos || []
+  const beforeCount = beforeImages.length + photos.filter((photo) => photo.stage === 'before').length
+  const progressCount = progressImages.length + photos.filter((photo) => photo.stage === 'progress').length
+  const afterCount = afterImages.length + photos.filter((photo) => photo.stage === 'after').length
 
   return (
     <>
@@ -44,7 +52,8 @@ export default function PortfolioProjectPage({ params }) {
           <div
             className="absolute inset-0"
             style={{
-              backgroundImage: `url('${project.cover || project.img}')`,
+              backgroundImage: heroImage ? `url('${heroImage}')` : undefined,
+              backgroundColor: heroImage ? undefined : 'var(--color-panel-strong)',
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               filter: 'grayscale(12%) brightness(1.04) opacity(0.46)',
@@ -105,10 +114,17 @@ export default function PortfolioProjectPage({ params }) {
                 </h2>
               </div>
               <p className="max-w-md leading-[1.75]" style={{ color: 'var(--color-muted)', fontSize: '14px' }}>
-                {project.images.length} images from this project. Select any image to view it full screen.
+                {beforeCount} before, {progressCount} in progress, and {afterCount} after images. Select a stage, then choose any image to view it full screen.
               </p>
             </div>
-            <ProjectGallery images={project.images} projectName={project.name} />
+            <ProjectGallery
+              beforeImages={beforeImages}
+              progressImages={progressImages}
+              afterImages={afterImages}
+              photos={photos}
+              areaCategories={project.areaCategories}
+              projectName={project.name}
+            />
           </Container>
         </section>
 

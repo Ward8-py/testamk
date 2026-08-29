@@ -200,12 +200,26 @@ export default function Hero() {
   const beatRefs = useRef([])
   const panelRef = useRef(null)
   const progressRef = useRef(null)
+  const scrollCueRef = useRef(null)
   const debugRef = useRef(null)
   const [reduced, setReduced] = useState(false)
   const [mediaReady, setMediaReady] = useState(false)
 
   const scrollTo = (id) => {
     document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  const advanceHero = () => {
+    const section = sectionRef.current
+    const pin = pinRef.current
+    if (!section || !pin) return
+
+    const scrollable = section.offsetHeight - pin.offsetHeight
+    const sectionTop = window.scrollY + section.getBoundingClientRect().top
+    window.scrollTo({
+      top: sectionTop + scrollable * 0.14,
+      behavior: 'smooth',
+    })
   }
 
   useEffect(() => {
@@ -282,6 +296,14 @@ export default function Hero() {
 
       if (progressRef.current)
         progressRef.current.style.transform = `scaleX(${p.toFixed(4)})`
+
+      const cue = scrollCueRef.current
+      if (cue) {
+        const cueOpacity = 1 - clamp01((p - 0.01) / 0.05)
+        cue.style.opacity = cueOpacity.toFixed(3)
+        cue.style.visibility = cueOpacity < 0.02 ? 'hidden' : 'visible'
+        cue.style.pointerEvents = p < 0.06 ? 'auto' : 'none'
+      }
 
       if (showDebug && dbg) {
         const buf = video.buffered.length
@@ -467,6 +489,18 @@ export default function Hero() {
             </Container>
           </div>
         ))}
+
+        <button
+          ref={scrollCueRef}
+          type="button"
+          onClick={advanceHero}
+          aria-label="Advance to the first transformation step"
+          className="hero-scroll-cue"
+        >
+          <span className="hidden md:inline">Scroll to transform the space</span>
+          <span className="md:hidden">Swipe to transform the space</span>
+          <span className="hero-scroll-cue__mark" aria-hidden="true" />
+        </button>
 
         {/* Rises over the held final frame across the last 8% of the runway. */}
         <div

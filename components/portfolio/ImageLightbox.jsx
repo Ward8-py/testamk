@@ -46,6 +46,12 @@ export default function ImageLightbox({ images, isOpen, initialIndex = 0, onClos
 
   if (!isOpen || !images.length) return null
 
+  const normalizedImages = images.map((image, index) => (
+    typeof image === 'string'
+      ? { src: image, alt: `Project gallery image ${index + 1}` }
+      : image
+  ))
+
   return (
     <div
       ref={dialogRef}
@@ -105,9 +111,9 @@ export default function ImageLightbox({ images, isOpen, initialIndex = 0, onClos
         ) : null}
         <div className="relative h-full w-full max-w-7xl">
           <Image
-            key={images[currentIndex]}
-            src={images[currentIndex]}
-            alt={`Project gallery image ${currentIndex + 1}`}
+            key={normalizedImages[currentIndex].src}
+            src={normalizedImages[currentIndex].src}
+            alt={normalizedImages[currentIndex].alt}
             fill
             sizes="95vw"
             className="object-contain"
@@ -120,9 +126,9 @@ export default function ImageLightbox({ images, isOpen, initialIndex = 0, onClos
       {images.length > 1 ? (
         <div className="absolute bottom-0 left-0 right-0 hidden border-t border-white/10 bg-black/35 p-4 md:block">
           <div className="mx-auto flex max-w-5xl justify-center gap-2 overflow-x-auto">
-            {images.map((image, index) => (
+            {normalizedImages.map((image, index) => (
               <button
-                key={image}
+                key={image.src}
                 type="button"
                 onClick={(event) => {
                   event.stopPropagation()
@@ -135,7 +141,7 @@ export default function ImageLightbox({ images, isOpen, initialIndex = 0, onClos
                 aria-label={`View gallery image ${index + 1}`}
                 aria-current={index === currentIndex}
               >
-                <Image src={image} alt="" fill sizes="80px" className="object-cover" />
+                <Image src={image.src} alt="" fill sizes="80px" className="object-cover" />
               </button>
             ))}
           </div>

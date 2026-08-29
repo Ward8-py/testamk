@@ -22,13 +22,26 @@ export default function PortfolioCard({ project, featured = false, compact = fal
         className="relative overflow-hidden"
         style={{ aspectRatio: featured ? '16 / 10' : '4 / 3' }}
       >
-        <Image
-          src={image}
-          alt={project.alt}
-          fill
-          sizes={featured ? '(max-width: 1024px) 100vw, 66vw' : '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw'}
-          className="object-cover transition duration-700 ease-smooth group-hover:scale-[1.04]"
-        />
+        {image ? (
+          <Image
+            src={image}
+            alt={project.alt}
+            fill
+            sizes={featured ? '(max-width: 1024px) 100vw, 66vw' : '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw'}
+            className="object-cover transition duration-700 ease-smooth group-hover:scale-[1.04]"
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center bg-[var(--color-panel)] px-8 text-center">
+            <div>
+              <div className="font-display text-[clamp(42px,6vw,76px)] font-light text-[var(--color-subtle)]">
+                {project.name}
+              </div>
+              <div className="mt-3 text-[9px] font-semibold uppercase tracking-[0.24em] text-[var(--color-muted)]">
+                Project photos coming soon
+              </div>
+            </div>
+          </div>
+        )}
         <div
           className="absolute inset-0 transition duration-500 group-hover:opacity-90"
           style={{ background: 'linear-gradient(to top, rgba(20,19,17,0.72), var(--color-line-strong) 58%, transparent)' }}

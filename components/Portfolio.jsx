@@ -8,7 +8,7 @@ import PortfolioCard from './portfolio/PortfolioCard'
 
 export default function Portfolio() {
   const ref = useScrollReveal()
-  const featuredProjects = PROJECTS.filter((project) => project.featured).slice(0, 4)
+  const featuredProjects = PROJECTS.filter((project) => project.featured).slice(0, 5)
 
   return (
     <Section id="portfolio" className="section-top-border bg-black py-[clamp(80px,10vw,140px)]">
