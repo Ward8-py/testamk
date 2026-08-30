@@ -56,21 +56,20 @@ export default function PortfolioProjectPage({ params }) {
               backgroundColor: heroImage ? undefined : 'var(--color-panel-strong)',
               backgroundSize: 'cover',
               backgroundPosition: 'center',
-              filter: 'grayscale(12%) brightness(1.04) opacity(0.46)',
             }}
           />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, var(--color-page) 0%, rgba(248, 244, 236, 0.76) 62%, rgba(255,252,245,0.34) 100%)' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(8,8,9,0.86) 0%, rgba(8,8,9,0.48) 60%, rgba(8,8,9,0.20) 100%)' }} />
 
           <Container className="relative z-10 pb-12 pt-28 sm:pb-14 sm:pt-36">
             <nav className="mb-8 flex flex-wrap items-center gap-2" aria-label="Breadcrumb">
-              <Link href="/" className="text-[10px] uppercase tracking-[0.2em] transition-colors hover:text-gold" style={{ color: 'var(--color-muted)' }}>
+              <Link href="/" className="text-[10px] uppercase tracking-[0.2em] text-white/70 transition-colors hover:text-white">
                 Home
               </Link>
-              <span style={{ color: 'var(--color-subtle)' }}>/</span>
-              <Link href="/portfolio" className="text-[10px] uppercase tracking-[0.2em] transition-colors hover:text-gold" style={{ color: 'var(--color-muted)' }}>
+              <span className="text-white/35">/</span>
+              <Link href="/portfolio" className="text-[10px] uppercase tracking-[0.2em] text-white/70 transition-colors hover:text-white">
                 Portfolio
               </Link>
-              <span style={{ color: 'var(--color-subtle)' }}>/</span>
+              <span className="text-white/35">/</span>
               <span className="text-[10px] uppercase tracking-[0.2em]" style={{ color: 'var(--color-accent)' }}>
                 {project.name}
               </span>
@@ -79,12 +78,12 @@ export default function PortfolioProjectPage({ params }) {
             <GoldTag className="mb-5">{project.category}</GoldTag>
             <h1
               className="mt-5 font-display font-light leading-[0.98]"
-              style={{ color: 'var(--color-ink)', fontSize: 'clamp(44px,7vw,96px)' }}
+              style={{ color: '#fff', fontSize: 'clamp(44px,7vw,96px)' }}
             >
               {project.name}
             </h1>
             <Divider className="my-7" />
-            <p className="max-w-2xl leading-[1.85]" style={{ color: 'var(--color-text)', fontSize: 'clamp(14px,1.15vw,17px)' }}>
+            <p className="max-w-2xl leading-[1.85]" style={{ color: 'rgba(255,255,255,0.82)', fontSize: 'clamp(14px,1.15vw,17px)' }}>
               {project.description}
             </p>
 
@@ -96,7 +95,7 @@ export default function PortfolioProjectPage({ params }) {
               <Link
                 href="/portfolio"
                 className="inline-flex items-center justify-center gap-2.5 border px-8 py-[17px] text-[10.5px] font-medium uppercase tracking-[0.2em] transition-all duration-300 hover:-translate-y-0.5 hover:border-gold/30"
-                style={{ color: 'var(--color-text)', borderColor: 'var(--color-line-strong)' }}
+                style={{ color: '#fff', borderColor: 'rgba(255,255,255,0.35)' }}
               >
                 <Icon name="arrow-left" size={13} />
                 Back to Portfolio

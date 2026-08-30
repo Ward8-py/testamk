@@ -289,27 +289,12 @@
   filter: grayscale(65%) sepia(8%) contrast(0.92) brightness(1.04);
 }
 
-/* ── SERVICE CARD BOTTOM LINE ───────────────────── */
-.srv-card::before {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-light));
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-.srv-card:hover::before { transform: scaleX(1); }
-
 /* ── PORTFOLIO ──────────────────────────────────── */
 .pf-img {
-  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.6s ease;
-  filter: grayscale(20%);
+  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 .pf-item:hover .pf-img {
   transform: scale(1.07);
-  filter: grayscale(0);
 }
 .pf-overlay {
   opacity: 0;

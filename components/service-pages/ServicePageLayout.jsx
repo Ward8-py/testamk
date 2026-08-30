@@ -40,11 +40,9 @@ export default function ServicePageLayout({
               backgroundImage: `url('${heroImg}')`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
-              filter: 'grayscale(18%) brightness(1.05) opacity(0.44)',
             }}
           />
-          {/* Gradient */}
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, var(--color-page) 0%, rgba(248, 244, 236, 0.64) 60%, transparent 100%)' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(8,8,9,0.86) 0%, rgba(8,8,9,0.50) 58%, rgba(8,8,9,0.22) 100%)' }} />
           {/* Arch grid */}
           {/* Vertical line */}
           <div
@@ -53,34 +51,18 @@ export default function ServicePageLayout({
           />
 
           <Container className="relative z-10 pb-20 pt-40">
-            {/* Breadcrumb */}
-            <nav className="flex items-center gap-2 mb-8" aria-label="Breadcrumb">
-              <Link href="/" className="text-[10px] tracking-[0.2em] uppercase transition-colors hover:text-gold" style={{ color: 'var(--color-muted)' }}>Home</Link>
-              <span style={{ color: 'var(--color-subtle)' }}>/</span>
-              <Link href="/#services" className="text-[10px] tracking-[0.2em] uppercase transition-colors hover:text-gold" style={{ color: 'var(--color-muted)' }}>Services</Link>
-              <span style={{ color: 'var(--color-subtle)' }}>/</span>
-              <span className="text-[10px] tracking-[0.2em] uppercase" style={{ color: 'var(--color-accent)' }}>{eyebrow}</span>
-            </nav>
-
             {tag && <GoldTag className="mb-5 inline-block">{tag}</GoldTag>}
             <h1
-              className="font-display font-light leading-[0.96] mb-6"
-              style={{ fontSize: 'clamp(44px, 6vw, 90px)', color: 'var(--color-ink)', whiteSpace: 'pre-line' }}
+              className="mb-6 font-body font-bold leading-[0.9] tracking-[-0.05em] text-white"
+              style={{ fontSize: 'clamp(56px, 8vw, 116px)', fontWeight: 700, whiteSpace: 'pre-line' }}
             >
               {heroTitle}
             </h1>
             {heroSub && (
-              <p className="max-w-xl leading-[1.85]" style={{ fontSize: 'clamp(14px, 1.2vw, 17px)', color: 'var(--color-text)' }}>
+              <p className="max-w-xl leading-[1.85]" style={{ color: 'rgba(255,255,255,0.82)', fontSize: 'clamp(14px, 1.2vw, 17px)' }}>
                 {heroSub}
               </p>
             )}
-            <div className="flex flex-wrap gap-4 mt-10">
-              <BtnGold href="/#contact">
-                Get a Free Quote
-                <Icon name="arrow-right" size={13} className="relative z-10" />
-              </BtnGold>
-              <BtnGhost href="tel:08715661673">Call 0871 566 1673</BtnGhost>
-            </div>
           </Container>
         </section>
 

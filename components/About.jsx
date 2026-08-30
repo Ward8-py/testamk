@@ -35,7 +35,6 @@ export default function About() {
                 alt="AMK London — Expert construction craftsmen at work"
                 fill
                 className="object-cover"
-                style={{ filter: 'grayscale(10%) contrast(1.04)' }}
                 loading="lazy"
               />
             </div>

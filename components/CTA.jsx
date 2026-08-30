@@ -15,7 +15,7 @@ export default function CTA() {
         className="absolute inset-0"
         style={{
           background: `
-            linear-gradient(rgba(248, 244, 236, 0.88), rgba(248, 244, 236, 0.88)),
+            linear-gradient(rgba(8, 8, 9, 0.72), rgba(8, 8, 9, 0.72)),
             url('/gallery/cta.png') center/cover no-repeat
           `,
         }}
@@ -27,8 +27,8 @@ export default function CTA() {
         <Container>
           <div className="relative z-10 text-center max-w-[660px] mx-auto">
             <h2
-              className="font-display font-light text-cream leading-[1.05] reveal"
-              style={{ fontSize: 'clamp(34px,4.5vw,64px)', transitionDelay: '80ms' }}
+              className="font-display font-light leading-[1.05] reveal"
+              style={{ color: '#fff', fontSize: 'clamp(34px,4.5vw,64px)', transitionDelay: '80ms' }}
             >
               Start Your Project<br />
               <em className="italic">Today</em>
@@ -37,7 +37,7 @@ export default function CTA() {
             <Divider centered className="my-7 reveal" style={{ transitionDelay: '120ms' }} />
 
             <p
-              className="text-silver leading-[1.85] reveal mb-12"
+              className="leading-[1.85] reveal mb-12 text-white/75"
               style={{ fontSize: 'clamp(13px,1.1vw,15px)', transitionDelay: '160ms' }}
             >
               Contact us for a free, no-obligation consultation. One of our senior consultants will
@@ -53,7 +53,7 @@ export default function CTA() {
                 Request a Free Quote
                 <ArrowRight />
               </BtnGold>
-              <BtnGhost href="tel:+447587842444">
+              <BtnGhost href="tel:+447587842444" className="border-white/30 text-white hover:border-white/50 hover:text-white">
                 Call +44 7587 842444
               </BtnGhost>
             </div>
@@ -69,7 +69,7 @@ export default function CTA() {
                 { icon: 'phone', label: 'Free Consultation' },
                 { icon: 'star', label: '400+ Happy Clients' },
               ].map(({ icon, label }) => (
-                <div key={label} className="flex items-center gap-2.5 text-silver-mid">
+                <div key={label} className="flex items-center gap-2.5 text-white/65">
                   <Icon name={icon} size={16} className="text-gold" />
                   <span className="text-[11px] font-medium tracking-[0.12em] uppercase">{label}</span>
                 </div>
