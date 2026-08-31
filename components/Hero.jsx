@@ -146,6 +146,7 @@ function HeroScrims() {
 export default function Hero() {
   const videoRef = useRef(null)
   const [reduced, setReduced] = useState(false)
+  const [videoSrc, setVideoSrc] = useState(null)
   const [mediaReady, setMediaReady] = useState(false)
   const [panelVisible, setPanelVisible] = useState(false)
   const [activeBeat, setActiveBeat] = useState(0)
@@ -160,24 +161,28 @@ export default function Hero() {
 
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 767.98px)')
-    const reloadSource = () => {
-      const video = videoRef.current
-      if (!video) return
+    const selectSource = () => {
       setPanelVisible(false)
       setMediaReady(false)
       setActiveBeat(0)
-      video.pause()
-      video.load()
+      setVideoSrc(mq.matches
+        ? '/video/hero-scroll-portrait.mp4'
+        : '/video/hero-scroll.mp4')
     }
 
-    reloadSource()
-    mq.addEventListener('change', reloadSource)
-    return () => mq.removeEventListener('change', reloadSource)
-  }, [reduced])
+    selectSource()
+    mq.addEventListener('change', selectSource)
+    return () => mq.removeEventListener('change', selectSource)
+  }, [])
 
   const playWhenReady = () => {
     const video = videoRef.current
     if (!video || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    // iOS Safari requires the media element to be explicitly muted before
+    // every programmatic play attempt, even when the muted attribute exists.
+    video.defaultMuted = true
+    video.muted = true
 
     let playAttempt
     try {
@@ -194,6 +199,20 @@ export default function Hero() {
       )
     } else {
       setMediaReady(true)
+    }
+  }
+
+  const retryPlaybackFromTouch = () => {
+    const video = videoRef.current
+    if (!video || !video.paused || video.ended || panelVisible) return
+
+    video.defaultMuted = true
+    video.muted = true
+
+    try {
+      video.play()?.catch(() => {})
+    } catch {
+      // Keep the poster visible if the device still refuses playback.
     }
   }
 
@@ -236,38 +255,36 @@ export default function Hero() {
       id="hero"
       className="relative h-lvh w-full overflow-hidden text-white"
       style={{ backgroundColor: '#000', textShadow: TEXT_SHADOW }}
+      onPointerDown={retryPlaybackFromTouch}
     >
       <ResponsivePoster visible={!mediaReady} />
-      <video
-        ref={videoRef}
-        aria-hidden
-        tabIndex={-1}
-        className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-200 ${mediaReady ? 'opacity-100' : 'opacity-0'}`}
-        autoPlay
-        muted
-        playsInline
-        preload="auto"
-        controls={false}
-        disablePictureInPicture
-        disableRemotePlayback
-        onLoadedData={playWhenReady}
-        onCanPlay={playWhenReady}
-        onPlaying={() => setMediaReady(true)}
-        onTimeUpdate={updateCaption}
-        onSeeked={updateCaption}
-        onEnded={() => {
-          setActiveBeat(BEATS.length - 1)
-          setPanelVisible(true)
-        }}
-        onError={() => setMediaReady(false)}
-      >
-        <source
-          src="/video/hero-scroll-portrait.mp4"
-          type="video/mp4"
-          media="(max-width: 767.98px)"
+      {videoSrc && (
+        <video
+          key={videoSrc}
+          ref={videoRef}
+          src={videoSrc}
+          aria-hidden
+          tabIndex={-1}
+          className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-200 ${mediaReady ? 'opacity-100' : 'opacity-0'}`}
+          autoPlay
+          muted
+          playsInline
+          preload="auto"
+          controls={false}
+          disablePictureInPicture
+          disableRemotePlayback
+          onLoadedData={playWhenReady}
+          onCanPlay={playWhenReady}
+          onPlaying={() => setMediaReady(true)}
+          onTimeUpdate={updateCaption}
+          onSeeked={updateCaption}
+          onEnded={() => {
+            setActiveBeat(BEATS.length - 1)
+            setPanelVisible(true)
+          }}
+          onError={() => setMediaReady(false)}
         />
-        <source src="/video/hero-scroll.mp4" type="video/mp4" />
-      </video>
+      )}
 
       <HeroScrims />
 
