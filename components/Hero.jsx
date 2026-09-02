@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import { SERVICE_DETAIL_PAGES_ENABLED } from '@/lib/site-flags'
 import { Container, ArrowRight } from './ui'
 
 const SCRIM_SIDE =
@@ -22,13 +23,6 @@ const BEATS = [
 
 const BEAT_STARTS = [0, 0.105, 0.33, 0.56, 0.785, 0.883]
 
-function beatIndexAt(progress) {
-  for (let index = BEAT_STARTS.length - 1; index >= 0; index--) {
-    if (progress >= BEAT_STARTS[index]) return index
-  }
-  return 0
-}
-
 const SERVICES = [
   { href: '/services/development-renovation', label: 'Development & Renovation', desc: 'Extensions, lofts & refurbishments' },
   { href: '/services/kitchens-bathrooms', label: 'Kitchens & Bathrooms', desc: 'Supply, design & installation' },
@@ -38,10 +32,16 @@ const SERVICES = [
   { href: '/services/furnishing', label: 'Furnishing', desc: 'Handmade bespoke furniture' },
 ]
 
-function BtnLight({ children, onClick, href, className = '', tabIndex }) {
+function beatIndexAt(progress) {
+  for (let index = BEAT_STARTS.length - 1; index >= 0; index--) {
+    if (progress >= BEAT_STARTS[index]) return index
+  }
+  return 0
+}
+
+function BtnLight({ children, href, className = '', tabIndex }) {
   const cls = `inline-flex items-center gap-2.5 bg-white px-9 py-4 text-[10.5px] font-semibold uppercase tracking-[0.2em] text-[#0b0b0c] transition-colors duration-300 hover:bg-white/88 ${className}`
-  if (href) return <a href={href} className={cls} tabIndex={tabIndex}>{children}</a>
-  return <button type="button" onClick={onClick} className={cls} tabIndex={tabIndex}>{children}</button>
+  return <a href={href} className={cls} tabIndex={tabIndex}>{children}</a>
 }
 
 function HeroBeat({ beat }) {
@@ -89,19 +89,28 @@ function ServicesPanelBody() {
       </h2>
 
       <div className="grid grid-cols-2 gap-px lg:grid-cols-3" style={{ background: 'rgba(255,255,255,0.10)' }}>
-        {SERVICES.map(({ href, label, desc }) => (
-          <Link
-            key={href}
-            href={href}
-            className="group flex flex-col gap-1.5 p-3.5 transition-colors duration-300 sm:p-5"
-            style={{ background: '#0d0b09' }}
-          >
-            <span className="text-[11px] font-semibold uppercase tracking-[0.06em] text-white/85 transition-colors group-hover:text-white sm:text-[12px]">
-              {label}
-            </span>
-            <span className="hidden text-[11.5px] leading-[1.5] text-white/55 sm:block">{desc}</span>
-          </Link>
-        ))}
+        {SERVICES.map(({ href, label, desc }) => {
+          const content = (
+            <>
+              <span className="text-[11px] font-semibold uppercase tracking-[0.06em] text-white/85 transition-colors group-hover:text-white sm:text-[12px]">
+                {label}
+              </span>
+              <span className="hidden text-[11.5px] leading-[1.5] text-white/55 sm:block">{desc}</span>
+            </>
+          )
+          const className = 'group flex flex-col gap-1.5 p-3.5 transition-colors duration-300 sm:p-5'
+          const style = { background: '#0d0b09' }
+
+          return SERVICE_DETAIL_PAGES_ENABLED ? (
+            <Link key={href} href={href} className={className} style={style}>
+              {content}
+            </Link>
+          ) : (
+            <div key={href} className={className} style={style}>
+              {content}
+            </div>
+          )
+        })}
       </div>
 
       <div className="mt-7 flex flex-wrap items-center gap-5 sm:mt-10">
@@ -144,12 +153,121 @@ function HeroScrims() {
 }
 
 export default function Hero() {
+  const heroRef = useRef(null)
+  const panelRef = useRef(null)
   const videoRef = useRef(null)
+  const playAttemptRef = useRef(null)
+  const retryTimerRef = useRef(0)
+  const retryCountRef = useRef(0)
+  const attemptPlaybackRef = useRef(null)
   const [reduced, setReduced] = useState(false)
-  const [videoSrc, setVideoSrc] = useState(null)
   const [mediaReady, setMediaReady] = useState(false)
-  const [panelVisible, setPanelVisible] = useState(false)
   const [activeBeat, setActiveBeat] = useState(0)
+
+  const clearPlaybackRetry = () => {
+    if (!retryTimerRef.current) return
+    window.clearTimeout(retryTimerRef.current)
+    retryTimerRef.current = 0
+  }
+
+  const schedulePlaybackRetry = () => {
+    if (retryTimerRef.current || retryCountRef.current >= 4) return
+    const delays = [250, 750, 1500, 3000]
+    const delay = delays[retryCountRef.current]
+    retryCountRef.current += 1
+    retryTimerRef.current = window.setTimeout(() => {
+      retryTimerRef.current = 0
+      attemptPlaybackRef.current?.()
+    }, delay)
+  }
+
+  const playWhenReady = () => {
+    const video = videoRef.current
+    if (!video || video.ended || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    video.defaultMuted = true
+    video.muted = true
+
+    if (!video.paused) {
+      clearPlaybackRetry()
+      retryCountRef.current = 0
+      setMediaReady(true)
+      return
+    }
+
+    if (playAttemptRef.current) return
+
+    let playAttempt
+    try {
+      playAttempt = video.play()
+    } catch {
+      if (video.paused) {
+        setMediaReady(false)
+        schedulePlaybackRetry()
+      }
+      return
+    }
+
+    if (!playAttempt?.then) {
+      setMediaReady(!video.paused)
+      if (video.paused) schedulePlaybackRetry()
+      return
+    }
+
+    playAttemptRef.current = playAttempt
+    playAttempt.then(
+      () => {
+        if (playAttemptRef.current !== playAttempt) return
+        playAttemptRef.current = null
+        if (!video.paused) {
+          clearPlaybackRetry()
+          retryCountRef.current = 0
+          setMediaReady(true)
+        } else {
+          schedulePlaybackRetry()
+        }
+      },
+      () => {
+        if (playAttemptRef.current !== playAttempt) return
+        playAttemptRef.current = null
+        if (!video.paused) {
+          clearPlaybackRetry()
+          retryCountRef.current = 0
+          setMediaReady(true)
+          return
+        }
+        setMediaReady(false)
+        schedulePlaybackRetry()
+      },
+    )
+  }
+
+  attemptPlaybackRef.current = playWhenReady
+
+  const handlePlaying = () => {
+    playAttemptRef.current = null
+    clearPlaybackRetry()
+    retryCountRef.current = 0
+    setMediaReady(true)
+  }
+
+  const handleEnded = () => {
+    playAttemptRef.current = null
+    clearPlaybackRetry()
+    setActiveBeat(BEATS.length - 1)
+
+    window.requestAnimationFrame(() => {
+      const hero = heroRef.current
+      const panel = panelRef.current
+      if (!hero || !panel) return
+      const rect = hero.getBoundingClientRect()
+      const heroStillInView = rect.top > -window.innerHeight * 0.35
+        && rect.bottom > window.innerHeight * 0.65
+      if (heroStillInView) {
+        panel.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
+    })
+  }
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -161,60 +279,57 @@ export default function Hero() {
 
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 767.98px)')
-    const selectSource = () => {
-      setPanelVisible(false)
+    const reloadSource = () => {
+      const video = videoRef.current
+      if (!video) return
+      playAttemptRef.current = null
+      clearPlaybackRetry()
+      retryCountRef.current = 0
       setMediaReady(false)
       setActiveBeat(0)
-      setVideoSrc(mq.matches
-        ? '/video/hero-scroll-portrait.mp4'
-        : '/video/hero-scroll.mp4')
+      video.load()
     }
 
-    selectSource()
-    mq.addEventListener('change', selectSource)
-    return () => mq.removeEventListener('change', selectSource)
+    // Do not reload on mount: the server-rendered video must retain its native
+    // autoplay lifecycle on iOS. Reload only when crossing the breakpoint.
+    mq.addEventListener('change', reloadSource)
+    return () => mq.removeEventListener('change', reloadSource)
   }, [])
 
-  const playWhenReady = () => {
+  useEffect(() => {
     const video = videoRef.current
-    if (!video || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    if (!video) return
 
-    // iOS Safari requires the media element to be explicitly muted before
-    // every programmatic play attempt, even when the muted attribute exists.
-    video.defaultMuted = true
-    video.muted = true
-
-    let playAttempt
-    try {
-      playAttempt = video.play()
-    } catch {
-      setMediaReady(false)
-      return
-    }
-
-    if (playAttempt?.then) {
-      playAttempt.then(
-        () => setMediaReady(true),
-        () => setMediaReady(false),
-      )
-    } else {
+    // Native autoplay can begin before React hydrates, especially on cached
+    // desktop loads. Reconcile from the element itself instead of depending
+    // solely on media events that may already have fired.
+    if (video.ended) {
       setMediaReady(true)
+      setActiveBeat(BEATS.length - 1)
+    } else if (!video.paused && video.readyState >= 2) {
+      handlePlaying()
+    } else {
+      attemptPlaybackRef.current?.()
     }
-  }
+  }, [])
 
-  const retryPlaybackFromTouch = () => {
-    const video = videoRef.current
-    if (!video || !video.paused || video.ended || panelVisible) return
-
-    video.defaultMuted = true
-    video.muted = true
-
-    try {
-      video.play()?.catch(() => {})
-    } catch {
-      // Keep the poster visible if the device still refuses playback.
+  useEffect(() => {
+    const resumePlayback = () => {
+      const video = videoRef.current
+      if (document.hidden || !video || video.ended) return
+      retryCountRef.current = 0
+      attemptPlaybackRef.current?.()
     }
-  }
+
+    document.addEventListener('visibilitychange', resumePlayback)
+    window.addEventListener('pageshow', resumePlayback)
+    return () => {
+      document.removeEventListener('visibilitychange', resumePlayback)
+      window.removeEventListener('pageshow', resumePlayback)
+      clearPlaybackRetry()
+      playAttemptRef.current = null
+    }
+  }, [])
 
   const updateCaption = (event) => {
     const video = event.currentTarget
@@ -226,46 +341,46 @@ export default function Hero() {
 
   if (reduced) {
     return (
-      <section id="hero" className="relative text-white" style={{ backgroundColor: '#000', textShadow: TEXT_SHADOW }}>
-        <div className="relative h-lvh w-full overflow-hidden">
-          <ResponsivePoster />
-          <HeroScrims />
-          <div className="absolute inset-0 z-10 flex items-end pb-[12lvh] md:items-center md:pb-0">
-            <Container>
-              <HeroBeat beat={BEATS[0]} />
-            </Container>
+      <>
+        <section ref={heroRef} id="hero" className="relative text-white" style={{ backgroundColor: '#000', textShadow: TEXT_SHADOW }}>
+          <div className="relative h-lvh w-full overflow-hidden">
+            <ResponsivePoster />
+            <HeroScrims />
+            <div className="absolute inset-0 z-10 flex items-end pb-[12lvh] md:items-center md:pb-0">
+              <Container>
+                <HeroBeat beat={BEATS[0]} />
+              </Container>
+            </div>
           </div>
-        </div>
-        <Container className="py-14">
-          <div className="space-y-14">
-            {BEATS.slice(1).map((beat) => (
-              <HeroBeat key={beat.line} beat={beat} />
-            ))}
-          </div>
-        </Container>
-        <div className="border-t border-white/10" style={{ background: '#0d0b09' }}>
+          <Container className="py-14">
+            <div className="space-y-14">
+              {BEATS.slice(1).map((beat) => (
+                <HeroBeat key={beat.line} beat={beat} />
+              ))}
+            </div>
+          </Container>
+        </section>
+        <section className="relative flex min-h-lvh w-full items-center overflow-y-auto border-t border-white/10 text-white" style={{ background: '#0d0b09' }}>
           <ServicesPanelBody />
-        </div>
-      </section>
+        </section>
+      </>
     )
   }
 
   return (
-    <section
-      id="hero"
-      className="relative h-lvh w-full overflow-hidden text-white"
-      style={{ backgroundColor: '#000', textShadow: TEXT_SHADOW }}
-      onPointerDown={retryPlaybackFromTouch}
-    >
-      <ResponsivePoster visible={!mediaReady} />
-      {videoSrc && (
+    <>
+      <section
+        ref={heroRef}
+        id="hero"
+        className="relative h-lvh w-full overflow-hidden text-white"
+        style={{ backgroundColor: '#000', textShadow: TEXT_SHADOW }}
+      >
+        <ResponsivePoster visible={!mediaReady} />
         <video
-          key={videoSrc}
           ref={videoRef}
-          src={videoSrc}
           aria-hidden
           tabIndex={-1}
-          className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-200 ${mediaReady ? 'opacity-100' : 'opacity-0'}`}
+          className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-200 motion-reduce:hidden ${mediaReady ? 'opacity-100' : 'opacity-0'}`}
           autoPlay
           muted
           playsInline
@@ -275,42 +390,49 @@ export default function Hero() {
           disableRemotePlayback
           onLoadedData={playWhenReady}
           onCanPlay={playWhenReady}
-          onPlaying={() => setMediaReady(true)}
+          onPlaying={handlePlaying}
           onTimeUpdate={updateCaption}
           onSeeked={updateCaption}
-          onEnded={() => {
-            setActiveBeat(BEATS.length - 1)
-            setPanelVisible(true)
+          onEnded={handleEnded}
+          onError={() => {
+            playAttemptRef.current = null
+            clearPlaybackRetry()
+            setMediaReady(false)
           }}
-          onError={() => setMediaReady(false)}
-        />
-      )}
+        >
+          <source
+            src="/video/hero-scroll-portrait.mp4"
+            type="video/mp4"
+            media="(max-width: 767.98px)"
+          />
+          <source src="/video/hero-scroll.mp4" type="video/mp4" />
+        </video>
 
-      <HeroScrims />
+        <HeroScrims />
 
-      {BEATS.map((beat, index) => {
-        const active = index === activeBeat && !panelVisible
-        return (
-          <div
-            key={beat.line}
-            aria-hidden={!active}
-            className={`absolute inset-0 z-10 flex items-end pb-[12lvh] transition-[opacity,transform] duration-500 md:items-center md:pb-0 ${active ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-3 opacity-0'}`}
-          >
-            <Container>
-              <HeroBeat beat={beat} />
-            </Container>
-          </div>
-        )
-      })}
+        {BEATS.map((beat, index) => {
+          const active = index === activeBeat
+          return (
+            <div
+              key={beat.line}
+              aria-hidden={!active}
+              className={`absolute inset-0 z-10 flex items-end pb-[12lvh] transition-[opacity,transform] duration-500 md:items-center md:pb-0 ${active ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-3 opacity-0'}`}
+            >
+              <Container>
+                <HeroBeat beat={beat} />
+              </Container>
+            </div>
+          )
+        })}
+      </section>
 
-      <div
-        aria-hidden={!panelVisible}
-        className={`absolute inset-0 z-20 transform-gpu transition-[transform,visibility] duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${panelVisible ? 'visible translate-y-0' : 'invisible translate-y-full'}`}
+      <section
+        ref={panelRef}
+        className="relative flex min-h-lvh w-full items-center overflow-y-auto border-t border-white/10 text-white"
+        style={{ background: '#0d0b09' }}
       >
-        <div className="flex h-full w-full items-center overflow-y-auto border-t border-white/10" style={{ background: 'rgba(13,11,9,0.97)' }}>
-          <ServicesPanelBody />
-        </div>
-      </div>
-    </section>
+        <ServicesPanelBody />
+      </section>
+    </>
   )
 }

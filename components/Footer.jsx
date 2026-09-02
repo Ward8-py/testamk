@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import AMKLogo from './AMKLogo'
 import { Icon } from './icons'
+import { SERVICE_DETAIL_PAGES_ENABLED } from '@/lib/site-flags'
 
 const QUICK_LINKS = [
   { label: 'About AMK',    href: '/#about'       },
@@ -91,7 +92,9 @@ export default function Footer() {
           {/* ── Services ── */}
           <FooterCol title="Our Services">
             {SERVICE_PAGES.map(({ label, href }) => (
-              <FooterLink key={label} href={href}>{label}</FooterLink>
+              SERVICE_DETAIL_PAGES_ENABLED
+                ? <FooterLink key={label} href={href}>{label}</FooterLink>
+                : <FooterText key={label}>{label}</FooterText>
             ))}
           </FooterCol>
 
@@ -191,6 +194,18 @@ function FooterLink({ href, children }) {
         />
         {children}
       </Link>
+    </li>
+  )
+}
+
+function FooterText({ children }) {
+  return (
+    <li
+      className="flex items-center gap-2 text-[12.5px]"
+      style={{ color: 'var(--color-muted)' }}
+    >
+      <span className="h-px w-0 flex-shrink-0" aria-hidden="true" />
+      {children}
     </li>
   )
 }

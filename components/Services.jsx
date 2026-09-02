@@ -4,15 +4,17 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
+import { SERVICE_DETAIL_PAGES_ENABLED } from '@/lib/site-flags'
 import { Container, Divider } from './ui'
 
 const SERVICE_PAGES = [
-  { slug: 'development-renovation', label: 'Development &\nRenovation', img: '/gallery/dr2.jpeg' },
-  { slug: 'kitchens-bathrooms', label: 'Kitchens &\nBathrooms', img: '/gallery/kitchen3.jpg' },
-  { slug: 'bedrooms', label: 'Bedrooms', img: '/gallery/service-cards/bedroom.png' },
-  { slug: 'marble-granite', label: 'Marble &\nGranite', img: '/gallery/dr17.jpeg' },
-  { slug: 'flooring', label: 'Flooring', img: '/gallery/service-cards/flooring.png' },
-  { slug: 'furnishing', label: 'Furnishing', img: '/gallery/service-cards/furnishing.png' },
+  { id: 'development-renovation', href: '/services/development-renovation', label: 'Development &\nRenovation', img: '/gallery/service-cards/development-renovation.png' },
+  { id: 'kitchens', href: '/services/kitchens-bathrooms', label: 'Kitchens', img: '/gallery/service-cards/kitchen.png' },
+  { id: 'bathrooms', href: '/services/kitchens-bathrooms', label: 'Bathrooms', img: '/gallery/service-cards/bathroom.png' },
+  { id: 'bedrooms', href: '/services/bedrooms', label: 'Bedrooms', img: '/gallery/service-cards/bedroom.png' },
+  { id: 'marble-granite', href: '/services/marble-granite', label: 'Marble &\nGranite', img: '/gallery/dr17.jpeg' },
+  { id: 'flooring', href: '/services/flooring', label: 'Flooring', img: '/gallery/service-cards/flooring.png' },
+  { id: 'furnishing', href: '/services/furnishing', label: 'Furnishing', img: '/gallery/service-cards/furnishing.png' },
 ]
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value))
@@ -168,7 +170,7 @@ export default function Services() {
           >
             {SERVICE_PAGES.map((service, index) => (
               <ServiceCard
-                key={service.slug}
+                key={service.id}
                 service={service}
                 priority={index < 2}
                 onFocus={revealFocusedCard}
@@ -204,15 +206,9 @@ export default function Services() {
 
 function ServiceCard({ service, priority, onFocus }) {
   const labelText = service.label.replace('\n', ' ')
-
-  return (
-    <Link
-      href={`/services/${service.slug}`}
-      aria-label={`${labelText} — Learn more`}
-      onFocus={onFocus}
-      className="group flex h-[min(72svh,620px)] min-h-[480px] w-[calc(100vw-32px)] shrink-0 snap-start flex-col overflow-hidden border-2 transition-shadow duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-gold/50 md:h-[min(70svh,700px)] md:w-[calc((100vw-72px)/2)] lg:w-[calc((100vw-88px)/2)]"
-      style={{ background: '#fff', borderColor: '#111' }}
-    >
+  const cardClassName = 'group flex h-[min(72svh,620px)] min-h-[480px] w-[calc(100vw-32px)] shrink-0 snap-start flex-col overflow-hidden border-2 transition-shadow duration-300 md:h-[min(70svh,700px)] md:w-[calc((100vw-72px)/2)] lg:w-[calc((100vw-88px)/2)]'
+  const cardContent = (
+    <>
       <div className="flex min-h-[170px] flex-col items-start justify-between gap-6 bg-white px-6 py-7 sm:min-h-[162px] sm:flex-row sm:items-center sm:px-8 lg:px-10">
         <h3
           className="font-body font-bold leading-[0.92] tracking-[-0.045em] text-[#111]"
@@ -220,14 +216,16 @@ function ServiceCard({ service, priority, onFocus }) {
         >
           {service.label}
         </h3>
-        <span
-          className="inline-flex shrink-0 items-center gap-2 border-2 border-[#111] px-4 py-3 text-[10px] font-bold uppercase tracking-[0.14em] text-[#111] transition-colors duration-300 group-hover:bg-[#111] group-hover:text-white"
-        >
-          Learn More
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
-        </span>
+        {SERVICE_DETAIL_PAGES_ENABLED ? (
+          <span
+            className="inline-flex shrink-0 items-center gap-2 border-2 border-[#111] px-4 py-3 text-[10px] font-bold uppercase tracking-[0.14em] text-[#111] transition-colors duration-300 group-hover:bg-[#111] group-hover:text-white"
+          >
+            Learn More
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </span>
+        ) : null}
       </div>
 
       <div className="relative min-h-0 flex-1 overflow-hidden">
@@ -240,6 +238,30 @@ function ServiceCard({ service, priority, onFocus }) {
           className="object-cover transition-transform duration-700 ease-smooth group-hover:scale-[1.025]"
         />
       </div>
+    </>
+  )
+
+  if (!SERVICE_DETAIL_PAGES_ENABLED) {
+    return (
+      <article
+        aria-label={labelText}
+        className={cardClassName}
+        style={{ background: '#fff', borderColor: '#111' }}
+      >
+        {cardContent}
+      </article>
+    )
+  }
+
+  return (
+    <Link
+      href={service.href}
+      aria-label={`${labelText} — Learn more`}
+      onFocus={onFocus}
+      className={`${cardClassName} focus:outline-none focus-visible:ring-4 focus-visible:ring-gold/50`}
+      style={{ background: '#fff', borderColor: '#111' }}
+    >
+      {cardContent}
     </Link>
   )
 }

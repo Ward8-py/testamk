@@ -96,8 +96,8 @@ export default function WhyUs() {
             {/* Right — image */}
             <div className="reveal-right relative">
               <Image
-                src="/gallery/new3.png"
-                alt="AMK London — Professional craftsmen at work"
+                src="/gallery/why-us-rear-extension.png"
+                alt="Completed London rear extension with glazed doors"
                 width={800}
                 height={1067}
                 className="w-full object-cover"

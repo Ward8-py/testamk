@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import AMKLogo from './AMKLogo'
 import { BtnGold } from './ui'
 import { Icon } from './icons'
+import { SERVICE_DETAIL_PAGES_ENABLED } from '@/lib/site-flags'
 
 const SERVICE_LINKS = [
   { href: '/services/development-renovation', label: 'Development & Renovation', desc: 'Extensions, loft conversions & refurbishments' },
@@ -100,7 +101,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-[70px] px-5 sm:px-8 lg:px-14 max-w-site mx-auto">
 
           {/* Brand */}
-          <Link href="/" className="flex items-center gap-3 focus:outline-none" aria-label="AMK London - Home"
+          <Link href="/" className="flex items-center gap-4 focus:outline-none" aria-label="AMK London - Home"
                 style={{ color: inkStrong }}>
             <AMKLogo size={40} />
             <div className="leading-tight hidden sm:block">
@@ -121,8 +122,9 @@ export default function Navbar() {
               </Link>
             </li>
 
-            {/* Services dropdown */}
-            <li className="relative" ref={dropRef}>
+            {/* Keep the detail dropdown ready for when service pages are restored. */}
+            {SERVICE_DETAIL_PAGES_ENABLED ? (
+              <li className="relative" ref={dropRef}>
               <button
                 type="button"
                 onClick={() => setSvcOpen(v => !v)}
@@ -182,7 +184,19 @@ export default function Navbar() {
                   </Link>
                 </div>
               </div>
-            </li>
+              </li>
+            ) : (
+              <li>
+                <button
+                  type="button"
+                  onClick={() => scrollTo('#services')}
+                  className="font-body text-[10.5px] font-medium tracking-[0.18em] uppercase gold-link transition-colors focus:outline-none"
+                  style={{ color: linkIdle }}
+                >
+                  Services
+                </button>
+              </li>
+            )}
 
             <li>
               <Link
@@ -242,8 +256,9 @@ export default function Navbar() {
             <Link href="/" className="block px-6 py-4 text-[11px] font-medium tracking-[0.22em] uppercase" style={{ color: 'var(--color-text)' }}>Home</Link>
           </li>
 
-          {/* Services accordion */}
-          <li className="border-b" style={{ borderColor: 'var(--color-line)' }}>
+          {/* Keep the service accordion ready for when detail pages are restored. */}
+          {SERVICE_DETAIL_PAGES_ENABLED ? (
+            <li className="border-b" style={{ borderColor: 'var(--color-line)' }}>
             <button
               type="button"
               onClick={() => setMobSvcOpen(v => !v)}
@@ -268,7 +283,19 @@ export default function Navbar() {
                 ))}
               </div>
             )}
-          </li>
+            </li>
+          ) : (
+            <li className="border-b" style={{ borderColor: 'var(--color-line)' }}>
+              <button
+                type="button"
+                onClick={() => scrollTo('#services')}
+                className="block w-full px-6 py-4 text-left text-[11px] font-medium uppercase tracking-[0.22em] focus:outline-none"
+                style={{ color: 'var(--color-text)' }}
+              >
+                Services
+              </button>
+            </li>
+          )}
 
           <li className="border-b" style={{ borderColor: 'var(--color-line)' }}>
             <Link href="/portfolio" className="block px-6 py-4 text-[11px] font-medium tracking-[0.22em] uppercase" style={{ color: 'var(--color-text)' }}>

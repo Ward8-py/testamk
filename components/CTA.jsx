@@ -16,7 +16,7 @@ export default function CTA() {
         style={{
           background: `
             linear-gradient(rgba(8, 8, 9, 0.72), rgba(8, 8, 9, 0.72)),
-            url('/gallery/cta.png') center/cover no-repeat
+            url('/gallery/cta-blueprint.png') center/cover no-repeat
           `,
         }}
       />

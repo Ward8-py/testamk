@@ -31,8 +31,8 @@ export default function About() {
             <div className="absolute -top-4 -left-4 right-4 -bottom-4 border border-gold/20 pointer-events-none z-0" />
             <div className="absolute inset-0 z-10 overflow-hidden">
               <Image
-                src="/gallery/new (2).png"
-                alt="AMK London — Expert construction craftsmen at work"
+                src="/gallery/about-london-home.png"
+                alt="Traditional London townhouse exterior"
                 fill
                 className="object-cover"
                 loading="lazy"
