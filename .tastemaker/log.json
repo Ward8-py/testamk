@@ -1,0 +1,15 @@
+[
+  {
+    "date": "2026-09-04",
+    "project": "AMK quote-first redesign",
+    "mode": "Persuade",
+    "macrostructure": "Gallery Grid",
+    "nav": "N2 compact product bar",
+    "hero": "H3 photographic/video fold",
+    "footer": "Ft1 reduced masthead",
+    "arc": ["H3", "P4", "F7", "Gallery Grid", "F4", "P3", "C2", "C4"],
+    "mood": "premium",
+    "dials": { "variance": 6, "motion": 3, "density": 3, "assets": 9, "fidelity": 9 }
+  }
+]
+

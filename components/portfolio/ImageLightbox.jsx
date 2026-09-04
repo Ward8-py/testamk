@@ -62,14 +62,14 @@ export default function ImageLightbox({ images, isOpen, initialIndex = 0, onClos
       className="fixed inset-0 z-[9999] bg-[var(--color-ink)]/95 backdrop-blur-sm"
       onClick={onClose}
     >
-      <div className="absolute left-4 top-4 z-20 border border-white/10 bg-black/35 px-4 py-2 text-sm font-medium text-white/90">
+      <div className="absolute left-4 top-4 z-20 rounded-full border border-white/10 bg-black/35 px-4 py-2 text-sm font-medium text-white/90">
         {currentIndex + 1} / {images.length}
       </div>
 
       <button
         type="button"
         onClick={onClose}
-        className="absolute right-4 top-4 z-20 flex h-11 w-11 items-center justify-center border border-white/10 bg-black/35 text-white/80 transition hover:bg-white hover:text-[var(--color-ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50"
+        className="absolute right-4 top-4 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-black/35 text-white/80 transition hover:bg-white hover:text-[var(--color-ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50"
         aria-label="Close gallery"
       >
         <span className="text-2xl leading-none" aria-hidden="true">&times;</span>
@@ -83,7 +83,7 @@ export default function ImageLightbox({ images, isOpen, initialIndex = 0, onClos
               event.stopPropagation()
               goToPrevious()
             }}
-            className="absolute left-4 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center border border-white/10 bg-black/35 text-white/80 transition hover:bg-white hover:text-[var(--color-ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50"
+            className="absolute left-4 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-black/35 text-white/80 transition hover:bg-white hover:text-[var(--color-ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50"
             aria-label="Previous image"
           >
             <Icon name="arrow-left" size={18} />
@@ -94,7 +94,7 @@ export default function ImageLightbox({ images, isOpen, initialIndex = 0, onClos
               event.stopPropagation()
               goToNext()
             }}
-            className="absolute right-4 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center border border-white/10 bg-black/35 text-white/80 transition hover:bg-white hover:text-[var(--color-ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50"
+            className="absolute right-4 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-black/35 text-white/80 transition hover:bg-white hover:text-[var(--color-ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50"
             aria-label="Next image"
           >
             <Icon name="arrow-right" size={18} />
@@ -135,7 +135,7 @@ export default function ImageLightbox({ images, isOpen, initialIndex = 0, onClos
                   setIsLoading(true)
                   setCurrentIndex(index)
                 }}
-                className={`relative h-16 w-20 flex-shrink-0 overflow-hidden transition ${
+                className={`relative h-16 w-20 flex-shrink-0 overflow-hidden rounded-xl transition ${
                   index === currentIndex ? 'opacity-100 ring-2 ring-gold' : 'opacity-55 hover:opacity-85'
                 }`}
                 aria-label={`View gallery image ${index + 1}`}

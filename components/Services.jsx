@@ -1,267 +1,131 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
+import { SERVICES } from '@/lib/services'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
-import { SERVICE_DETAIL_PAGES_ENABLED } from '@/lib/site-flags'
-import { Container, Divider } from './ui'
-
-const SERVICE_PAGES = [
-  { id: 'development-renovation', href: '/services/development-renovation', label: 'Development &\nRenovation', img: '/gallery/service-cards/development-renovation.png' },
-  { id: 'kitchens', href: '/services/kitchens-bathrooms', label: 'Kitchens', img: '/gallery/service-cards/kitchen.png' },
-  { id: 'bathrooms', href: '/services/kitchens-bathrooms', label: 'Bathrooms', img: '/gallery/service-cards/bathroom.png' },
-  { id: 'bedrooms', href: '/services/bedrooms', label: 'Bedrooms', img: '/gallery/service-cards/bedroom.png' },
-  { id: 'marble-granite', href: '/services/marble-granite', label: 'Marble &\nGranite', img: '/gallery/dr17.jpeg' },
-  { id: 'flooring', href: '/services/flooring', label: 'Flooring', img: '/gallery/service-cards/flooring.png' },
-  { id: 'furnishing', href: '/services/furnishing', label: 'Furnishing', img: '/gallery/service-cards/furnishing.png' },
-]
-
-const clamp = (value, min, max) => Math.min(max, Math.max(min, value))
+import { Container } from './ui'
+import { Icon } from './icons'
+import { useQuote } from './QuoteProvider'
 
 export default function Services() {
-  const sectionRef = useScrollReveal()
-  const runwayRef = useRef(null)
-  const viewportRef = useRef(null)
-  const trackRef = useRef(null)
+  const revealRef = useScrollReveal()
+  const railRef = useRef(null)
   const animationFrameRef = useRef(0)
-  const paintFallbackRef = useRef(0)
-  const scrollStateRef = useRef({ distance: 0, reducedMotion: false })
-  const [reducedMotion, setReducedMotion] = useState(false)
+  const [position, setPosition] = useState(0)
+  const { openQuote } = useQuote()
 
-  const revealFocusedCard = (event) => {
-    const card = event.currentTarget
-    const runway = runwayRef.current
-    const viewport = viewportRef.current
-    const track = trackRef.current
-    if (!card || !runway || !viewport || !track) return
+  const updatePosition = useCallback(() => {
+    animationFrameRef.current = 0
+    const rail = railRef.current
+    if (!rail) return
+    const cards = Array.from(rail.querySelectorAll('[data-service-card]'))
+    if (!cards.length) return
 
-    if (scrollStateRef.current.reducedMotion) {
-      card.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'center' })
-      return
-    }
-
-    const cardRect = card.getBoundingClientRect()
-    const viewportRect = viewport.getBoundingClientRect()
-    const fullyVisible = cardRect.left >= viewportRect.left && cardRect.right <= viewportRect.right
-    if (fullyVisible) return
-
-    const maxTravel = scrollStateRef.current.distance
-    if (maxTravel <= 0) return
-
-    const targetTravel = clamp(card.offsetLeft - track.offsetLeft, 0, maxTravel)
-    const verticalTravel = Math.max(1, runway.offsetHeight - window.innerHeight)
-    const targetTop = runway.offsetTop + (targetTravel / maxTravel) * verticalTravel
-    window.scrollTo({ top: targetTop, behavior: 'smooth' })
-  }
-
-  useEffect(() => {
-    const runway = runwayRef.current
-    const viewport = viewportRef.current
-    const track = trackRef.current
-    if (!runway || !viewport || !track) return undefined
-
-    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-
-    const paint = () => {
-      animationFrameRef.current = 0
-      if (paintFallbackRef.current) {
-        window.clearTimeout(paintFallbackRef.current)
-        paintFallbackRef.current = 0
-      }
-      if (scrollStateRef.current.reducedMotion) {
-        track.style.transform = 'none'
-        return
-      }
-
-      const scrollableHeight = Math.max(1, runway.offsetHeight - window.innerHeight)
-      const progress = clamp(-runway.getBoundingClientRect().top / scrollableHeight, 0, 1)
-      const translateX = progress * scrollStateRef.current.distance
-      track.style.transform = `translate3d(${-translateX}px, 0, 0)`
-    }
-
-    const schedulePaint = () => {
-      if (!animationFrameRef.current && !paintFallbackRef.current) {
-        animationFrameRef.current = window.requestAnimationFrame(paint)
-        paintFallbackRef.current = window.setTimeout(() => {
-          if (animationFrameRef.current) window.cancelAnimationFrame(animationFrameRef.current)
-          animationFrameRef.current = 0
-          paintFallbackRef.current = 0
-          paint()
-        }, 50)
-      }
-    }
-
-    const measure = () => {
-      const distance = Math.max(0, track.scrollWidth - viewport.clientWidth)
-      scrollStateRef.current.distance = distance
-      runway.style.height = scrollStateRef.current.reducedMotion
-        ? 'auto'
-        : `${window.innerHeight + distance}px`
-      schedulePaint()
-    }
-
-    const applyMotionPreference = () => {
-      const isReduced = motionQuery.matches
-      scrollStateRef.current.reducedMotion = isReduced
-      setReducedMotion(isReduced)
-      measure()
-    }
-
-    const resizeObserver = new ResizeObserver(measure)
-    resizeObserver.observe(viewport)
-    resizeObserver.observe(track)
-    motionQuery.addEventListener('change', applyMotionPreference)
-    window.addEventListener('resize', measure)
-    window.addEventListener('scroll', schedulePaint, { passive: true })
-
-    applyMotionPreference()
-
-    return () => {
-      resizeObserver.disconnect()
-      motionQuery.removeEventListener('change', applyMotionPreference)
-      window.removeEventListener('resize', measure)
-      window.removeEventListener('scroll', schedulePaint)
-      if (animationFrameRef.current) window.cancelAnimationFrame(animationFrameRef.current)
-      if (paintFallbackRef.current) window.clearTimeout(paintFallbackRef.current)
-      animationFrameRef.current = 0
-      paintFallbackRef.current = 0
-    }
+    const closest = cards.reduce((best, card, index) => {
+      const distance = Math.abs(card.offsetLeft - rail.scrollLeft)
+      return distance < best.distance ? { index, distance } : best
+    }, { index: 0, distance: Number.POSITIVE_INFINITY })
+    setPosition(closest.index)
   }, [])
 
-  return (
-    <section
-      id="services"
-      ref={sectionRef}
-      className="relative py-[clamp(80px,10vw,140px)]"
-      style={{ background: 'var(--color-panel)' }}
-    >
-      <Container>
-        <div className="mb-12 text-center sm:mb-16 lg:mb-20">
-          <h2
-            className="reveal font-display font-light leading-[1.02]"
-            style={{ fontSize: 'clamp(36px,5vw,70px)', color: 'var(--color-ink)', transitionDelay: '80ms' }}
-          >
-            Everything You Need,<br />
-            <em className="italic" style={{ color: 'var(--color-ink-soft)' }}>Under One Roof</em>
-          </h2>
-          <p
-            className="reveal mx-auto mt-5 max-w-lg leading-[1.9]"
-            style={{ fontSize: 'clamp(13px,1.1vw,15px)', color: 'var(--color-muted)', transitionDelay: '160ms' }}
-          >
-            From just one call, we coordinate your entire project — concept to completion,
-            planning permission to final installation, with zero hidden costs.
-          </p>
-          <Divider centered className="reveal mt-8" style={{ transitionDelay: '200ms' }} />
-        </div>
-      </Container>
+  const handleScroll = () => {
+    if (animationFrameRef.current) return
+    animationFrameRef.current = window.requestAnimationFrame(updatePosition)
+  }
 
-      <div ref={runwayRef} className="relative">
-        <div
-          ref={viewportRef}
-          className={reducedMotion
-            ? 'relative w-full overflow-x-auto overscroll-x-contain py-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'
-            : 'sticky top-0 flex h-svh w-full items-center overflow-hidden'
-          }
-        >
-          <div
-            ref={trackRef}
-            className={`flex w-max gap-4 px-4 md:gap-6 md:px-6 lg:px-8 ${reducedMotion ? 'snap-x snap-mandatory' : 'will-change-transform'}`}
-          >
-            {SERVICE_PAGES.map((service, index) => (
-              <ServiceCard
-                key={service.id}
-                service={service}
-                priority={index < 2}
-                onFocus={revealFocusedCard}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <Container>
-        <div
-          className="reveal mt-12 grid grid-cols-2 gap-px sm:mt-16 sm:grid-cols-4"
-          style={{ background: 'var(--color-line-soft)', border: '1px solid var(--color-line)', transitionDelay: '200ms' }}
-        >
-          {[
-            { n: '15+', l: 'Years Experience' },
-            { n: '400+', l: 'Projects Completed' },
-            { n: '12mo', l: 'Workmanship Guarantee' },
-            { n: '£0', l: 'Hidden Costs' },
-          ].map(({ n, l }) => (
-            <div key={l} className="px-4 py-8 text-center" style={{ background: 'var(--color-panel)' }}>
-              <div className="mb-1.5 font-display font-light leading-none" style={{ fontSize: 'clamp(28px,3vw,42px)', color: 'var(--color-ink)' }}>
-                {n}
-              </div>
-              <div className="text-[10px] font-medium uppercase tracking-[0.2em]" style={{ color: 'var(--color-muted)' }}>{l}</div>
-            </div>
-          ))}
-        </div>
-      </Container>
-    </section>
-  )
-}
-
-function ServiceCard({ service, priority, onFocus }) {
-  const labelText = service.label.replace('\n', ' ')
-  const cardClassName = 'group flex h-[min(72svh,620px)] min-h-[480px] w-[calc(100vw-32px)] shrink-0 snap-start flex-col overflow-hidden border-2 transition-shadow duration-300 md:h-[min(70svh,700px)] md:w-[calc((100vw-72px)/2)] lg:w-[calc((100vw-88px)/2)]'
-  const cardContent = (
-    <>
-      <div className="flex min-h-[170px] flex-col items-start justify-between gap-6 bg-white px-6 py-7 sm:min-h-[162px] sm:flex-row sm:items-center sm:px-8 lg:px-10">
-        <h3
-          className="font-body font-bold leading-[0.92] tracking-[-0.045em] text-[#111]"
-          style={{ fontSize: 'clamp(34px,3.7vw,56px)', fontWeight: 700, whiteSpace: 'pre-line' }}
-        >
-          {service.label}
-        </h3>
-        {SERVICE_DETAIL_PAGES_ENABLED ? (
-          <span
-            className="inline-flex shrink-0 items-center gap-2 border-2 border-[#111] px-4 py-3 text-[10px] font-bold uppercase tracking-[0.14em] text-[#111] transition-colors duration-300 group-hover:bg-[#111] group-hover:text-white"
-          >
-            Learn More
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </span>
-        ) : null}
-      </div>
-
-      <div className="relative min-h-0 flex-1 overflow-hidden">
-        <Image
-          src={service.img}
-          alt=""
-          fill
-          priority={priority}
-          sizes="(max-width: 767px) calc(100vw - 32px), 50vw"
-          className="object-cover transition-transform duration-700 ease-smooth group-hover:scale-[1.025]"
-        />
-      </div>
-    </>
-  )
-
-  if (!SERVICE_DETAIL_PAGES_ENABLED) {
-    return (
-      <article
-        aria-label={labelText}
-        className={cardClassName}
-        style={{ background: '#fff', borderColor: '#111' }}
-      >
-        {cardContent}
-      </article>
-    )
+  const moveTo = (nextPosition) => {
+    const rail = railRef.current
+    const cards = rail ? Array.from(rail.querySelectorAll('[data-service-card]')) : []
+    if (!rail || !cards.length) return
+    const clamped = Math.min(SERVICES.length - 1, Math.max(0, nextPosition))
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    rail.scrollTo({ left: cards[clamped].offsetLeft, behavior: reduce ? 'auto' : 'smooth' })
+    setPosition(clamped)
   }
 
   return (
-    <Link
-      href={service.href}
-      aria-label={`${labelText} — Learn more`}
-      onFocus={onFocus}
-      className={`${cardClassName} focus:outline-none focus-visible:ring-4 focus-visible:ring-gold/50`}
-      style={{ background: '#fff', borderColor: '#111' }}
-    >
-      {cardContent}
-    </Link>
+    <section id="services" ref={revealRef} className="section-space overflow-hidden bg-[var(--color-page)]">
+      <Container>
+        <div className="mb-10 grid gap-6 md:grid-cols-[minmax(0,1fr)_minmax(280px,420px)] md:items-end md:gap-12">
+          <h2 className="reveal section-title max-w-3xl">
+            One team for the whole home.
+          </h2>
+          <p className="reveal max-w-md text-base leading-7 text-[var(--color-text)]">
+            Choose where your project starts. We’ll ask for the details in one short quote request.
+          </p>
+        </div>
+
+        <div className="reveal flex items-end justify-between gap-5 border-t border-black/15 pt-5">
+          <p className="text-sm font-semibold text-[var(--color-ink)]" aria-live="polite">
+            <span className="tabular-nums">{String(position + 1).padStart(2, '0')}</span>
+            <span className="mx-2 text-[var(--color-subtle)]">/</span>
+            <span className="tabular-nums text-[var(--color-muted)]">{String(SERVICES.length).padStart(2, '0')}</span>
+          </p>
+          <div className="hidden gap-2 md:flex">
+            <button
+              type="button"
+              onClick={() => moveTo(position - 1)}
+              disabled={position === 0}
+              className="rail-control"
+              aria-label="Previous service"
+            >
+              <Icon name="arrow-left" size={18} />
+            </button>
+            <button
+              type="button"
+              onClick={() => moveTo(position + 1)}
+              disabled={position === SERVICES.length - 1}
+              className="rail-control"
+              aria-label="Next service"
+            >
+              <Icon name="arrow-right" size={18} />
+            </button>
+          </div>
+          <span className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-muted)] md:hidden">
+            Swipe to explore
+          </span>
+        </div>
+      </Container>
+
+      <div className="mx-auto mt-6 w-full max-w-[1440px]">
+        <div
+          ref={railRef}
+          onScroll={handleScroll}
+          className="service-rail flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 sm:px-8 lg:gap-6 lg:px-[max(56px,calc((100vw-1320px)/2+56px))]"
+          aria-label="Services"
+        >
+          {SERVICES.map((service, index) => (
+            <button
+              key={service.id}
+              type="button"
+              data-service-card
+              onClick={() => openQuote({ service: service.label, source: 'service-card' })}
+              className="service-card group snap-start border-2 border-black bg-white text-left focus-visible:ring-4 focus-visible:ring-black/25"
+              aria-label={`Request a quote for ${service.label}`}
+            >
+              <span className="flex min-h-[116px] items-end justify-between gap-4 border-b-2 border-black bg-white p-5 sm:min-h-[132px] sm:p-7">
+                <span className="max-w-[85%] font-body text-[clamp(30px,3.3vw,52px)] font-bold leading-[0.92] tracking-[-0.045em] text-black">
+                  {service.label}
+                </span>
+                <span className="mb-1 flex h-11 w-11 shrink-0 items-center justify-center border-2 border-black text-black transition-[background-color,color] duration-150 group-hover:bg-black group-hover:text-white" aria-hidden="true">
+                  <Icon name="arrow-right" size={18} />
+                </span>
+              </span>
+              <span className="relative block aspect-[4/5] overflow-hidden bg-[var(--color-panel)] sm:aspect-[5/6]">
+                <Image
+                  src={service.image}
+                  alt={`${service.label} by AMK London`}
+                  fill
+                  priority={index < 2}
+                  sizes="(max-width: 767px) 84vw, (max-width: 1199px) 48vw, 31vw"
+                  className="object-cover"
+                />
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
   )
 }

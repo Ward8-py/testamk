@@ -3,8 +3,9 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import FloatButtons from '@/components/FloatButtons'
 import PortfolioGrid from '@/components/portfolio/PortfolioGrid'
+import QuoteTrigger from '@/components/QuoteTrigger'
 import { PROJECTS } from '@/lib/projects'
-import { Container, Divider, BtnGold } from '@/components/ui'
+import { Container } from '@/components/ui'
 import { Icon } from '@/components/icons'
 
 export const metadata = {
@@ -29,26 +30,20 @@ export default function PortfolioPage() {
           <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(8,8,9,0.86) 0%, rgba(8,8,9,0.48) 60%, rgba(8,8,9,0.20) 100%)' }} />
 
           <Container className="relative z-10 pb-12 pt-28 sm:pb-14 sm:pt-36">
-            <nav className="mb-8 flex items-center gap-2" aria-label="Breadcrumb">
+            <nav className="mb-6 flex items-center gap-2" aria-label="Breadcrumb">
               <Link href="/" className="text-[10px] uppercase tracking-[0.2em] text-white/70 transition-colors hover:text-white">
                 Home
               </Link>
               <span className="text-white/35">/</span>
-              <span className="text-[10px] uppercase tracking-[0.2em]" style={{ color: 'var(--color-accent)' }}>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-white">
                 Portfolio
               </span>
             </nav>
-            <h1
-              className="font-display font-light leading-[0.98]"
-              style={{ color: '#fff', fontSize: 'clamp(44px,7vw,96px)' }}
-            >
-              Project Galleries<br />
-              <em className="italic">with Real Detail</em>
+            <h1 className="font-display text-[clamp(52px,8vw,108px)] font-semibold leading-[0.95] tracking-[-0.035em] text-white">
+              Projects, shown honestly.
             </h1>
-            <Divider className="my-7" />
-            <p className="max-w-2xl leading-[1.85]" style={{ color: 'rgba(255,255,255,0.82)', fontSize: 'clamp(14px,1.15vw,17px)' }}>
-              Explore completed AMK projects by category, then open each gallery to see the workmanship,
-              finishes, and practical decisions behind the finished space.
+            <p className="mt-6 max-w-2xl text-base leading-7 text-white/82 sm:text-lg sm:leading-8">
+              Before, in progress and after photography from two AMK renovations.
             </p>
           </Container>
         </section>
@@ -61,22 +56,20 @@ export default function PortfolioPage() {
 
         <section className="relative overflow-hidden py-24" style={{ background: 'var(--color-panel)' }}>
           <Container className="relative z-10 text-center">
-            <h2 className="font-display font-light leading-[1.08]" style={{ color: 'var(--color-ink)', fontSize: 'clamp(32px,4vw,58px)' }}>
-              Let us look at your property<br />
-              <em className="italic">and advise the next step.</em>
+            <h2 className="font-display text-[clamp(38px,5vw,68px)] font-semibold leading-none tracking-[-0.03em] text-[var(--color-ink)]">
+              Have a project in mind?
             </h2>
-            <p className="mx-auto mt-5 max-w-xl leading-[1.85]" style={{ color: 'var(--color-muted)', fontSize: '15px' }}>
-              A senior consultant can review your ideas, explain what is feasible, and provide a clear quote.
+            <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-[var(--color-text)]">
+              Share the essentials and we’ll arrange the next practical step.
             </p>
             <div className="mt-9 flex flex-wrap justify-center gap-4">
-              <BtnGold href="/#contact">
-                Request a Free Quote
+              <QuoteTrigger source="portfolio-page" className="amk-button amk-button-dark">
+                Get a Free Quote
                 <Icon name="arrow-right" size={13} />
-              </BtnGold>
+              </QuoteTrigger>
               <Link
                 href="/"
-                className="inline-flex items-center justify-center gap-2.5 border px-9 py-[17px] text-[10.5px] font-medium uppercase tracking-[0.2em] transition-all duration-300 hover:-translate-y-0.5 hover:border-gold/30"
-                style={{ color: 'var(--color-text)', borderColor: 'var(--color-line-strong)' }}
+                className="amk-button amk-button-light"
               >
                 Back Home
               </Link>

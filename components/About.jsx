@@ -1,118 +1,57 @@
 'use client'
+
 import Image from 'next/image'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
-import { Container, Divider } from './ui'
-import { Icon } from './icons'
+import { Container } from './ui'
 
-const PILLARS = [
-  { icon: 'scissors', title: 'Cut the Middleman', text: 'We deal directly with you -- no agents, no mark-ups, no third parties.' },
-  { icon: 'trophy', title: 'Premium Workmanship', text: 'A perfect finish every time, delivered by our trained expert team.' },
-  { icon: 'smile', title: 'Customer Satisfaction', text: 'Hundreds of satisfied clients and recommended by major suppliers.' },
-  { icon: 'lock', title: '12-Month Guarantee', text: 'All our workmanship is guaranteed for 12 full months.' },
+const BENEFITS = [
+  {
+    title: 'Clear from day one',
+    text: 'A practical site visit, defined scope and straightforward quote before work begins.',
+  },
+  {
+    title: 'One accountable team',
+    text: 'AMK coordinates the trades, schedule and decisions so you are not managing separate contractors.',
+  },
+  {
+    title: 'Finished with care',
+    text: 'Detail-led workmanship, a clean handover and support backed by the workmanship guarantee.',
+  },
 ]
 
 export default function About() {
-  const sectionRef = useScrollReveal()
+  const ref = useScrollReveal()
 
   return (
-    <section
-      id="about"
-      ref={sectionRef}
-      className="relative py-[clamp(80px,10vw,140px)] bg-black overflow-hidden"
-    >
-      {/* Top border */}
-      <div className="absolute top-0 left-0 right-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, var(--color-line-strong), transparent)' }} />
-
+    <section id="about" ref={ref} className="section-space bg-[var(--color-panel)]">
       <Container>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 xl:gap-24 items-center">
-
-          {/* ── Left: Image ── */}
-          <div className="reveal-left relative w-full pt-[125%]">
-            <div className="absolute -top-4 -left-4 right-4 -bottom-4 border border-gold/20 pointer-events-none z-0" />
-            <div className="absolute inset-0 z-10 overflow-hidden">
-              <Image
-                src="/gallery/about-london-home.png"
-                alt="Traditional London townhouse exterior"
-                fill
-                className="object-cover"
-                loading="lazy"
-              />
-            </div>
-            {/* Floating badge */}
-            <div
-              className="absolute bottom-10 -right-6 sm:-right-8 z-20 text-center px-6 py-5 border border-cream/[0.12]"
-              style={{ background: 'var(--color-surface)' }}
-            >
-              <div className="font-display text-[44px] font-light leading-none" style={{ color: 'var(--color-accent)' }}>15</div>
-              <div className="text-[9px] tracking-[0.18em] uppercase mt-1 leading-tight" style={{ color: 'var(--color-muted)' }}>
-                Years of<br />Excellence
-              </div>
-            </div>
+        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,.9fr)] lg:gap-16">
+          <div className="reveal relative aspect-[4/5] overflow-hidden border border-black/15 sm:aspect-[5/4] lg:aspect-[4/5]">
+            <Image
+              src="/gallery/why-us-rear-extension.png"
+              alt="Completed London rear extension with wide glazed doors"
+              fill
+              sizes="(max-width: 1023px) 100vw, 56vw"
+              className="object-cover"
+            />
           </div>
 
-          {/* ── Right: Content ── */}
-          <div className="reveal-right">
-            <h2
-              className="font-display font-light leading-[1.08] mb-1"
-              style={{ fontSize: 'clamp(28px, 3.5vw, 52px)', color: 'var(--color-ink)' }}
-            >
-              A Well-Established<br />
-              <em className="italic" style={{ color: 'var(--color-ink-soft)' }}>London Building Company</em>
-            </h2>
-            <Divider className="my-6" />
-
-            <p className="leading-[1.85] mb-4" style={{ fontSize: 'clamp(13px,1.1vw,15px)', color: 'var(--color-text)' }}>
-              AMK Building Construction Ltd are a well established building company covering the city of
-              London and its surrounding regions. We are professional, qualified and with years of experience —
-              providing premium workmanship and delivering a perfect finish every time.
-            </p>
-            <p className="leading-[1.85] mb-4" style={{ fontSize: 'clamp(13px,1.1vw,15px)', color: 'var(--color-text)' }}>
-              With hundreds of satisfied clients, we are also recommended by various suppliers based on
-              the feedback received from our clients. We guarantee all our workmanship for{' '}
-              <strong className="font-medium" style={{ color: 'var(--color-ink-soft)' }}>12 months</strong>, and are quick, clean
-              and professional.
-            </p>
-            <p className="leading-[1.85] mb-8" style={{ fontSize: 'clamp(13px,1.1vw,15px)', color: 'var(--color-text)' }}>
-              We endeavour to be cost effective and competitive in all tenders, and guarantee to offer a
-              fair price with no hidden extras — so our clients are always confident and happy.
+          <div>
+            <h2 className="reveal section-title">Built to make a complex project feel simple.</h2>
+            <p className="reveal mt-6 max-w-xl text-base leading-7 text-[var(--color-text)] sm:text-lg sm:leading-8">
+              AMK manages residential renovation and construction across London—from the first site visit to the final handover—through one experienced point of contact.
             </p>
 
-            {/* Four pillars */}
-            <div className="grid grid-cols-2 gap-3">
-              {PILLARS.map(({ icon, title, text }) => (
-                <div
-                  key={title}
-                  className="border p-4 transition-all duration-300 cursor-default group"
-                  style={{ background: 'var(--color-surface)', borderColor: 'var(--color-line)' }}
-                  onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--color-line-strong)'}
-                  onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--color-line)'}
-                >
-                  <div className="mb-3 text-gold"><Icon name={icon} size={22} /></div>
-                  <div className="text-[11px] font-semibold tracking-[0.1em] uppercase mb-1" style={{ color: 'var(--color-ink-soft)' }}>
-                    {title}
+            <div className="reveal mt-9 border-t-2 border-black">
+              {BENEFITS.map((benefit, index) => (
+                <div key={benefit.title} className="grid grid-cols-[42px_minmax(0,1fr)] gap-4 border-b border-black/15 py-5 sm:grid-cols-[54px_minmax(0,1fr)] sm:py-6">
+                  <span className="font-display text-2xl font-semibold text-[var(--color-ink)]">0{index + 1}</span>
+                  <div>
+                    <h3 className="text-base font-bold text-[var(--color-ink)]">{benefit.title}</h3>
+                    <p className="mt-1 text-base leading-7 text-[var(--color-text)]">{benefit.text}</p>
                   </div>
-                  <div className="text-[11.5px] leading-[1.6]" style={{ color: 'var(--color-muted)' }}>{text}</div>
                 </div>
               ))}
-            </div>
-
-            {/* Phone CTA */}
-            <div className="mt-8 flex items-center gap-4 pt-6 border-t" style={{ borderColor: 'var(--color-line)' }}>
-              <a
-                href="tel:08715661673"
-                className="inline-flex items-center gap-3 group"
-              >
-                <div className="w-10 h-10 flex items-center justify-center border border-cream/12 group-hover:border-gold/40 transition-colors" style={{ background: 'var(--color-surface)' }}>
-                  <Icon name="phone" size={16} className="text-gold" />
-                </div>
-                <div>
-                  <div className="text-[9px] tracking-[0.2em] uppercase mb-0.5" style={{ color: 'var(--color-accent)' }}>Call Us Now</div>
-                  <div className="text-[15px] font-medium tracking-tight" style={{ color: 'var(--color-ink)' }}>0871 566 1673</div>
-                </div>
-              </a>
-              <div className="ml-4 text-[12px] leading-[1.6]" style={{ color: 'var(--color-muted)' }}>
-                Speak directly, discuss a new project<br />or arrange a meeting instantly.
-              </div>
             </div>
           </div>
         </div>

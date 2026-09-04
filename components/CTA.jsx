@@ -1,83 +1,43 @@
 'use client'
+
 import { useScrollReveal } from '@/hooks/useScrollReveal'
-import { Section, Container, Divider, BtnGold, BtnGhost, ArrowRight } from './ui'
+import { Container } from './ui'
 import { Icon } from './icons'
+import { useQuote } from './QuoteProvider'
 
 export default function CTA() {
   const ref = useScrollReveal()
-
-  const scrollTo = (id) => document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' })
+  const { openQuote } = useQuote()
 
   return (
-    <Section id="cta" className="py-[clamp(80px,10vw,120px)] overflow-hidden relative bg-black">
-      {/* Background image */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background: `
-            linear-gradient(rgba(8, 8, 9, 0.72), rgba(8, 8, 9, 0.72)),
-            url('/gallery/cta-blueprint.png') center/cover no-repeat
-          `,
-        }}
-      />
-
-      {/* Grid overlay */}
-
-      <div ref={ref}>
-        <Container>
-          <div className="relative z-10 text-center max-w-[660px] mx-auto">
-            <h2
-              className="font-display font-light leading-[1.05] reveal"
-              style={{ color: '#fff', fontSize: 'clamp(34px,4.5vw,64px)', transitionDelay: '80ms' }}
+    <section id="quote" ref={ref} className="relative overflow-hidden bg-[#082749] text-white">
+      <div className="absolute inset-0 bg-[url('/gallery/cta-blueprint.png')] bg-cover bg-center" aria-hidden="true" />
+      <div className="absolute inset-0 bg-[#061a30]/70" aria-hidden="true" />
+      <Container className="relative z-10 flex min-h-[620px] items-center py-24 sm:min-h-[680px]">
+        <div className="reveal max-w-4xl">
+          <h2 className="font-display text-[clamp(52px,8vw,112px)] font-semibold leading-[0.95] tracking-[-0.035em] text-white">
+            Ready to make a start?
+          </h2>
+          <p className="mt-6 max-w-xl text-base leading-7 text-white/78 sm:text-lg sm:leading-8">
+            Tell us what you are planning. We’ll arrange the next practical step and give you a clear quote.
+          </p>
+          <div className="mt-9 flex flex-wrap gap-4">
+            <button type="button" onClick={() => openQuote({ source: 'final-cta' })} className="amk-button bg-white text-black hover:bg-white/90">
+              Get a Free Quote
+              <Icon name="arrow-right" size={15} />
+            </button>
+            <a
+              href="https://wa.me/447587842444"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="amk-button border border-white/55 bg-transparent text-white hover:bg-white hover:text-black"
             >
-              Start Your Project<br />
-              <em className="italic">Today</em>
-            </h2>
-
-            <Divider centered className="my-7 reveal" style={{ transitionDelay: '120ms' }} />
-
-            <p
-              className="leading-[1.85] reveal mb-12 text-white/75"
-              style={{ fontSize: 'clamp(13px,1.1vw,15px)', transitionDelay: '160ms' }}
-            >
-              Contact us for a free, no-obligation consultation. One of our senior consultants will
-              visit your property and advise on the best way to bring your vision to life.
-              All workmanship guaranteed for 12 months.
-            </p>
-
-            <div
-              className="flex flex-col sm:flex-row gap-4 justify-center reveal"
-              style={{ transitionDelay: '200ms' }}
-            >
-              <BtnGold onClick={() => scrollTo('#contact')}>
-                Request a Free Quote
-                <ArrowRight />
-              </BtnGold>
-              <BtnGhost href="tel:+447587842444" className="border-white/30 text-white hover:border-white/50 hover:text-white">
-                Call +44 7587 842444
-              </BtnGhost>
-            </div>
-
-            {/* Trust signals */}
-            <div
-              className="flex flex-wrap justify-center gap-8 mt-14 reveal"
-              style={{ transitionDelay: '280ms' }}
-            >
-              {[
-                { icon: 'lock', label: '12-Month Guarantee' },
-                { icon: 'money', label: 'No Hidden Costs' },
-                { icon: 'phone', label: 'Free Consultation' },
-                { icon: 'star', label: '400+ Happy Clients' },
-              ].map(({ icon, label }) => (
-                <div key={label} className="flex items-center gap-2.5 text-white/65">
-                  <Icon name={icon} size={16} className="text-gold" />
-                  <span className="text-[11px] font-medium tracking-[0.12em] uppercase">{label}</span>
-                </div>
-              ))}
-            </div>
+              <Icon name="whatsapp" size={18} />
+              WhatsApp
+            </a>
           </div>
-        </Container>
-      </div>
-    </Section>
+        </div>
+      </Container>
+    </section>
   )
 }
