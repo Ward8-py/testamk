@@ -43,7 +43,7 @@ export default function PortfolioPage() {
               Projects, shown honestly.
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-7 text-white/82 sm:text-lg sm:leading-8">
-              Before, in progress and after photography from two AMK renovations.
+              Completed work plus before and in-progress photography from three AMK renovations.
             </p>
           </Container>
         </section>

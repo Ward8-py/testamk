@@ -23,6 +23,7 @@
 
 - Display type: Cormorant Garamond.
 - Body type: Outfit.
-- True white canvas, graphite ink, quiet neutral panels, full-colour photography, sharp borders.
+- True white canvas, graphite ink, quiet neutral panels, full-colour photography, and sharp structural borders.
+- Controls use rounded pills for labelled actions and circles for icon-only actions; cards, forms, and image frames remain square.
 - Dark overlays are limited to legibility over media.
 - Motion is restrained and functional; reduced-motion users receive static equivalents.

@@ -4,7 +4,7 @@
 
 - Mood: premium, calm, assured London residential construction.
 - Macrostructure: Gallery Grid with a photographic/video fold.
-- Narrative: Hook (hero) -> Proof (stat strip) -> Solution (service rail) -> Evidence (Project X/Y) -> Delivery (three steps) -> Social proof -> Close.
+- Narrative: Hook (hero) -> Proof (stat strip) -> Solution (service rail) -> Evidence (Project X/Y/Z) -> Delivery (three steps) -> Social proof -> Close.
 - Intentional rule-break: the project cards use asymmetric editorial proportions rather than a uniform card grid.
 - Section separation: generous fixed vertical spacing with restrained hairline rules; no alternating decorative effects.
 
@@ -36,7 +36,8 @@
 - Cards and panels: sharp corners.
 - In-flow surfaces: hairline borders, no diffuse shadows.
 - Dialog and mobile sheet: one restrained overlay shadow.
-- Buttons: rectangular, 52px minimum height; mobile targets at least 44px.
+- Buttons: full-radius pills for labelled actions and circles for icon-only controls, 52px minimum height; mobile targets at least 44px.
+- Cards, form fields, image frames, and structural panels retain sharp corners.
 
 ## Motion
 

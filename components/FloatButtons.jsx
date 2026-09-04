@@ -20,7 +20,7 @@ export default function FloatButtons() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Contact AMK London on WhatsApp"
-        className="ml-2 flex h-12 w-12 items-center justify-center bg-[#187b48] text-white focus-visible:outline-offset-2"
+        className="ml-2 flex h-12 w-12 items-center justify-center rounded-full bg-[#187b48] text-white focus-visible:outline-offset-2"
       >
         <Icon name="whatsapp" size={23} />
       </a>

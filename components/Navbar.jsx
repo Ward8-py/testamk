@@ -114,7 +114,7 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => setMenuOpen((value) => !value)}
-            className="flex h-11 w-11 items-center justify-center lg:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-full lg:hidden"
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"

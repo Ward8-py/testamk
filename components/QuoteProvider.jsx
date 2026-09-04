@@ -180,7 +180,7 @@ export function QuoteProvider({ children }) {
               type="button"
               onClick={closeQuote}
               disabled={status === 'sending'}
-              className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center border border-black/15 bg-transparent text-[28px] leading-none text-[var(--color-ink)] transition-colors duration-150 hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+              className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full border border-black/15 bg-transparent text-[28px] leading-none text-[var(--color-ink)] transition-colors duration-150 hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
               aria-label="Close quote form"
             >
               <span aria-hidden="true">×</span>
@@ -188,7 +188,7 @@ export function QuoteProvider({ children }) {
 
             {status === 'success' ? (
               <div className="flex min-h-[420px] flex-col justify-center pr-8">
-                <div className="mb-6 flex h-12 w-12 items-center justify-center border border-black bg-black text-white">
+                <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-full border border-black bg-black text-white">
                   <Icon name="check" size={24} />
                 </div>
                 <h2 id="quote-title" className="font-display text-[clamp(42px,7vw,64px)] font-semibold leading-none text-[var(--color-ink)]">

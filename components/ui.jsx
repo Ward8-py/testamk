@@ -35,7 +35,7 @@ export function Container({ children, className = '' }) {
 /* Text on the accent uses --color-on-accent. The accent is now graphite, so
    --color-ink here would be black-on-black. */
 export function BtnPrimary({ children, onClick, href, type = 'button', className = '' }) {
-  const cls = `inline-flex items-center gap-2.5 text-[10.5px] font-semibold tracking-[0.2em] uppercase text-[var(--color-on-accent)] px-9 py-4 cursor-pointer border-none transition-colors duration-300 relative overflow-hidden group ${className}`
+  const cls = `inline-flex items-center gap-2.5 rounded-full text-[10.5px] font-semibold tracking-[0.2em] uppercase text-[var(--color-on-accent)] px-9 py-4 cursor-pointer border-none transition-colors duration-300 relative overflow-hidden group ${className}`
   const sty = { background: 'var(--color-accent)' }
   if (href) return <a href={href} className={cls} style={sty}>{children}<BtnShine /></a>
   return <button type={type} onClick={onClick} className={cls} style={sty}>{children}<BtnShine /></button>
@@ -46,7 +46,7 @@ function BtnShine() {
 }
 
 export function BtnGhost({ children, onClick, href, type = 'button', className = '' }) {
-  const cls = `inline-flex items-center gap-2.5 text-[10.5px] font-medium tracking-[0.2em] uppercase text-silver-light bg-transparent border border-cream/20 px-9 py-[15px] cursor-pointer transition-all duration-300 hover:text-[var(--color-ink)] hover:border-cream/40 hover:bg-cream/[0.04] hover:-translate-y-0.5 ${className}`
+  const cls = `inline-flex items-center gap-2.5 rounded-full text-[10.5px] font-medium tracking-[0.2em] uppercase text-silver-light bg-transparent border border-cream/20 px-9 py-[15px] cursor-pointer transition-all duration-300 hover:text-[var(--color-ink)] hover:border-cream/40 hover:bg-cream/[0.04] hover:-translate-y-0.5 ${className}`
   if (href) return <a href={href} className={cls}>{children}</a>
   return <button type={type} onClick={onClick} className={cls}>{children}</button>
 }
@@ -54,7 +54,7 @@ export function BtnGhost({ children, onClick, href, type = 'button', className =
 export function BtnGold({ children, onClick, href, type = 'button', disabled = false, className = '' }) {
   // Background lives in the class list, not inline style — an inline style
   // would outrank the hover: variant and the hover would silently do nothing.
-  const cls = `inline-flex items-center justify-center gap-2.5 text-[10.5px] font-semibold tracking-[0.2em] uppercase text-[var(--color-on-accent)] px-11 py-[18px] cursor-pointer border-none transition-colors duration-300 bg-[var(--color-accent)] hover:bg-[var(--color-accent-light)] ${className}`
+  const cls = `inline-flex items-center justify-center gap-2.5 rounded-full text-[10.5px] font-semibold tracking-[0.2em] uppercase text-[var(--color-on-accent)] px-11 py-[18px] cursor-pointer border-none transition-colors duration-300 bg-[var(--color-accent)] hover:bg-[var(--color-accent-light)] ${className}`
   if (href) return <a href={href} className={cls}>{children}</a>
   return <button type={type} disabled={disabled} onClick={onClick} className={cls}>{children}</button>
 }

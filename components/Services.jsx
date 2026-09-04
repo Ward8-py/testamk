@@ -108,7 +108,7 @@ export default function Services() {
                 <span className="max-w-[85%] font-body text-[clamp(30px,3.3vw,52px)] font-bold leading-[0.92] tracking-[-0.045em] text-black">
                   {service.label}
                 </span>
-                <span className="mb-1 flex h-11 w-11 shrink-0 items-center justify-center border-2 border-black text-black transition-[background-color,color] duration-150 group-hover:bg-black group-hover:text-white" aria-hidden="true">
+                <span className="mb-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-black text-black transition-[background-color,color] duration-150 group-hover:bg-black group-hover:text-white" aria-hidden="true">
                   <Icon name="arrow-right" size={18} />
                 </span>
               </span>

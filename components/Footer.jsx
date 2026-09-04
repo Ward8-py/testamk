@@ -63,7 +63,7 @@ function SocialLink({ href, label, icon }) {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="flex h-11 w-11 items-center justify-center border border-black/25 text-[var(--color-ink)] transition-[background-color,color] duration-150 hover:bg-black hover:text-white"
+      className="flex h-11 w-11 items-center justify-center rounded-full border border-black/25 text-[var(--color-ink)] transition-[background-color,color] duration-150 hover:bg-black hover:text-white"
     >
       <Icon name={icon} size={17} />
     </a>

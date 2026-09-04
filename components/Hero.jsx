@@ -304,7 +304,7 @@ export default function Hero() {
         <button
           type="button"
           onClick={togglePlayback}
-          className="absolute right-5 top-[88px] z-20 flex min-h-11 items-center gap-2 border border-white/35 bg-black/35 px-4 text-xs font-semibold uppercase tracking-[0.14em] text-white backdrop-blur-sm transition-colors duration-150 hover:bg-black/65 md:bottom-8 md:right-8 md:top-auto"
+          className="absolute right-5 top-[88px] z-20 flex min-h-11 items-center gap-2 rounded-full border border-white/35 bg-black/35 px-4 text-xs font-semibold uppercase tracking-[0.14em] text-white backdrop-blur-sm transition-colors duration-150 hover:bg-black/65 md:bottom-8 md:right-8 md:top-auto"
           aria-label={hasEnded ? 'Replay hero video' : isPlaying ? 'Pause hero video' : 'Play hero video'}
         >
           <PlaybackIcon state={hasEnded ? 'replay' : isPlaying ? 'pause' : 'play'} />
