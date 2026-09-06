@@ -13,8 +13,9 @@
 
 ## Core assets
 
-- Desktop hero: `public/video/hero-scroll.mp4` and `public/video/hero-scroll-poster.jpg`.
-- Mobile hero: `public/video/hero-scroll-portrait.mp4` and `public/video/hero-scroll-portrait-poster.jpg`.
+- Desktop hero: six-second `public/video/hero-autoplay.mp4` with `public/video/hero-scroll-poster.jpg`.
+- Mobile hero: six-second `public/video/hero-autoplay-portrait.mp4` with `public/video/hero-scroll-portrait-poster.jpg`.
+- Preserved source videos: `public/video/hero-scroll.mp4` and `public/video/hero-scroll-portrait.mp4`.
 - Service photography: `public/gallery/service-cards/` plus `public/gallery/dr17.jpeg`.
 - Project evidence: `public/gallery/project-x/`, `public/gallery/project-y/`, and `public/gallery/project-z/`.
 - Project card covers: `public/gallery/project-covers/`.

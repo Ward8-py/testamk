@@ -9,11 +9,8 @@ const DESKTOP_POSTER = '/video/hero-scroll-poster.jpg'
 const MOBILE_POSTER = '/video/hero-scroll-portrait-poster.jpg'
 const PLAYBACK_CAPTIONS = [
   { start: 0, text: 'From shell to signature.' },
-  { start: 0.18, text: 'Plan every detail.' },
-  { start: 0.36, text: 'Build with precision.' },
-  { start: 0.54, text: 'Bring every trade together.' },
-  { start: 0.72, text: 'Finish with care.' },
-  { start: 0.88, text: 'Ready for handover.' },
+  { start: 0.34, text: 'Built with precision.' },
+  { start: 0.68, text: 'Finished with care.' },
 ]
 
 function ResponsivePoster({ visible }) {
@@ -278,8 +275,8 @@ export default function Hero() {
           setPlaybackFailed(true)
         }}
       >
-        <source src="/video/hero-scroll-portrait.mp4" type="video/mp4" media="(max-width: 767.98px)" />
-        <source src="/video/hero-scroll.mp4" type="video/mp4" />
+        <source src="/video/hero-autoplay-portrait.mp4" type="video/mp4" media="(max-width: 767.98px)" />
+        <source src="/video/hero-autoplay.mp4" type="video/mp4" />
       </video>
 
       <div className="absolute inset-0 hidden bg-[linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.24)_72%,rgba(0,0,0,.18))] md:block" />
