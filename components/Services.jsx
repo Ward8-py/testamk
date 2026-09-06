@@ -101,26 +101,24 @@ export default function Services() {
               type="button"
               data-service-card
               onClick={() => openQuote({ service: service.label, source: 'service-card' })}
-              className="service-card group snap-start border-2 border-black bg-white text-left focus-visible:ring-4 focus-visible:ring-black/25"
+              className="service-card group relative aspect-[4/5] snap-start overflow-hidden border-2 border-black bg-[var(--color-panel)] text-left focus-visible:ring-4 focus-visible:ring-black/25 sm:aspect-[5/6]"
               aria-label={`Request a quote for ${service.label}`}
             >
-              <span className="flex min-h-[116px] items-end justify-between gap-4 border-b-2 border-black bg-white p-5 sm:min-h-[132px] sm:p-7">
+              <Image
+                src={service.image}
+                alt={`${service.label} by AMK London`}
+                fill
+                priority={index < 2}
+                sizes="(max-width: 767px) 84vw, (max-width: 1199px) 48vw, 31vw"
+                className="object-cover object-center"
+              />
+              <span className="absolute inset-x-0 top-0 z-10 flex min-h-[116px] items-end justify-between gap-4 border-b-2 border-black bg-white p-5 sm:min-h-[132px] sm:p-7">
                 <span className="max-w-[85%] font-body text-[clamp(30px,3.3vw,52px)] font-bold leading-[0.92] tracking-[-0.045em] text-black">
                   {service.label}
                 </span>
                 <span className="mb-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-black text-black transition-[background-color,color] duration-150 group-hover:bg-black group-hover:text-white" aria-hidden="true">
                   <Icon name="arrow-right" size={18} />
                 </span>
-              </span>
-              <span className="relative block aspect-[4/5] overflow-hidden bg-[var(--color-panel)] sm:aspect-[5/6]">
-                <Image
-                  src={service.image}
-                  alt={`${service.label} by AMK London`}
-                  fill
-                  priority={index < 2}
-                  sizes="(max-width: 767px) 84vw, (max-width: 1199px) 48vw, 31vw"
-                  className="object-cover"
-                />
               </span>
             </button>
           ))}

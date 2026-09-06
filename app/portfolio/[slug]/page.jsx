@@ -82,7 +82,7 @@ export default function PortfolioProjectPage({ params }) {
             >
               {project.name}
             </h1>
-            <p className="mt-6 max-w-2xl text-base leading-7 text-white/82 sm:text-lg sm:leading-8">
+            <p className="mt-6 max-w-2xl text-base leading-7 text-white sm:text-lg sm:leading-8">
               {project.description}
             </p>
 

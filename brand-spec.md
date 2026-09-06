@@ -17,6 +17,7 @@
 - Mobile hero: `public/video/hero-scroll-portrait.mp4` and `public/video/hero-scroll-portrait-poster.jpg`.
 - Service photography: `public/gallery/service-cards/` plus `public/gallery/dr17.jpeg`.
 - Project evidence: `public/gallery/project-x/`, `public/gallery/project-y/`, and `public/gallery/project-z/`.
+- Project card covers: `public/gallery/project-covers/`.
 - Closing artwork: `public/gallery/cta-blueprint.png`.
 
 ## Visual system

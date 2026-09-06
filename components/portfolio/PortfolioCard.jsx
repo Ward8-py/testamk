@@ -3,7 +3,8 @@ import Link from 'next/link'
 import { Icon } from '@/components/icons'
 
 export default function PortfolioCard({ project, featured = false, compact = false, className = '' }) {
-  const image = project.cover || project.img
+  const image = project.cardCover || project.cover || project.img
+  const imageAlt = project.cardAlt || project.alt
 
   return (
     <Link
@@ -18,7 +19,7 @@ export default function PortfolioCard({ project, featured = false, compact = fal
         {image ? (
           <Image
             src={image}
-            alt={project.alt}
+            alt={imageAlt}
             fill
             sizes={featured ? '(max-width: 1023px) 100vw, 58vw' : '(max-width: 1023px) 100vw, 42vw'}
             className="object-cover"

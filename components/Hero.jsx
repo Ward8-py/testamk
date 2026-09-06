@@ -73,39 +73,58 @@ export default function Hero() {
     retryRef.current = 0
   }, [])
 
+  const confirmPlayback = useCallback(() => {
+    const video = videoRef.current
+    if (!video || video.paused || video.ended) return
+
+    clearRetry()
+    retryCountRef.current = 0
+    setMediaReady(true)
+    setHasEnded(false)
+    setPlaybackFailed(false)
+    setIsPlaying(true)
+  }, [clearRetry])
+
   const attemptPlay = useCallback(() => {
     const video = videoRef.current
     if (!video || reducedRef.current || userPausedRef.current || video.ended) return
 
+    video.autoplay = true
     video.defaultMuted = true
     video.muted = true
+    video.volume = 0
+    video.setAttribute('autoplay', '')
     video.setAttribute('muted', '')
     video.setAttribute('playsinline', '')
+    video.setAttribute('webkit-playsinline', '')
 
-    let promise
-    try {
-      promise = video.play()
-    } catch {
-      setPlaybackFailed(true)
-      return
-    }
-    if (!promise?.then) return
+    const scheduleRetry = () => {
+      if (reducedRef.current || userPausedRef.current || video.ended || document.hidden) return
+      if (retryRef.current) return
 
-    promise.catch(() => {
-      if (reducedRef.current) return
-      if (retryRef.current || retryCountRef.current >= 4) {
-        setPlaybackFailed(true)
-        return
-      }
-      const delays = [200, 600, 1400, 2800]
-      const delay = delays[retryCountRef.current]
+      const delays = [200, 400, 800, 1200, 1800, 2500]
+      const delay = delays[Math.min(retryCountRef.current, delays.length - 1)]
       retryCountRef.current += 1
       retryRef.current = window.setTimeout(() => {
         retryRef.current = 0
         attemptPlay()
       }, delay)
-    })
-  }, [])
+    }
+
+    let promise
+    try {
+      promise = video.play()
+    } catch {
+      scheduleRetry()
+      return
+    }
+    if (!promise?.then) {
+      window.requestAnimationFrame(confirmPlayback)
+      return
+    }
+
+    promise.then(confirmPlayback).catch(scheduleRetry)
+  }, [confirmPlayback])
 
   useEffect(() => {
     const query = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -148,6 +167,7 @@ export default function Hero() {
     const resume = () => {
       const video = videoRef.current
       if (document.hidden || !video || video.ended || reducedRef.current) return
+      clearRetry()
       retryCountRef.current = 0
       attemptPlay()
     }
@@ -155,21 +175,16 @@ export default function Hero() {
     resume()
     document.addEventListener('visibilitychange', resume)
     window.addEventListener('pageshow', resume)
+    window.addEventListener('focus', resume)
+    window.addEventListener('online', resume)
     return () => {
       document.removeEventListener('visibilitychange', resume)
       window.removeEventListener('pageshow', resume)
+      window.removeEventListener('focus', resume)
+      window.removeEventListener('online', resume)
       clearRetry()
     }
   }, [attemptPlay, clearRetry])
-
-  const handlePlaying = () => {
-    clearRetry()
-    retryCountRef.current = 0
-    setMediaReady(true)
-    setHasEnded(false)
-    setPlaybackFailed(false)
-    setIsPlaying(true)
-  }
 
   const handleEnded = () => {
     clearRetry()
@@ -178,8 +193,21 @@ export default function Hero() {
     setIsPlaying(false)
   }
 
+  const handlePause = () => {
+    setIsPlaying(false)
+    const video = videoRef.current
+    if (!video || video.ended || reducedRef.current || userPausedRef.current || document.hidden) return
+    if (retryRef.current) return
+
+    retryRef.current = window.setTimeout(() => {
+      retryRef.current = 0
+      attemptPlay()
+    }, 200)
+  }
+
   const updateCaption = (event) => {
     const video = event.currentTarget
+    if (!video.paused && !video.ended) confirmPlayback()
     if (!Number.isFinite(video.duration) || video.duration <= 0) return
     const progress = video.currentTime / video.duration
     let next = 0
@@ -237,8 +265,10 @@ export default function Hero() {
         onLoadedMetadata={attemptPlay}
         onLoadedData={attemptPlay}
         onCanPlay={attemptPlay}
-        onPlaying={handlePlaying}
-        onPause={() => setIsPlaying(false)}
+        onCanPlayThrough={attemptPlay}
+        onPlay={confirmPlayback}
+        onPlaying={confirmPlayback}
+        onPause={handlePause}
         onTimeUpdate={updateCaption}
         onEnded={handleEnded}
         onError={() => {
