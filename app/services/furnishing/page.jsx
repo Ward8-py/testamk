@@ -75,15 +75,15 @@ export default function FurnishingPage() {
 
           {/* Add the new Image Gallery here */}
           <ImageGallery images={[
-            '/gallery/furnish1.jpeg',
-            '/gallery/furnish2.jpeg',
-            '/gallery/furnish3.jpeg',
-            '/gallery/furnish4.jpeg',
-            '/gallery/furnish5.jpeg',
-            '/gallery/furnish6.jpeg',
-            '/gallery/furnish7.jpeg',
-            '/gallery/furnish8.jpeg',
-            '/gallery/furnish9.jpeg'
+            { src: '/gallery/furnish1.jpeg', alt: 'Open-plan kitchen fitted with pale cabinetry and a central island' },
+            { src: '/gallery/furnish2.jpeg', alt: 'Furnished living room with pale sofas and built-in media storage' },
+            { src: '/gallery/furnish3.jpeg', alt: 'Kitchen island with dark drawers, pale worktop, and pendant lights' },
+            { src: '/gallery/furnish4.jpeg', alt: 'Furnished family room facing glazed garden doors and built-in cabinetry' },
+            { src: '/gallery/furnish5.jpeg', alt: 'Games room with pool table, projector screen, and fitted media wall' },
+            { src: '/gallery/furnish6.jpeg', alt: 'Finished bedroom with upholstered headboard and coordinated textiles' },
+            { src: '/gallery/furnish7.jpeg', alt: 'Living room with projector screen, display shelving, and pale sofas' },
+            { src: '/gallery/furnish8.jpeg', alt: 'Hall console table and geometric mirror against a textured wall' },
+            { src: '/gallery/furnish9.jpeg', alt: 'Open-plan kitchen and dining room with island seating and fitted appliances' }
 
           ]} />
         </Container>

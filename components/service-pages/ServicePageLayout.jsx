@@ -5,6 +5,7 @@ import Footer from '@/components/Footer'
 import FloatButtons from '@/components/FloatButtons'
 import { Container, Divider, BtnGold, BtnGhost, GoldTag } from '@/components/ui'
 import { Icon } from '@/components/icons'
+import { CONTACT_PHONE_DISPLAY, CONTACT_PHONE_HREF } from '@/lib/contact'
 
 /**
  * Shared premium layout for all service pages.
@@ -30,7 +31,7 @@ export default function ServicePageLayout({
   return (
     <>
       <Navbar />
-      <main>
+      <main id="main-content" tabIndex={-1}>
         {/* ── Hero ── */}
         <section className="relative flex items-end overflow-hidden" style={{ minHeight: '70vh' }}>
           {/* BG */}
@@ -112,7 +113,7 @@ export default function ServicePageLayout({
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <BtnGold href="/#contact">Request a Free Quote</BtnGold>
-              <BtnGhost href="tel:08715661673">Call 0871 566 1673</BtnGhost>
+              <BtnGhost href={CONTACT_PHONE_HREF}>Call {CONTACT_PHONE_DISPLAY}</BtnGhost>
             </div>
           </Container>
         </section>
@@ -220,18 +221,22 @@ export function FeatureIconCard({ icon, title, text, compact = false }) {
 export function ImageGallery({ images = [] }) {
   if (!images || images.length === 0) return null;
 
+  const normalizedImages = images.map((image) => (
+    typeof image === 'string' ? { src: image, alt: '' } : image
+  ));
+
   return (
     <div className="mt-16 pt-10 border-t" style={{ borderColor: 'var(--color-line)' }}>
       <div className="columns-1 sm:columns-2 lg:columns-3 gap-3 space-y-3">
-        {images.map((src, i) => (
+        {normalizedImages.map(({ src, alt }) => (
           <div
-            key={i}
+            key={src}
             className="relative overflow-hidden group break-inside-avoid border pf-item"
             style={{ borderColor: 'var(--color-line)', background: 'var(--color-panel-strong)' }}
           >
             <img
               src={src}
-              alt={`Project feature ${i + 1}`}
+              alt={alt}
               className="w-full h-auto pf-img block"
               loading="lazy"
             />

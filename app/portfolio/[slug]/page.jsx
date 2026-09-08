@@ -16,8 +16,9 @@ export async function generateStaticParams() {
   }))
 }
 
-export function generateMetadata({ params }) {
-  const project = getProjectBySlug(params.slug)
+export async function generateMetadata({ params }) {
+  const { slug } = await params
+  const project = getProjectBySlug(slug)
   if (!project) return { title: 'Project Not Found' }
 
   return {
@@ -26,8 +27,9 @@ export function generateMetadata({ params }) {
   }
 }
 
-export default function PortfolioProjectPage({ params }) {
-  const project = getProjectBySlug(params.slug)
+export default async function PortfolioProjectPage({ params }) {
+  const { slug } = await params
+  const project = getProjectBySlug(slug)
 
   if (!project) {
     notFound()
@@ -48,7 +50,7 @@ export default function PortfolioProjectPage({ params }) {
   return (
     <>
       <Navbar />
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <section className="relative flex min-h-[58vh] items-end overflow-hidden">
           <div
             className="absolute inset-0"
@@ -78,7 +80,7 @@ export default function PortfolioProjectPage({ params }) {
 
             <h1
               className="font-display font-semibold leading-[0.95] tracking-[-0.035em]"
-              style={{ color: '#fff', fontSize: 'clamp(44px,7vw,96px)' }}
+              style={{ color: '#fff', fontSize: 'clamp(38px,6.2vw,86px)', overflowWrap: 'anywhere' }}
             >
               {project.name}
             </h1>

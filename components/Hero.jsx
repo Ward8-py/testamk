@@ -4,9 +4,13 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Container } from './ui'
 import { Icon } from './icons'
 import { useQuote } from './QuoteProvider'
+import { CONTACT_WHATSAPP_URL } from '@/lib/contact'
 
 const DESKTOP_POSTER = '/video/hero-scroll-poster.jpg'
 const MOBILE_POSTER = '/video/hero-scroll-portrait-poster.jpg'
+const DESKTOP_VIDEO = '/video/hero-autoplay.mp4'
+const MOBILE_VIDEO = '/video/hero-autoplay-portrait.mp4'
+const MOBILE_VIDEO_FALLBACK = '/video/hero-scroll-portrait.mp4'
 const PLAYBACK_CAPTIONS = [
   { start: 0, text: 'From shell to signature.' },
   { start: 0.34, text: 'Built with precision.' },
@@ -53,9 +57,13 @@ function PlaybackIcon({ state }) {
 export default function Hero() {
   const videoRef = useRef(null)
   const retryRef = useRef(0)
+  const sourceWatchdogRef = useRef(0)
   const retryCountRef = useRef(0)
   const reducedRef = useRef(false)
   const userPausedRef = useRef(false)
+  const activeSourceRef = useRef('')
+  const mobileSourceRef = useRef(false)
+  const mobileFallbackTriedRef = useRef(false)
   const [reducedMotion, setReducedMotion] = useState(false)
   const [mediaReady, setMediaReady] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -70,21 +78,34 @@ export default function Hero() {
     retryRef.current = 0
   }, [])
 
+  const clearSourceWatchdog = useCallback(() => {
+    if (!sourceWatchdogRef.current) return
+    window.clearTimeout(sourceWatchdogRef.current)
+    sourceWatchdogRef.current = 0
+  }, [])
+
   const confirmPlayback = useCallback(() => {
     const video = videoRef.current
-    if (!video || video.paused || video.ended) return
+    if (
+      !video ||
+      video.paused ||
+      video.ended ||
+      video.videoWidth === 0 ||
+      video.readyState < 2
+    ) return
 
     clearRetry()
+    clearSourceWatchdog()
     retryCountRef.current = 0
     setMediaReady(true)
     setHasEnded(false)
     setPlaybackFailed(false)
     setIsPlaying(true)
-  }, [clearRetry])
+  }, [clearRetry, clearSourceWatchdog])
 
   const attemptPlay = useCallback(() => {
     const video = videoRef.current
-    if (!video || reducedRef.current || userPausedRef.current || video.ended) return
+    if (!video || !activeSourceRef.current || reducedRef.current || userPausedRef.current || video.ended) return
 
     video.autoplay = true
     video.defaultMuted = true
@@ -123,6 +144,49 @@ export default function Hero() {
     promise.then(confirmPlayback).catch(scheduleRetry)
   }, [confirmPlayback])
 
+  const loadVideoSource = useCallback((source) => {
+    const video = videoRef.current
+    if (!video) return
+
+    clearRetry()
+    clearSourceWatchdog()
+    retryCountRef.current = 0
+    userPausedRef.current = false
+    activeSourceRef.current = source
+    setMediaReady(false)
+    setHasEnded(false)
+    setPlaybackFailed(false)
+    setIsPlaying(false)
+    setActiveCaption(0)
+
+    video.autoplay = true
+    video.defaultMuted = true
+    video.muted = true
+    video.volume = 0
+    video.src = source
+    video.load()
+    window.setTimeout(attemptPlay, 0)
+  }, [attemptPlay, clearRetry, clearSourceWatchdog])
+
+  const watchMobileSource = useCallback(() => {
+    clearSourceWatchdog()
+    sourceWatchdogRef.current = window.setTimeout(() => {
+      sourceWatchdogRef.current = 0
+      const video = videoRef.current
+      const hasUsableMetadata = Boolean(video && video.videoWidth > 0 && video.readyState >= 1)
+
+      if (
+        hasUsableMetadata ||
+        !mobileSourceRef.current ||
+        activeSourceRef.current !== MOBILE_VIDEO ||
+        mobileFallbackTriedRef.current
+      ) return
+
+      mobileFallbackTriedRef.current = true
+      loadVideoSource(MOBILE_VIDEO_FALLBACK)
+    }, 3500)
+  }, [clearSourceWatchdog, loadVideoSource])
+
   useEffect(() => {
     const query = window.matchMedia('(prefers-reduced-motion: reduce)')
     const apply = () => {
@@ -144,21 +208,37 @@ export default function Hero() {
     const query = window.matchMedia('(max-width: 767.98px)')
     const changeSource = () => {
       const video = videoRef.current
-      if (!video) return
-      clearRetry()
-      retryCountRef.current = 0
-      userPausedRef.current = false
-      setMediaReady(false)
-      setHasEnded(false)
-      setPlaybackFailed(false)
-      setIsPlaying(false)
-      setActiveCaption(0)
-      video.load()
-      window.setTimeout(attemptPlay, 0)
+      const isMobile = query.matches
+      const nextSource = isMobile ? MOBILE_VIDEO : DESKTOP_VIDEO
+
+      mobileSourceRef.current = isMobile
+      mobileFallbackTriedRef.current = false
+
+      if (
+        activeSourceRef.current === nextSource ||
+        (!video?.error && video?.currentSrc.endsWith(nextSource))
+      ) {
+        activeSourceRef.current = nextSource
+        if (isMobile) watchMobileSource()
+        else clearSourceWatchdog()
+        attemptPlay()
+        return
+      }
+
+      loadVideoSource(nextSource)
+      if (isMobile) watchMobileSource()
     }
-    query.addEventListener('change', changeSource)
-    return () => query.removeEventListener('change', changeSource)
-  }, [attemptPlay, clearRetry])
+
+    changeSource()
+    if (query.addEventListener) query.addEventListener('change', changeSource)
+    else query.addListener(changeSource)
+
+    return () => {
+      if (query.removeEventListener) query.removeEventListener('change', changeSource)
+      else query.removeListener(changeSource)
+      clearSourceWatchdog()
+    }
+  }, [attemptPlay, clearSourceWatchdog, loadVideoSource, watchMobileSource])
 
   useEffect(() => {
     const resume = () => {
@@ -217,6 +297,23 @@ export default function Hero() {
     setActiveCaption((current) => current === next ? current : next)
   }
 
+  const handleMediaError = () => {
+    if (
+      mobileSourceRef.current &&
+      activeSourceRef.current === MOBILE_VIDEO &&
+      !mobileFallbackTriedRef.current
+    ) {
+      mobileFallbackTriedRef.current = true
+      loadVideoSource(MOBILE_VIDEO_FALLBACK)
+      return
+    }
+
+    clearRetry()
+    setMediaReady(false)
+    setIsPlaying(false)
+    setPlaybackFailed(true)
+  }
+
   const togglePlayback = () => {
     const video = videoRef.current
     if (!video) return
@@ -268,15 +365,10 @@ export default function Hero() {
         onPause={handlePause}
         onTimeUpdate={updateCaption}
         onEnded={handleEnded}
-        onError={() => {
-          clearRetry()
-          setMediaReady(false)
-          setIsPlaying(false)
-          setPlaybackFailed(true)
-        }}
+        onError={handleMediaError}
       >
-        <source src="/video/hero-autoplay-portrait.mp4" type="video/mp4" media="(max-width: 767.98px)" />
-        <source src="/video/hero-autoplay.mp4" type="video/mp4" />
+        <source src={MOBILE_VIDEO} type="video/mp4" media="(max-width: 767.98px)" />
+        <source src={DESKTOP_VIDEO} type="video/mp4" media="(min-width: 768px)" />
       </video>
 
       <div className="absolute inset-0 hidden bg-[linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.24)_72%,rgba(0,0,0,.18))] md:block" />
@@ -313,7 +405,7 @@ export default function Hero() {
               <Icon name="arrow-right" size={15} />
             </button>
             <a
-              href="https://wa.me/447587842444"
+              href={CONTACT_WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
               tabIndex={showFinalMessage ? 0 : -1}

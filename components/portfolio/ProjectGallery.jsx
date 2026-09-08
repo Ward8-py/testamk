@@ -116,14 +116,14 @@ export default function ProjectGallery({
               tabIndex={activeStage === id ? 0 : -1}
               onClick={() => changeStage(id)}
               onKeyDown={(event) => handleStageKeyDown(event, id)}
-              className="flex items-center justify-center gap-2 rounded-full px-2 py-3.5 text-[9px] font-semibold uppercase tracking-[0.16em] transition-colors sm:gap-3 sm:px-5 sm:text-[10px] sm:tracking-[0.22em] focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50"
+              className="flex min-h-11 items-center justify-center gap-2 rounded-full px-3 py-3 text-xs font-semibold uppercase tracking-[0.12em] transition-colors sm:gap-3 sm:px-5 sm:tracking-[0.18em] focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50"
               style={{
                 color: activeStage === id ? 'var(--color-on-accent)' : 'var(--color-muted)',
                 background: activeStage === id ? 'var(--color-accent)' : 'transparent',
               }}
             >
               {label}
-              <span className="text-[9px] opacity-70">{count}</span>
+              <span className="text-[11px] opacity-70">{count}</span>
             </button>
           ))}
         </div>
@@ -148,7 +148,7 @@ export default function ProjectGallery({
                     type="button"
                     aria-pressed={activeArea === area}
                     onClick={() => changeArea(area)}
-                    className="flex flex-shrink-0 items-center gap-2 rounded-full border px-4 py-3 text-[9px] font-semibold uppercase tracking-[0.2em] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50"
+                    className="flex min-h-11 flex-shrink-0 items-center gap-2 rounded-full border px-4 py-3 text-xs font-semibold uppercase tracking-[0.14em] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50"
                     style={{
                       color: activeArea === area ? 'var(--color-on-accent)' : 'var(--color-muted)',
                       background: activeArea === area ? 'var(--color-accent)' : 'var(--color-panel)',
@@ -156,7 +156,7 @@ export default function ProjectGallery({
                     }}
                   >
                     {area}
-                    <span className="text-[8px] opacity-70">{count}</span>
+                    <span className="text-[11px] opacity-70">{count}</span>
                   </button>
                 )
               })}

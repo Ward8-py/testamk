@@ -1,5 +1,6 @@
 'use client'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import Image from 'next/image'
 import { Icon } from '@/components/icons'
 
@@ -7,6 +8,7 @@ export default function ImageLightbox({ images, isOpen, initialIndex = 0, onClos
   const [currentIndex, setCurrentIndex] = useState(initialIndex)
   const [isLoading, setIsLoading] = useState(true)
   const dialogRef = useRef(null)
+  const openerRef = useRef(null)
 
   const goToNext = useCallback(() => {
     setIsLoading(true)
@@ -20,19 +22,42 @@ export default function ImageLightbox({ images, isOpen, initialIndex = 0, onClos
 
   useEffect(() => {
     if (isOpen) {
+      openerRef.current = document.activeElement
       setCurrentIndex(initialIndex)
       setIsLoading(true)
-      dialogRef.current?.focus()
+      window.setTimeout(() => dialogRef.current?.querySelector('[data-lightbox-close]')?.focus(), 0)
     }
   }, [initialIndex, isOpen])
 
   useEffect(() => {
     if (!isOpen) return undefined
 
+    const previousOverflow = document.body.style.overflow
+    const backgroundTargets = [...document.querySelectorAll('header, main, footer, [data-mobile-conversion-bar]')]
+    backgroundTargets.forEach((element) => {
+      element.inert = true
+      element.setAttribute('aria-hidden', 'true')
+    })
+
     const handleKeyDown = (event) => {
-      if (event.key === 'Escape') onClose()
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        onClose()
+      }
       if (event.key === 'ArrowRight') goToNext()
       if (event.key === 'ArrowLeft') goToPrevious()
+      if (event.key !== 'Tab') return
+      const focusable = dialogRef.current?.querySelectorAll('button:not([disabled]), a[href]')
+      if (!focusable?.length) return
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault()
+        first.focus()
+      }
     }
 
     document.addEventListener('keydown', handleKeyDown)
@@ -40,7 +65,12 @@ export default function ImageLightbox({ images, isOpen, initialIndex = 0, onClos
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown)
-      document.body.style.overflow = ''
+      document.body.style.overflow = previousOverflow
+      backgroundTargets.forEach((element) => {
+        element.inert = false
+        element.removeAttribute('aria-hidden')
+      })
+      openerRef.current?.focus?.()
     }
   }, [goToNext, goToPrevious, isOpen, onClose])
 
@@ -52,7 +82,7 @@ export default function ImageLightbox({ images, isOpen, initialIndex = 0, onClos
       : image
   ))
 
-  return (
+  const lightbox = (
     <div
       ref={dialogRef}
       role="dialog"
@@ -67,6 +97,7 @@ export default function ImageLightbox({ images, isOpen, initialIndex = 0, onClos
       </div>
 
       <button
+        data-lightbox-close
         type="button"
         onClick={onClose}
         className="absolute right-4 top-4 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-black/35 text-white/80 transition hover:bg-white hover:text-[var(--color-ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-gold/50"
@@ -147,6 +178,10 @@ export default function ImageLightbox({ images, isOpen, initialIndex = 0, onClos
           </div>
         </div>
       ) : null}
+
+      <p className="sr-only" aria-live="polite">Image {currentIndex + 1} of {images.length}: {normalizedImages[currentIndex].alt}</p>
     </div>
   )
+
+  return typeof document === 'undefined' ? null : createPortal(lightbox, document.body)
 }

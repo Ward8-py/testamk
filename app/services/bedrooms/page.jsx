@@ -76,18 +76,17 @@ export default function BedroomsPage() {
 
           {/* Add the new Image Gallery here */}
           <ImageGallery images={[
-            '/gallery/bed1.jpg',
-            '/gallery/bed2.jpg',
-            '/gallery/bed3.jpg',
-            '/gallery/bed4.jpg',
-            '/gallery/bed5.jpeg',
-            '/gallery/bed6.jpeg',
-            '/gallery/bed7.jpeg',
-            '/gallery/bed8.jpeg',
-            '/gallery/bed9.jpeg',
-            '/gallery/bed10.jpeg',
-
-            '/gallery/bed12.jpeg'
+            { src: '/gallery/bed1.jpg', alt: 'Bedroom suite with mirrored wardrobes and a dark timber floor' },
+            { src: '/gallery/bed2.jpg', alt: 'Bedroom with an ornate upholstered headboard and matching bedside cabinets' },
+            { src: '/gallery/bed3.jpg', alt: 'Spacious bedroom suite with a seating area and traditional timber furniture' },
+            { src: '/gallery/bed4.jpg', alt: 'Bedroom with a draped feature bed, wall panelling, and fitted wardrobes' },
+            { src: '/gallery/bed5.jpeg', alt: 'Bedroom with a tall upholstered headboard and coordinated blue cushions' },
+            { src: '/gallery/bed6.jpeg', alt: 'Bedroom with a dark upholstered bed against a textured feature wall' },
+            { src: '/gallery/bed7.jpeg', alt: 'Bedroom with an upholstered headboard beside full-height fitted wardrobes' },
+            { src: '/gallery/bed8.jpeg', alt: 'Bedroom viewed toward the window with a fitted radiator cover' },
+            { src: '/gallery/bed9.jpeg', alt: 'Finished bedroom with upholstered headboard, bedside cabinet, and wall covering' },
+            { src: '/gallery/bed10.jpeg', alt: 'Finished bedroom with a patterned bedspread and dark-framed window' },
+            { src: '/gallery/bed12.jpeg', alt: 'Bedroom with a dark panelled headboard, pendant light, and textured wall' }
 
           ]} />
         </Container>

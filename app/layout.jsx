@@ -1,5 +1,18 @@
 import './globals.css'
+import { Cormorant_Garamond, Outfit } from 'next/font/google'
 import { QuoteProvider } from '@/components/QuoteProvider'
+
+const cormorant = Cormorant_Garamond({
+  subsets: ['latin'],
+  variable: '--font-cormorant',
+  display: 'swap',
+})
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  variable: '--font-outfit',
+  display: 'swap',
+})
 
 export const metadata = {
   title: {
@@ -49,8 +62,9 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className={`${cormorant.variable} ${outfit.variable} scroll-smooth`}>
       <body>
+        <a href="#main-content" className="skip-link">Skip to main content</a>
         <QuoteProvider>{children}</QuoteProvider>
       </body>
     </html>

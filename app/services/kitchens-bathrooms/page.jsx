@@ -85,23 +85,23 @@ export default function KitchensBathroomsPage() {
 
           {/* Add the new Image Gallery here */}
           <ImageGallery images={[
-            '/gallery/kitchen1.jpg',
-            '/gallery/kitchen2.jpg',
-            '/gallery/kitchen3.jpg',
-            '/gallery/kitchen4.jpg',
-            '/gallery/kitchen5.jpeg',
-            '/gallery/kitchen6.jpeg',
-            '/gallery/kitchen7.jpeg',
-            '/gallery/bathroom1.jpg',
-            '/gallery/bathroom2.jpg',
-            '/gallery/bathroom3.jpg',
-            '/gallery/bathroom4.jpg',
-            '/gallery/bathroom5.jpg',
-            '/gallery/bathroom6.jpeg',
-            '/gallery/bathroom7.jpeg',
-            '/gallery/bathroom8.jpeg',
-            '/gallery/bathroom9.jpeg',
-            '/gallery/bathroom10.jpeg'
+            { src: '/gallery/kitchen1.jpg', alt: 'White kitchen island beneath pendant lights beside a stone feature wall' },
+            { src: '/gallery/kitchen2.jpg', alt: 'Large kitchen island with integrated hob facing glazed garden doors' },
+            { src: '/gallery/kitchen3.jpg', alt: 'Minimal white kitchen with handleless cabinets and garden access' },
+            { src: '/gallery/kitchen4.jpg', alt: 'Open-plan white kitchen and dining area with full-height glazing' },
+            { src: '/gallery/kitchen5.jpeg', alt: 'Grey kitchen island with pale worktop and glass pendant lights' },
+            { src: '/gallery/kitchen6.jpeg', alt: 'Open-plan grey kitchen with island seating and integrated appliances' },
+            { src: '/gallery/kitchen7.jpeg', alt: 'Pale shaker kitchen with island, tall cabinets, and rooflights' },
+            { src: '/gallery/bathroom1.jpg', alt: 'Large pale bathroom with double vanity, walk-in shower, and freestanding bath' },
+            { src: '/gallery/bathroom2.jpg', alt: 'Bathroom with geometric stone wall tiles and a dark vanity' },
+            { src: '/gallery/bathroom3.jpg', alt: 'Marble-effect bathroom with glass shower and wall-mounted toilet' },
+            { src: '/gallery/bathroom4.jpg', alt: 'Dark timber double vanity with vessel basins and mirrored cabinets' },
+            { src: '/gallery/bathroom5.jpg', alt: 'Pale tiled walk-in shower with timber vanity and recessed shelves' },
+            { src: '/gallery/bathroom6.jpeg', alt: 'Walk-in shower lined with pale green vertical tiles and an illuminated niche' },
+            { src: '/gallery/bathroom7.jpeg', alt: 'Compact pale stone bathroom with timber vanity and walk-in shower' },
+            { src: '/gallery/bathroom8.jpeg', alt: 'Cloakroom with black walls, chequered floor, and marble wall-mounted basin' },
+            { src: '/gallery/bathroom9.jpeg', alt: 'Freestanding bath below a recessed shelf in a pale tiled bathroom' },
+            { src: '/gallery/bathroom10.jpeg', alt: 'Dark cloakroom with veined marble basin and illuminated mirror' }
 
           ]} />
         </Container>

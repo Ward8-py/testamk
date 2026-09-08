@@ -78,19 +78,19 @@ export default function FlooringPage() {
 
           {/* Add the new Image Gallery here */}
           <ImageGallery images={[
-            '/gallery/flooring01.jpg',
-            '/gallery/flooring02.jpg',
-            '/gallery/flooring03.jpg',
-            '/gallery/flooring04.jpeg',
-            '/gallery/flooring05.jpeg',
-            '/gallery/flooring06.jpeg',
-            '/gallery/flooring07.jpeg',
-            '/gallery/flooring08.jpeg',
-            '/gallery/flooring09.jpeg',
-            '/gallery/flooring10.jpeg',
-            '/gallery/flooring11.jpeg',
-            '/gallery/flooring12.jpeg',
-            '/gallery/flooring13.jpeg'
+            { src: '/gallery/flooring01.jpg', alt: 'Pale stone floor tiles beside a textured stone feature wall' },
+            { src: '/gallery/flooring02.jpg', alt: 'Restored herringbone parquet flooring in a home office' },
+            { src: '/gallery/flooring03.jpg', alt: 'Polished pale stone floor along a glazed corridor' },
+            { src: '/gallery/flooring04.jpeg', alt: 'Pale herringbone floor fitted beside built-in hallway storage' },
+            { src: '/gallery/flooring05.jpeg', alt: 'New pale timber floor in an unfurnished bedroom' },
+            { src: '/gallery/flooring06.jpeg', alt: 'Large-format exterior paving laid along a rear terrace' },
+            { src: '/gallery/flooring07.jpeg', alt: 'Finished pale timber landing beside a white balustrade' },
+            { src: '/gallery/flooring08.jpeg', alt: 'Pale herringbone floor in a completed living room' },
+            { src: '/gallery/flooring09.jpeg', alt: 'Underfloor heating system installed before the final floor finish' },
+            { src: '/gallery/flooring10.jpeg', alt: 'Soft grey carpet fitted through a bright living space' },
+            { src: '/gallery/flooring11.jpeg', alt: 'New neutral carpet running along a finished hallway' },
+            { src: '/gallery/flooring12.jpeg', alt: 'Close view of pale herringbone timber-effect flooring' },
+            { src: '/gallery/flooring13.jpeg', alt: 'Pale herringbone floor fitted neatly around a doorway' }
 
           ]} />
         </Container>

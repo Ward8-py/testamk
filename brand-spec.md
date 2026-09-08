@@ -6,8 +6,8 @@
 - Logo component: `components/AMKLogo.jsx` (preserved).
 - Public promise: managed residential construction from concept to completion.
 - Primary action: Get a Free Quote.
-- Primary telephone: `+44 7587 842444`.
-- Alternative telephone (footer only): `0871 566 1673`.
+- Primary telephone: `+44 7970 798313`.
+- WhatsApp: `https://wa.me/447970798313`.
 - Email: `info@amkbuildingconstruction.co.uk`.
 - Address: 15A Station Road, Harrow, HA1 2UF, London, UK.
 

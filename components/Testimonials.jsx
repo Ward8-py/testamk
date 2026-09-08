@@ -7,22 +7,22 @@ import { Icon } from './icons'
 
 const TESTIMONIALS = [
   {
-    name: 'James Mitchell',
+    name: 'James',
     location: 'Harrow, London',
     text: 'AMK transformed our Victorian terrace beyond all expectations. The team was professional, efficient, and kept us informed throughout. The quality of craftsmanship is simply outstanding — we would not hesitate to recommend them to anyone.',
   },
   {
-    name: 'Sarah Rahman',
+    name: 'Sarah',
     location: 'Wembley, London',
     text: 'We had our loft converted and a rear kitchen extension added simultaneously. AMK managed the entire project flawlessly — on time, on budget, with zero hidden costs. The result is absolutely beautiful. Truly professional service from start to finish.',
   },
   {
-    name: 'David Kowalski',
+    name: 'David',
     location: 'Ealing, London',
     text: 'From the initial consultation right through to final handover, AMK London was exceptional. Their consultant understood our vision immediately, and their team delivered it with incredible precision. Our home is unrecognisable — in the best possible way.',
   },
   {
-    name: 'Amanda Clarke',
+    name: 'Amanda',
     location: 'Kensington, London',
     text: 'The marble worktop installation in our kitchen is a masterpiece. Eight years of experience really shows — perfectly cut, seamlessly fitted, and finished beautifully. The 12-month guarantee gave us complete peace of mind too.',
   },

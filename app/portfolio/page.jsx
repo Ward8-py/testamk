@@ -17,7 +17,7 @@ export default function PortfolioPage() {
   return (
     <>
       <Navbar />
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <section className="relative flex min-h-[54vh] items-end overflow-hidden">
           <div
             className="absolute inset-0"

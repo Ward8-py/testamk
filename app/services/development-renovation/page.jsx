@@ -1,5 +1,6 @@
 import ServicePageLayout, { PageSection, ContentBlock, FeatureList, StepCard, InfoBox, FeatureIconCard, ImageGallery } from '@/components/service-pages/ServicePageLayout'
 import { Container } from '@/components/ui'
+import { CONTACT_PHONE_DISPLAY, CONTACT_PHONE_HREF } from '@/lib/contact'
 
 export const metadata = {
   title: 'Development & Renovation',
@@ -56,8 +57,8 @@ export default function DevelopmentRenovationPage() {
                 <p className="text-[14px] leading-[1.7]" style={{ color: 'var(--color-ink-soft)' }}>
                   Speak to us directly and discuss a new project or arrange a meeting instantly.
                 </p>
-                <a href="tel:08715661673" className="text-[22px] font-display font-light mt-2 block hover:text-gold transition-colors" style={{ color: 'var(--color-ink)' }}>
-                  0871 566 1673
+                <a href={CONTACT_PHONE_HREF} className="text-[22px] font-display font-light mt-2 block hover:text-gold transition-colors" style={{ color: 'var(--color-ink)' }}>
+                  {CONTACT_PHONE_DISPLAY}
                 </a>
               </InfoBox>
             </div>
@@ -65,23 +66,23 @@ export default function DevelopmentRenovationPage() {
 
           {/* Add the new Image Gallery here */}
           <ImageGallery images={[
-            '/gallery/dr1.jpeg',
-            '/gallery/dr2.jpeg',
-            '/gallery/dr3.jpeg',
-            '/gallery/dr4.jpeg',
-            '/gallery/dr5.jpeg',
-            '/gallery/dr6.jpeg',
-            '/gallery/dr7.jpeg',
-            '/gallery/dr8.jpeg',
-            '/gallery/dr9.jpeg',
-            '/gallery/dr10.jpeg',
-            '/gallery/dr11.jpeg',
-            '/gallery/dr12.jpeg',
-            '/gallery/dr13.jpeg',
-            '/gallery/dr14.jpeg',
-            '/gallery/dr15.jpeg',
-            '/gallery/dr16.jpeg',
-            '/gallery/dr17.jpeg'
+            { src: '/gallery/dr1.jpeg', alt: 'Completed two-storey rendered home with dark-framed windows' },
+            { src: '/gallery/dr2.jpeg', alt: 'Completed rear extension with full-width glazed garden doors' },
+            { src: '/gallery/dr3.jpeg', alt: 'Floor screed being levelled during an interior renovation' },
+            { src: '/gallery/dr4.jpeg', alt: 'Underfloor heating pipes arranged across an unfinished floor' },
+            { src: '/gallery/dr5.jpeg', alt: 'Prepared interior floor around temporary structural supports' },
+            { src: '/gallery/dr6.jpeg', alt: 'House renovation underway behind full-height exterior scaffolding' },
+            { src: '/gallery/dr7.jpeg', alt: 'Renovated open-plan room with a newly laid pale floor' },
+            { src: '/gallery/dr8.jpeg', alt: 'Driveway base and edging under construction beside a garden' },
+            { src: '/gallery/dr9.jpeg', alt: 'Interior refurbishment with protected flooring and exposed electrical points' },
+            { src: '/gallery/dr10.jpeg', alt: 'Protected new floor installed around temporary steel supports' },
+            { src: '/gallery/dr11.jpeg', alt: 'Newly glazed garden room with timber-framed doors' },
+            { src: '/gallery/dr12.jpeg', alt: 'Rear extension stripped back to its blockwork and floor structure' },
+            { src: '/gallery/dr13.jpeg', alt: 'Timber upper-floor frame under construction inside scaffolding' },
+            { src: '/gallery/dr14.jpeg', alt: 'New structural opening formed in an existing brick wall' },
+            { src: '/gallery/dr15.jpeg', alt: 'Narrow side extension being built in blockwork' },
+            { src: '/gallery/dr16.jpeg', alt: 'New ceiling downlights installed above an unfinished interior wall' },
+            { src: '/gallery/dr17.jpeg', alt: 'Completed bathroom with book-matched stone walls and freestanding bath' }
           ]} />
         </Container>
       </PageSection>

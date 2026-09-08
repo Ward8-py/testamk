@@ -4,6 +4,7 @@ import { useScrollReveal } from '@/hooks/useScrollReveal'
 import { Container } from './ui'
 import { Icon } from './icons'
 import { useQuote } from './QuoteProvider'
+import { CONTACT_WHATSAPP_URL } from '@/lib/contact'
 
 export default function CTA() {
   const ref = useScrollReveal()
@@ -27,7 +28,7 @@ export default function CTA() {
               <Icon name="arrow-right" size={15} />
             </button>
             <a
-              href="https://wa.me/447587842444"
+              href={CONTACT_WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="amk-button border border-white/55 bg-transparent text-white hover:bg-white hover:text-black"

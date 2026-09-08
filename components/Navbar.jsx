@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import AMKLogo from './AMKLogo'
@@ -16,6 +16,8 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [overHero, setOverHero] = useState(false)
   const pathname = usePathname()
+  const menuButtonRef = useRef(null)
+  const menuRef = useRef(null)
   const isHome = pathname === '/'
   const { openQuote } = useQuote()
 
@@ -41,9 +43,43 @@ export default function Navbar() {
   useEffect(() => {
     if (!menuOpen) return undefined
     const previousOverflow = document.body.style.overflow
+    const backgroundTargets = [...document.querySelectorAll('main, footer, [data-mobile-conversion-bar]')]
     document.body.style.overflow = 'hidden'
+    backgroundTargets.forEach((element) => {
+      element.inert = true
+      element.setAttribute('aria-hidden', 'true')
+    })
+
+    const focusTimer = window.setTimeout(() => menuRef.current?.querySelector('a, button')?.focus(), 0)
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        setMenuOpen(false)
+        return
+      }
+      if (event.key !== 'Tab') return
+      const items = [menuButtonRef.current, ...(menuRef.current?.querySelectorAll('a[href], button:not([disabled])') || [])].filter(Boolean)
+      if (!items.length) return
+      const first = items[0]
+      const last = items[items.length - 1]
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault()
+        first.focus()
+      }
+    }
+    document.addEventListener('keydown', onKeyDown)
     return () => {
+      window.clearTimeout(focusTimer)
+      document.removeEventListener('keydown', onKeyDown)
       document.body.style.overflow = previousOverflow
+      backgroundTargets.forEach((element) => {
+        element.inert = false
+        element.removeAttribute('aria-hidden')
+      })
+      menuButtonRef.current?.focus()
     }
   }, [menuOpen])
 
@@ -112,6 +148,7 @@ export default function Navbar() {
           </nav>
 
           <button
+            ref={menuButtonRef}
             type="button"
             onClick={() => setMenuOpen((value) => !value)}
             className="flex h-11 w-11 items-center justify-center rounded-full lg:hidden"
@@ -132,9 +169,16 @@ export default function Navbar() {
       {menuOpen ? (
         <div
           id="mobile-menu"
-          className="mobile-nav fixed inset-x-0 top-[70px] z-[999] border-b border-black/15 bg-[var(--color-page)] px-5 pb-[calc(24px+env(safe-area-inset-bottom))] pt-3 lg:hidden"
+          ref={menuRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Site navigation"
+          className="mobile-nav fixed inset-x-0 bottom-0 top-[70px] z-[999] bg-black/45 lg:hidden"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setMenuOpen(false)
+          }}
         >
-          <nav aria-label="Mobile navigation">
+          <nav aria-label="Mobile navigation" className="border-b border-black/15 bg-[var(--color-page)] px-5 pb-[calc(24px+env(safe-area-inset-bottom))] pt-3">
             {NAV_ITEMS.map((item) => item.href ? (
               <Link key={item.label} href={item.href} className="mobile-nav-link">
                 {item.label}

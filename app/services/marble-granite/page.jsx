@@ -80,28 +80,28 @@ export default function MarbleGranitePage() {
 
           {/* Add the new Image Gallery here */}
           <ImageGallery images={[
-            '/gallery/m1.jpg',
-            '/gallery/m2.jpg',
-            '/gallery/m3.jpg',
-            '/gallery/m4.jpg',
-            '/gallery/m5.jpg',
-            '/gallery/m6.jpg',
-            '/gallery/m7.jpg',
-            '/gallery/m8.jpg',
-            '/gallery/m9.jpg',
-            '/gallery/m10.jpg',
-            '/gallery/m11.jpg',
-            '/gallery/m12.jpg',
-            '/gallery/m13.jpg',
-            '/gallery/m14.jpg',
-            '/gallery/m15.jpg',
-            '/gallery/m16.jpg',
-            '/gallery/m17.jpg',
-            '/gallery/m18.jpg',
-            '/gallery/m19.jpg',
-            '/gallery/m20.jpg',
-            '/gallery/m21.jpg',
-            '/gallery/m22.jpg'
+            { src: '/gallery/m1.jpg', alt: 'White stone surface with broad grey marble-effect veining' },
+            { src: '/gallery/m2.jpg', alt: 'White stone surface with fine diagonal grey veins' },
+            { src: '/gallery/m3.jpg', alt: 'White stone surface with branching pale grey veins' },
+            { src: '/gallery/m4.jpg', alt: 'Pale grey stone surface with subtle mottled detail' },
+            { src: '/gallery/m5.jpg', alt: 'White stone surface with a soft clouded pattern' },
+            { src: '/gallery/m6.jpg', alt: 'White marble surface with bold black and grey veining' },
+            { src: '/gallery/m7.jpg', alt: 'Dark brown marble surface with fine cream veining' },
+            { src: '/gallery/m8.jpg', alt: 'Warm beige quartz surface with reflective aggregate' },
+            { src: '/gallery/m9.jpg', alt: 'White quartz surface with small grey aggregate pieces' },
+            { src: '/gallery/m10.jpg', alt: 'Black terrazzo-style surface with white aggregate pieces' },
+            { src: '/gallery/m11.jpg', alt: 'Pale grey quartz surface with mixed aggregate pieces' },
+            { src: '/gallery/m12.jpg', alt: 'Dark brown quartz surface with reflective mineral flecks' },
+            { src: '/gallery/m13.jpg', alt: 'Red quartz surface with reflective mineral flecks' },
+            { src: '/gallery/m14.jpg', alt: 'White stone surface with fine pale grey speckling' },
+            { src: '/gallery/m15.jpg', alt: 'Warm grey stone surface with softly mottled markings' },
+            { src: '/gallery/m16.jpg', alt: 'Pale grey stone surface with a cloudy natural pattern' },
+            { src: '/gallery/m17.jpg', alt: 'White stone surface with wide angular grey veining' },
+            { src: '/gallery/m18.jpg', alt: 'Black granite-style surface with contrasting white flecks' },
+            { src: '/gallery/m19.jpg', alt: 'Mid-grey granite-style surface with dark mineral flecks' },
+            { src: '/gallery/m20.jpg', alt: 'White stone surface with very subtle pale clouding' },
+            { src: '/gallery/m21.jpg', alt: 'Bright white stone surface with soft grey clouding' },
+            { src: '/gallery/m22.jpg', alt: 'Dark grey stone surface with a fine mottled texture' }
 
           ]} />
         </Container>
@@ -139,7 +139,7 @@ export default function MarbleGranitePage() {
                 The marble worktop installation in our kitchen is a masterpiece. Eight years of experience
                 really shows — perfectly cut, seamlessly fitted.
               </p>
-              <div className="text-[11px] font-semibold tracking-[0.12em] uppercase" style={{ color: 'var(--color-accent)' }}>Amanda Clarke · Kensington, London</div>
+              <div className="text-[11px] font-semibold tracking-[0.12em] uppercase" style={{ color: 'var(--color-accent)' }}>Amanda · Kensington, London</div>
             </div>
           </div>
         </Container>

@@ -31,7 +31,7 @@ export default function PortfolioCard({ project, featured = false, compact = fal
         )}
         <span className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/70 to-transparent" aria-hidden="true" />
         <span className="absolute bottom-0 left-0 right-0 flex items-end justify-between gap-5 p-5 text-white sm:p-7">
-          <span className="font-display text-[clamp(36px,4vw,58px)] font-semibold leading-none tracking-[-0.03em]">
+          <span className="max-w-[calc(100%_-_60px)] [overflow-wrap:anywhere] font-display text-[clamp(28px,3.2vw,48px)] font-semibold leading-[0.94] tracking-[-0.03em]">
             {project.name}
           </span>
           <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/55 bg-black/25 transition-[background-color,color] duration-150 group-hover:bg-white group-hover:text-black" aria-hidden="true">

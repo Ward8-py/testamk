@@ -2,12 +2,13 @@
 
 import { Icon } from './icons'
 import { useQuote } from './QuoteProvider'
+import { CONTACT_WHATSAPP_URL } from '@/lib/contact'
 
 export default function FloatButtons() {
   const { openQuote } = useQuote()
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-[900] grid grid-cols-[1fr_auto] border-t border-black/20 bg-[var(--color-surface)] px-3 pb-[max(10px,env(safe-area-inset-bottom))] pt-2 md:hidden">
+    <div data-mobile-conversion-bar className="fixed inset-x-0 bottom-0 z-[900] grid grid-cols-[1fr_auto] border-t border-black/20 bg-[var(--color-surface)] px-3 pb-[max(10px,env(safe-area-inset-bottom))] pt-2 md:hidden">
       <button
         type="button"
         onClick={() => openQuote({ source: 'mobile-bar' })}
@@ -16,7 +17,7 @@ export default function FloatButtons() {
         Get a Free Quote
       </button>
       <a
-        href="https://wa.me/447587842444"
+        href={CONTACT_WHATSAPP_URL}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Contact AMK London on WhatsApp"

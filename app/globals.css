@@ -1,13 +1,9 @@
 /* tastemaker · AMK quote-first · Gallery Grid · H3/P4/F7/F4/P3/C2 · critique: ShowTell 5 · Phil 5 · Hier 5 · Spec 5 · Restr 5 · Var 4 */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --font-cormorant: 'Cormorant Garamond';
-  --font-outfit:    'Outfit';
   --color-page:          #ffffff;
   --color-surface:       #ffffff;
   --color-panel:         #f5f5f3;
@@ -166,6 +162,73 @@
 /* ── PORTFOLIO ──────────────────────────────────── */
 .pf-img {
   transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  z-index: 10000;
+  min-height: 44px;
+  transform: translateY(-160%);
+  border-radius: 999px;
+  background: #fff;
+  color: #111;
+  padding: 0.7rem 1rem;
+  font-weight: 700;
+  transition: transform 150ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+  outline: 3px solid #111;
+  outline-offset: 3px;
+}
+
+#main-content {
+  scroll-margin-top: 80px;
+}
+
+.legal-content {
+  color: var(--color-text);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.legal-content section + section {
+  margin-top: 3rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--color-line);
+}
+
+.legal-content h2 {
+  color: var(--color-ink);
+  font-family: var(--font-cormorant), serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 600;
+  line-height: 1.05;
+}
+
+.legal-content p,
+.legal-content ul {
+  max-width: 72ch;
+  margin-top: 1rem;
+}
+
+.legal-content ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+
+.legal-content li + li {
+  margin-top: 0.65rem;
+}
+
+.legal-content a {
+  color: var(--color-ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
 }
 .pf-item:hover .pf-img {
   transform: scale(1.07);

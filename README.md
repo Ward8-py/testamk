@@ -108,36 +108,23 @@ amk-v2/
 4. Deploy — done
 
 ### Environment Variables
-None required. To connect the contact form to email, add:
-- `RESEND_API_KEY` — use [resend.com](https://resend.com) (free tier)
+Copy `.env.example` to `.env.local` for development and configure the same server-only values in Vercel:
+
+- `RESEND_API_KEY` — Resend API key for the verified AMK sending domain.
+- `QUOTE_FROM_EMAIL` — verified sender, for example `AMK London <quotes@amkbuildingconstruction.co.uk>`.
+- `QUOTE_TO_EMAIL` — quote recipient (`info@amkbuildingconstruction.co.uk`).
+- `SITE_URL` — canonical production origin.
+- `QUOTE_ALLOWED_ORIGINS` — comma-separated exact origins allowed to post the form.
+- `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` — rate-limit and duplicate-suppression store.
+- `QUOTE_HASH_SALT` — private random value of at least 24 characters used for one-way request fingerprints.
+
+Do not prefix any credential with `NEXT_PUBLIC_`.
 
 ---
 
-## Connect the Contact Form
+## Quote Delivery
 
-Currently shows a success state after 1.5s. To wire it to email:
-
-```bash
-npm install resend
-```
-
-Create `app/api/contact/route.js`:
-
-```js
-import { Resend } from 'resend'
-const resend = new Resend(process.env.RESEND_API_KEY)
-
-export async function POST(req) {
-  const { name, email, phone, service, message } = await req.json()
-  await resend.emails.send({
-    from: 'AMK Website <noreply@yourdomain.com>',
-    to: 'info@amkbuildingconstruction.co.uk',
-    subject: `New enquiry from ${name} — ${service}`,
-    html: `<p><b>Name:</b> ${name}</p><p><b>Email:</b> ${email}</p><p><b>Phone:</b> ${phone}</p><p><b>Service:</b> ${service}</p><p><b>Message:</b> ${message}</p>`
-  })
-  return Response.json({ ok: true })
-}
-```
+The browser posts to `POST /api/quote`. The server validates and normalises every field, checks consent and anti-bot controls, rate-limits hashed IPs with Upstash, suppresses duplicate submissions for ten minutes, and sends a plain-text email through Resend. Enquiries are not stored in an application database. If delivery or a security dependency is unavailable, the endpoint fails closed and the quote dialog offers a prefilled WhatsApp enquiry.
 
 ---
 
@@ -150,8 +137,12 @@ Images are used in: `Hero.jsx`, `About.jsx`, `WhyUs.jsx`, `Portfolio.jsx`, `Serv
 
 ## Contact
 
-AMK London Building Construction Ltd  
-15A Station Road, Harrow, HA1 2UF  
-📞 +44 7587 842444 | 0871 566 1673  
-✉️ info@amkbuildingconstruction.co.uk  
+AMK London Building Construction Ltd
+
+15A Station Road, Harrow, HA1 2UF
+
+📞 +44 7970 798313
+
+✉️ info@amkbuildingconstruction.co.uk
+
 🌐 [amkbuildingconstruction.co.uk](https://www.amkbuildingconstruction.co.uk)
