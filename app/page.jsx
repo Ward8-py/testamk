@@ -3,6 +3,7 @@ import Hero         from '@/components/Hero'
 import ProofStrip   from '@/components/ProofStrip'
 import About        from '@/components/About'
 import Services     from '@/components/Services'
+import AreasCovered from '@/components/AreasCovered'
 import Process      from '@/components/Process'
 import Portfolio    from '@/components/Portfolio'
 import Testimonials from '@/components/Testimonials'
@@ -18,6 +19,7 @@ export default function Home() {
         <Hero />
         <ProofStrip />
         <Services />
+        <AreasCovered />
         <Portfolio />
         <About />
         <Process />

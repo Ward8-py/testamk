@@ -256,7 +256,7 @@ export function QuoteProvider({ children }) {
               <>
                 <div className="pr-14">
                   <h2 id="quote-title" className="font-display text-[clamp(42px,7vw,64px)] font-semibold leading-none text-[var(--color-ink)]">Get a free quote.</h2>
-                  <p id="quote-description" className="mt-4 max-w-lg text-base leading-7 text-[var(--color-text)]">Five quick details so we can arrange the right next step.</p>
+                  <p id="quote-description" className="mt-4 max-w-lg text-base leading-7 text-[var(--color-text)]">Let&apos;s get started.</p>
                 </div>
 
                 <form onSubmit={submitQuote} className="mt-8 space-y-5" noValidate aria-busy={status === 'sending'}>
@@ -292,7 +292,7 @@ export function QuoteProvider({ children }) {
                     <input id="quote-phone" name="phone" type="tel" value={form.phone} onChange={updateField} onBlur={() => validateField('phone')} autoComplete="tel" inputMode="tel" maxLength={30} className="form-field" placeholder="+44 7xxx xxxxxx" aria-invalid={Boolean(fieldErrors.phone)} aria-describedby={fieldErrors.phone ? 'quote-phone-error' : undefined} />
                   </QuoteField>
 
-                  <QuoteField label={<>Project note <span className="font-normal normal-case tracking-normal">(optional)</span></>} error={fieldErrors.note} errorId="quote-note-error">
+                  <QuoteField label="Project note" error={fieldErrors.note} errorId="quote-note-error">
                     <textarea id="quote-note" name="note" value={form.note} onChange={updateField} onBlur={() => validateField('note')} maxLength={1500} className="form-field min-h-24 resize-y" placeholder="What would you like to change?" aria-invalid={Boolean(fieldErrors.note)} aria-describedby={fieldErrors.note ? 'quote-note-error' : 'quote-note-help'} />
                     <p id="quote-note-help" className="mt-1 text-xs text-[var(--color-muted)]">Up to 1,500 characters.</p>
                   </QuoteField>

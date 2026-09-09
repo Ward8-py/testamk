@@ -57,11 +57,7 @@ export default function Services() {
         </div>
 
         <div className="reveal flex items-end justify-between gap-5 border-t border-black/15 pt-5">
-          <p className="text-sm font-semibold text-[var(--color-ink)]" aria-live="polite">
-            <span className="tabular-nums">{String(position + 1).padStart(2, '0')}</span>
-            <span className="mx-2 text-[var(--color-subtle)]">/</span>
-            <span className="tabular-nums text-[var(--color-muted)]">{String(SERVICES.length).padStart(2, '0')}</span>
-          </p>
+          <p className="text-sm font-semibold text-[var(--color-ink)]">Services</p>
           <div className="hidden gap-2 md:flex">
             <button
               type="button"

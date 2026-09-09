@@ -1,0 +1,20 @@
+{
+  "name": "amk-london/ionos-quote-backend",
+  "description": "Private dependencies for the AMK IONOS quote endpoint",
+  "type": "project",
+  "require": {
+    "php": ">=8.2",
+    "ext-ctype": "*",
+    "ext-filter": "*",
+    "ext-hash": "*",
+    "ext-json": "*",
+    "ext-openssl": "*",
+    "phpmailer/phpmailer": "^7.1"
+  },
+  "config": {
+    "allow-plugins": {},
+    "classmap-authoritative": true,
+    "optimize-autoloader": true,
+    "sort-packages": true
+  }
+}

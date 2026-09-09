@@ -7,7 +7,7 @@ import { Container } from './ui'
 const BENEFITS = [
   {
     title: 'Clear from day one',
-    text: 'A practical site visit, defined scope and straightforward quote before work begins.',
+    text: 'AMK brings together a complete team of qualified and experienced tradespeople, allowing us to plan, coordinate, and deliver every stage of your project efficiently and to the highest standard. With one trusted team managing the entire process, you can enjoy complete peace of mind without the hassle of coordinating multiple contractors or trades.',
   },
   {
     title: 'One accountable team',
@@ -15,7 +15,7 @@ const BENEFITS = [
   },
   {
     title: 'Finished with care',
-    text: 'Detail-led workmanship, a clean handover and support backed by the workmanship guarantee.',
+    text: 'Completed to your satisfaction, covered by our workmanship guarantee and backed by our insurance for your peace of mind.',
   },
 ]
 

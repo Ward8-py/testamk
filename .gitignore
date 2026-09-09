@@ -12,6 +12,7 @@ node_modules/
 /.next/
 /.next-dev/
 /out/
+/ionos-release/
 
 # =============================================
 # Production build
@@ -27,6 +28,8 @@ node_modules/
 .env.test.local
 .env.production.local
 .env*.local
+/ionos/private/config.php
+/ionos/private/storage/
 
 # =============================================
 # Vercel deployment

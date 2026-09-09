@@ -4,8 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "build": "next build && node scripts/package-ionos.mjs",
+    "build:site": "next build",
+    "preview:ionos": "php -S 127.0.0.1:8080 ionos/router.php",
+    "test:ionos": "php ionos/tests/run.php",
     "lint": "next lint"
   },
   "dependencies": {

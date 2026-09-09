@@ -389,10 +389,10 @@ export default function Hero() {
       <Container className={`relative z-10 flex h-full items-end pb-[max(112px,calc(82px+env(safe-area-inset-bottom)))] pt-28 transition-[opacity,transform] duration-500 md:items-center md:pb-0 md:pt-20 ${showFinalMessage ? 'translate-y-0 opacity-100 delay-300' : 'pointer-events-none translate-y-3 opacity-0 delay-0'}`}>
         <div className="max-w-[830px]">
           <h1 className="font-display text-[clamp(52px,8.2vw,118px)] font-semibold leading-[0.98] tracking-[-0.035em] text-white">
-            From concept<br className="hidden sm:block" /> to completion.
+            From concept to design,<br className="hidden sm:block" /> built to completion.
           </h1>
           <p className="mt-5 max-w-xl text-[16px] font-normal leading-7 text-white/85 sm:text-[18px] sm:leading-8">
-            One experienced London team to plan, build and finish your home—without the usual hand-offs.
+            One experienced London team to plan, supply, build and finish your home — cutting out the middle man.
           </p>
           <div className="mt-8 hidden flex-wrap items-center gap-4 md:flex">
             <button

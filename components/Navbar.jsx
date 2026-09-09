@@ -117,14 +117,14 @@ export default function Navbar() {
         <div className="mx-auto flex h-[70px] w-full max-w-site items-center justify-between px-5 sm:px-8 lg:px-14">
           <Link
             href="/"
-            className="flex min-h-11 items-center gap-4 focus-visible:outline-offset-4"
+            className="flex min-h-11 min-w-0 items-center gap-2 focus-visible:outline-offset-4 sm:gap-4"
             aria-label="AMK London home"
             style={{ color: foreground }}
           >
             <AMKLogo size={38} />
-            <span className="hidden leading-tight sm:block">
-              <span className="block text-[13px] font-bold uppercase tracking-[0.12em]">AMK London</span>
-              <span className="block text-[9px] uppercase tracking-[0.2em]" style={{ color: muted }}>Building Construction Ltd</span>
+            <span className="min-w-0 leading-tight">
+              <span className="block text-[11px] font-bold uppercase tracking-[0.12em] sm:text-[13px]">London</span>
+              <span className="block whitespace-nowrap text-[7px] uppercase tracking-[0.12em] sm:text-[9px] sm:tracking-[0.2em]" style={{ color: muted }}>Building Construction Ltd</span>
             </span>
           </Link>
 

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import AMKLogo from './AMKLogo'
 import { Icon } from './icons'
 import {
@@ -20,14 +21,24 @@ export default function Footer() {
             <Link href="/" className="flex w-fit items-center gap-4" aria-label="AMK London home">
               <AMKLogo size={42} />
               <span className="leading-tight">
-                <span className="block text-sm font-bold uppercase tracking-[0.12em] text-[var(--color-ink)]">AMK London</span>
+                <span className="block text-sm font-bold uppercase tracking-[0.12em] text-[var(--color-ink)]">London</span>
                 <span className="block text-[10px] uppercase tracking-[0.18em] text-[var(--color-muted)]">Building Construction Ltd</span>
               </span>
             </Link>
             <p className="mt-5 max-w-sm text-base leading-7 text-[var(--color-text)]">
               Residential construction and renovation managed by one experienced London team.
             </p>
-            <div className="mt-6 flex gap-2">
+            <div className="mt-6 w-full max-w-[320px]">
+              <Image
+                src="/branding/federation-of-master-builders-badge.png"
+                alt="Federation of Master Builders member"
+                width={920}
+                height={194}
+                sizes="(max-width: 767px) calc(100vw - 40px), 320px"
+                className="h-auto w-full"
+              />
+            </div>
+            <div className="mt-5 flex gap-2">
               <SocialLink
                 href="https://www.instagram.com/amkbuildings?stkn=MnQyaXpjdTVmdnhy&utm_source=qr"
                 label="Instagram"
