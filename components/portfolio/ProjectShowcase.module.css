@@ -1,0 +1,54 @@
+.comparison { color: var(--color-ink); }
+.headingRow { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 24px; margin-block-end: 28px; }
+.heading { font-family: var(--font-cormorant), Georgia, serif; font-size: clamp(36px, 4vw, 56px); font-weight: 600; line-height: 1.02; letter-spacing: -0.025em; }
+.controls { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.counter { margin-inline-end: 8px; font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.total { color: var(--color-muted); }
+.iconButton, .playbackButton { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; border: 1px solid var(--color-line-strong); border-radius: 999px; background: var(--color-page); color: var(--color-ink); }
+.iconButton { width: 44px; }
+.playbackButton { gap: 8px; min-width: 90px; padding-inline: 14px; font-size: 12px; font-weight: 500; }
+.iconButton:disabled { opacity: 0.4; cursor: wait; }
+.cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; }
+.card { display: flex; flex-direction: column; min-width: 0; }
+.imageButton { position: relative; display: block; flex-shrink: 0; width: 100%; aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid var(--color-line); background: var(--color-panel-strong); text-align: start; }
+.imageLayer { position: absolute; inset: 0; }
+.photo { object-fit: cover; }
+.failedImage { visibility: hidden; }
+.imageFallback { display: flex; height: 100%; align-items: center; justify-content: center; padding: 16px; color: var(--color-muted); font-size: 14px; }
+.enlarge { position: absolute; inset-inline-end: 16px; inset-block-end: 16px; display: flex; width: 32px; height: 32px; align-items: center; justify-content: center; border: 1px solid var(--color-line); border-radius: 50%; background: var(--color-page); color: var(--color-ink); pointer-events: none; }
+.caption { display: flex; flex: 1; flex-direction: column; gap: 4px; padding-block-end: 16px; }
+.stage { font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+/* All captions contribute their natural height, keeping even long captions stable at zoom. */
+.captionStack { display: grid; color: var(--color-muted); font-size: 14px; line-height: 1.65; }
+.captionStack > span { grid-area: 1 / 1; }
+.hiddenCaption { visibility: hidden; }
+.status { display: flex; min-height: 0; align-items: center; flex-wrap: wrap; gap: 4px 12px; color: var(--color-muted); font-size: 13px; }
+.status:not(:empty) { margin-block-start: 16px; min-height: 44px; }
+.status button { min-height: 44px; padding-inline: 8px; color: var(--color-ink); text-decoration: underline; text-underline-offset: 4px; }
+.disclosure { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-block-start: 32px; }
+.detailsButton { width: 100%; white-space: normal; line-height: 1.35; }
+.disclosure p { color: var(--color-muted); font-size: 13px; text-align: center; }
+.chevron { flex-shrink: 0; }
+.chevronOpen { transform: rotate(180deg); }
+.details { margin-block-start: 48px; padding-block-start: 40px; border-top: 1px solid var(--color-line); }
+.details[hidden] { display: none; }
+
+@media (min-width: 768px) {
+  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .detailsButton { width: auto; min-width: 248px; }
+  .details { margin-block-start: 56px; padding-block-start: 48px; }
+}
+
+@media (hover: hover) {
+  .iconButton:not(:disabled):hover, .playbackButton:hover { background: var(--color-panel); border-color: var(--color-line-emphasis); }
+  .imageButton:hover .enlarge { background: var(--color-ink); color: var(--color-page); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .entering { animation: comparisonFadeIn 300ms ease-in-out both; }
+  .chevron { transition: transform 180ms ease-out; }
+  .details:not([hidden]) { animation: comparisonFadeIn 180ms ease-out both; }
+  .iconButton, .playbackButton, .enlarge { transition: background-color 180ms ease-out, color 180ms ease-out, border-color 180ms ease-out; }
+}
+
+@keyframes comparisonFadeIn { from { opacity: 0; } to { opacity: 1; } }

@@ -19,11 +19,11 @@ export default function Home() {
         <Hero />
         <ProofStrip />
         <Services />
-        <AreasCovered />
         <Portfolio />
         <About />
         <Process />
         <Testimonials />
+        <AreasCovered />
         <CTA />
       </main>
       <Footer />

@@ -4,6 +4,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import FloatButtons from '@/components/FloatButtons'
 import ProjectGallery from '@/components/portfolio/ProjectGallery'
+import ProjectShowcase from '@/components/portfolio/ProjectShowcase'
 import PortfolioCard from '@/components/portfolio/PortfolioCard'
 import QuoteTrigger from '@/components/QuoteTrigger'
 import { Container } from '@/components/ui'
@@ -104,8 +105,9 @@ export default async function PortfolioProjectPage({ params }) {
           </Container>
         </section>
 
-        <section className="py-[clamp(70px,9vw,120px)]" style={{ background: 'var(--color-page)' }}>
+        <section className="py-12 md:py-[72px]" style={{ background: 'var(--color-page)' }}>
           <Container>
+            <ProjectShowcase pairs={project.comparisonPairs} projectName={project.name}>
             <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
               <div>
                 <h2 className="font-display font-semibold leading-[1.02] tracking-[-0.025em]" style={{ color: 'var(--color-ink)', fontSize: 'clamp(36px,4vw,56px)' }}>
@@ -127,6 +129,7 @@ export default async function PortfolioProjectPage({ params }) {
               projectName={project.name}
               showStageTabs={project.showStageTabs !== false}
             />
+            </ProjectShowcase>
           </Container>
         </section>
 
