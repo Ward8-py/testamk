@@ -51,7 +51,8 @@ Each page has: **hero with breadcrumb → rich content → related services → 
 ```bash
 npm install
 npm run dev        # http://localhost:3000
-npm run build      # production build
+npm run build        # Next.js production/static build (including Vercel checks)
+npm run build:ionos  # build and assemble the IONOS PHP release package
 npm start          # serve production build
 ```
 
